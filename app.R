@@ -1353,58 +1353,62 @@ server <- function(input, output) {
     # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # %%%%%%%%%%%%%%%%% Compute some effects of tourist spending, in $ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    # These plots are made with functions now - should be able to comment out. 
+    
     # Increase in production, total 
-    output$sim_totalprod <- renderPlot({
-        rows_to_plot = c("Ag","Nag", "Restaurants","Lodges")
-        mults <- multout()
-        totals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% rows_to_plot,"Tourists"]), digits=2))
-        colnames(totals) <- "total_prod"
-        totals$cats = rows_to_plot
-        # now the actual plot
-        bar <- ggplot(totals, aes(x = cats, y=total_prod, fill=cats )) +
-                 geom_bar(stat="sum") +
-                 xlab("Categories") + ylab("Additional Production Value ($)") + 
-                 geom_text(aes(label = total_prod), vjust = -0.2) +
-                 ggtitle(" ... ON PRODUCTION") +
-                theme(plot.title = element_text(hjust = 0.5), 
-                      legend.position = "none")
-        bar
-        # totals
-    })
+    # output$sim_totalprod <- renderPlot({
+    #     rows_to_plot = c("Ag","Nag", "Restaurants","Lodges")
+    #     mults <- multout()
+    #     totals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% rows_to_plot,"Tourists"]), digits=2))
+    #     colnames(totals) <- "total_prod"
+    #     totals$cats = rows_to_plot
+    #     # now the actual plot
+    #     bar <- ggplot(totals, aes(x = cats, y=total_prod, fill=cats )) +
+    #              geom_bar(stat="sum") +
+    #              xlab("Categories") + ylab("Additional Production Value ($)") + 
+    #              geom_text(aes(label = total_prod), vjust = -0.2) +
+    #              ggtitle(" ... ON PRODUCTION") +
+    #             theme(plot.title = element_text(hjust = 0.5), 
+    #                   legend.position = "none")
+    #     bar
+    #     # totals
+    # })
     
-    output$sim_totalinc <- renderPlot({
-        mults <- multout()
-        inctotals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% c("Poor", "NonPoor"),"Tourists"]), digits=2))
-        colnames(inctotals) <- "total_inc"
-        inctotals$cats = c("Poor", "NonPoor")
-        bar <- ggplot(inctotals, aes(x = cats, y=total_inc, fill=cats )) +
-            geom_bar(stat="sum") +
-            xlab("Households") + ylab("Additional Income ($)") + 
-            geom_text(aes(label = total_inc), vjust = -0.2) +
-            ggtitle("... ON INCOMES ") + 
-            theme(plot.title = element_text(hjust = 0.5), 
-                 legend.position = "none")
-        bar
-        # inctotals
-    })
-    
-    output$sim_totallab <- renderPlot({
-        mults <- multout()
-        labtotals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% c("LMUSK", "LMSK", "LFUSK", "LFSK"),"Tourists"]), digits=2))
-        colnames(labtotals) <- "total_lab"
-        labtotals$cats = c("LMUSK", "LMSK", "LFUSK", "LFSK")
-        bar <- ggplot(labtotals, aes(x = cats, y=total_lab, fill=cats )) +
-            geom_bar(stat="sum") +
-            xlab("Labor Categories") + ylab("Additional Labor Income ($)") + 
-            geom_text(aes(label = total_lab), vjust = -0.2) +
-            ggtitle("... ON LABOR INCOME ") + 
-            theme(plot.title = element_text(hjust = 0.5), 
-                  legend.position = "none")
-        bar
-        # inctotals
-    })
-    
-    
+    # These are now
+    # output$sim_totalinc <- renderPlot({
+    #     mults <- multout()
+    #     inctotals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% c("Poor", "NonPoor"),"Tourists"]), digits=2))
+    #     colnames(inctotals) <- "total_inc"
+    #     inctotals$cats = c("Poor", "NonPoor")
+    #     bar <- ggplot(inctotals, aes(x = cats, y=total_inc, fill=cats )) +
+    #         geom_bar(stat="sum") +
+    #         xlab("Households") + ylab("Additional Income ($)") + 
+    #         geom_text(aes(label = total_inc), vjust = -0.2) +
+    #         ggtitle("... ON INCOMES ") + 
+    #         theme(plot.title = element_text(hjust = 0.5), 
+    #              legend.position = "none")
+    #     bar
+    #     # inctotals
+    # })
+    # 
+    # output$sim_totallab <- renderPlot({
+    #     mults <- multout()
+    #     labtotals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% c("LMUSK", "LMSK", "LFUSK", "LFSK"),"Tourists"]), digits=2))
+    #     colnames(labtotals) <- "total_lab"
+    #     labtotals$cats = c("LMUSK", "LMSK", "LFUSK", "LFSK")
+    #     bar <- ggplot(labtotals, aes(x = cats, y=total_lab, fill=cats )) +
+    #         geom_bar(stat="sum") +
+    #         xlab("Labor Categories") + ylab("Additional Labor Income ($)") + 
+    #         geom_text(aes(label = total_lab), vjust = -0.2) +
+    #         ggtitle("... ON LABOR INCOME ") + 
+    #         theme(plot.title = element_text(hjust = 0.5), 
+    #               legend.position = "none")
+    #     bar
+    #     # inctotals
+    # })
+    # 
+    # 
     # %%%%%%%%%%%%%%%%% Compute some more effects of park spending, in $ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # Increase in production, total 
     # output$simPark_totalprod <- renderPlot({
@@ -1443,6 +1447,9 @@ server <- function(input, output) {
     #         bar
     #     })
     # }
+    
+    # Functions to make the plots
+    # ---------------------------------
     
     make_production_multipliers_plot <- function(column, input_value){
         rows_to_plot = c("Ag","Nag", "Restaurants","Lodges")

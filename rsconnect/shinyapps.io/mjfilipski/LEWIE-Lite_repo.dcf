@@ -1,0 +1,14 @@
+name: LEWIE-Lite_repo
+title: LEWIE-Lite_repo
+username:
+account: mjfilipski
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9408691
+bundleId: 7420114
+url: https://mjfilipski.shinyapps.io/LEWIE-Lite_repo/
+when: 1688511379.03871
+lastSyncTime: 1688511379.03873
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .gitattributes|.RData|~$LEWIE-Lite_NewInput_v02.xlsx|app_save001.R|LEWIE-Lite_NewInput_v01.xlsx|README.md
