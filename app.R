@@ -505,34 +505,27 @@ ui <- dashboardPage(
                         fluidRow(
                             column(4, inp_sim_TouristSpending)
                         ),
-                        # fluidRow(
-                        #     tabBox(width = 6,
-                        #            side = "left",
-                        #            selected = "Tab1",
-                        #            tabPanel("Tab1", "$ Increase"),
-                        #            tabPanel("Tab2", "Nothing here yet")
-                        #     )
-                        # ),
-                        p('EFFECTS OF THIS TOURISM SPENDING ON. . .'),
+                        p('EFFECTS OF THIS TOURISM SPENDING ON...'),
                         fluidRow(
                             # column(width=4, plotOutput("sim_totalprod")),
                             column(width=4, plotOutput("simTourists_totalprod")),
-                            column(width=4, plotOutput("sim_totalinc")), 
-                            column(width=4, plotOutput("sim_totallab"))
+                            # column(width=4, plotOutput("sim_totalinc")), 
+                            column(width = 4, plotOutput("simTourists_incomes")),
+                            column(width=4, plotOutput("simTourists_labor"))
                         )
                     )
                 ),
                 #simPark_totalprod
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of park spending (US$)",
+                    box(width = 12, title = "Local-economy impacts of Park spending (US$)",
                         fluidRow(
                             column(4, inp_sim_PASpending)
                         ),
-                        p('EFFECTS OF THIS PARK SPENDING ON. . .'),
+                        p('EFFECTS OF THIS PARK BUDGET ON...'),
                         fluidRow(
-                            column(width=4, plotOutput("simPA_totalprod"))
-                            # column(width=4, plotOutput("sim_totalinc")), 
-                            # column(width=4, plotOutput("sim_totallab"))
+                            column(width=4, plotOutput("simPA_totalprod")),
+                            column(width=4, plotOutput("simPA_incomes")),
+                            column(width=4, plotOutput("simPA_labor"))
                         )
                     )
                 ),
@@ -541,95 +534,95 @@ ui <- dashboardPage(
                         fluidRow(
                             column(4, inp_sim_ComRevShSpending)
                         ),
-                        p('EFFECTS OF THIS TOURISM SPENDING ON. . .'),
+                        p('EFFECTS OF THIS COMMUNITY SPENDING ON...'),
                         fluidRow(
-                            column(width=4, plotOutput("simComRevSH_totalprod"))
-                            # column(width=4, plotOutput("sim_totalinc")), 
-                            # column(width=4, plotOutput("sim_totallab"))
+                            column(width=4, plotOutput("simComRevSh_totalprod")),
+                            column(width=4, plotOutput("simComRevSh_incomes")),
+                            column(width=4, plotOutput("simComRevSh_labor"))
                         )
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of AG spending (US$)",
+                    box(width = 12, title = "Local-economy impacts of increased Agricultural production (US$)",
                         fluidRow(
                             column(4, inp_sim_AgSpending)
                         ),
-                        p('EFFECTS OF THIS TOURISM SPENDING ON. . .'),
+                        p('EFFECTS OF THIS INCREASE IN LOCAL AGRICULTURAL PRODUCTION ON...'),
                         fluidRow(
                             # p('blank'),
-                            column(width=4, plotOutput("simAg_totalprod"))
-                            # column(width=4, plotOutput("sim_totalinc")), 
-                            # column(width=4, plotOutput("sim_totallab"))
+                            column(width=4, plotOutput("simAg_totalprod")),
+                            column(width=4, plotOutput("simAg_incomes")),
+                            column(width=4, plotOutput("simAg_labor"))
                         )
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of Non-Agrisultural spending (US$)",
+                    box(width = 12, title = "Local-economy impacts of increased Non-Agricultural production (US$)",
                         fluidRow(
                             column(4, inp_sim_NagSpending)
                         ),
-                        p('EFFECTS OF THIS TOURISM SPENDING ON. . .'),
+                        p('EFFECTS OF THIS INCREASE IN LOCAL NON-AGRICULTURAL PRODUCTION ON...'),
                         fluidRow(
                             # p('blank')
-                            column(width=4, plotOutput("simNag_totalprod"))
-                            # column(width=4, plotOutput("sim_totalinc")), 
-                            # column(width=4, plotOutput("sim_totallab"))
+                            column(width=4, plotOutput("simNag_totalprod")),
+                            column(width=4, plotOutput("simNag_incomes")),
+                            column(width=4, plotOutput("simNag_labor"))
                         )
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of Low-skilled Female spending (US$)",
+                    box(width = 12, title = "Local-economy impacts of Low-skilled Female earnings (US$)",
                         fluidRow(
                             column(4, inp_sim_LFUSKSpending)
                         ),
-                        p('EFFECTS OF THIS TOURISM SPENDING ON. . .'),
+                        p('EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED FEMALE WORKERS ON...'),
                         fluidRow(
                             # p('blank')
-                            column(width=4, plotOutput("simLFUSK_totalprod"))
-                            # column(width=4, plotOutput("sim_totalinc")), 
-                            # column(width=4, plotOutput("sim_totallab"))
+                            column(width=4, plotOutput("simLFUSK_totalprod")),
+                            column(width=4, plotOutput("simLFUSK_incomes")),
+                            column(width=4, plotOutput("simLFUSK_labor"))
                         )
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of Low-Skilled Male spending (US$)",
+                    box(width = 12, title = "Local-economy impacts of Low-Skilled Male earnings (US$)",
                         fluidRow(
                             column(4, inp_sim_LMUSKSpending)
                         ),
-                        p('EFFECTS OF THIS TOURISM SPENDING ON. . .'),
+                        p('EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED MALE WORKERS ON...'),
                         fluidRow(
                             # p('blank')
-                            column(width=4, plotOutput("simLMUSK_totalprod"))
-                            # column(width=4, plotOutput("sim_totalinc")), 
-                            # column(width=4, plotOutput("sim_totallab"))
+                            column(width=4, plotOutput("simLMUSK_totalprod")),
+                            column(width=4, plotOutput("simLMUSK_incomes")),
+                            column(width=4, plotOutput("simLMUSK_labor"))
                         )
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of Skilled Female spending (US$)",
+                    box(width = 12, title = "Local-economy impacts of Skilled Female earnings (US$)",
                         fluidRow(
                             column(4, inp_sim_LFSKSpending)
                         ),
-                        p('EFFECTS OF THIS TOURISM SPENDING ON. . .'),
+                        p('EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED FEMALE WORKERS ON...'),
                         fluidRow(
                             # p('blank')
-                            column(width=4, plotOutput("simLFSK_totalprod"))
-                            # column(width=4, plotOutput("sim_totalinc")), 
-                            # column(width=4, plotOutput("sim_totallab"))
+                            column(width=4, plotOutput("simLFSK_totalprod")),
+                            column(width=4, plotOutput("simLFSK_incomes")),
+                            column(width=4, plotOutput("simLFSK_labor"))
                         )
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of Skilled Male spending (US$)",
+                    box(width = 12, title = "Local-economy impacts of Skilled Male earnings (US$)",
                         fluidRow(
                             column(4, inp_sim_LMSKSpending)
                         ),
-                        p('EFFECTS OF THIS TOURISM SPENDING ON. . .'),
+                        p('EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED MALE WORKERS ON...'),
                         fluidRow(
                             # p('blank')
-                            column(width=4, plotOutput("simLMSK_totalprod"))
-                            # column(width=4, plotOutput("sim_totalinc")), 
-                            # column(width=4, plotOutput("sim_totallab"))
+                            column(width=4, plotOutput("simLMSK_totalprod")),
+                            column(width=4, plotOutput("simLMSK_incomes")),
+                            column(width=4, plotOutput("simLMSK_labor"))
                         )
                     )
                 )
@@ -1451,7 +1444,7 @@ server <- function(input, output) {
     #     })
     # }
     
-    make_production_multipliers_plot2 <- function(column, input_value){
+    make_production_multipliers_plot <- function(column, input_value){
         rows_to_plot = c("Ag","Nag", "Restaurants","Lodges")
         mults <- multout()
         totals <- data.frame(round(input_value*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
@@ -1464,8 +1457,56 @@ server <- function(input, output) {
             ggtitle(" ... ON PRODUCTION") +
             theme(plot.title = element_text(hjust = 0.5),
                   legend.position = "none")
+        # return the bar plot:
         bar
     }
+    
+    
+    make_income_multipliers_plot <- function(column, input_value){
+        mults <- multout()
+        inctotals <- data.frame(round(input_value*(mults[rownames(mults) %in% c("Poor", "NonPoor"), column]), digits=2))
+        colnames(inctotals) <- "total_inc"
+        inctotals$cats = c("Poor", "NonPoor")
+        bar <- ggplot(inctotals, aes(x = cats, y=total_inc, fill=cats )) +
+            geom_bar(stat="sum") +
+            xlab("Households") + ylab("Additional Income ($)") + 
+            geom_text(aes(label = total_inc), vjust = -0.2) +
+            ggtitle("... ON INCOMES ") + 
+            theme(plot.title = element_text(hjust = 0.5), 
+                  legend.position = "none")
+        # return the bar plot
+        bar
+    }
+    
+    make_labor_multipliers_plot <- function(column, input_value){
+        mults <- multout()
+        labtotals <- data.frame(round(input_value*(mults[rownames(mults) %in% c("LMUSK", "LMSK", "LFUSK", "LFSK"), column]), digits=2))
+        colnames(labtotals) <- "total_lab"
+        labtotals$cats = c("LMUSK", "LMSK", "LFUSK", "LFSK")
+        bar <- ggplot(labtotals, aes(x = cats, y=total_lab, fill=cats )) +
+            geom_bar(stat="sum") +
+            xlab("Labor Categories") + ylab("Additional Labor Income ($)") + 
+            geom_text(aes(label = total_lab), vjust = -0.2) +
+            ggtitle("... ON LABOR INCOME ") + 
+            theme(plot.title = element_text(hjust = 0.5), 
+                  legend.position = "none")
+        # return the bar plot
+        bar
+    }
+
+    # output$sim_totallab <- renderPlot({
+    #     mults <- multout()
+    #     labtotals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% c("LMUSK", "LMSK", "LFUSK", "LFSK"),"Tourists"]), digits=2))
+    #     colnames(labtotals) <- "total_lab"
+    #     labtotals$cats = c("LMUSK", "LMSK", "LFUSK", "LFSK")
+    #     bar <- ggplot(labtotals, aes(x = cats, y=total_lab, fill=cats )) +
+    #         geom_bar(stat="sum") +
+    #         xlab("Labor Categories") + ylab("Additional Labor Income ($)") + 
+    #         geom_text(aes(label = total_lab), vjust = -0.2) +
+    #         ggtitle("... ON LABOR INCOME ") + 
+    #         theme(plot.title = element_text(hjust = 0.5), 
+    #               legend.position = "none")
+    #     bar
     
     # make_production_multipliers_plot3 <- function(column, input_value){
     #     rows_to_plot = c("Ag","Nag", "Restaurants","Lodges")
@@ -1486,33 +1527,97 @@ server <- function(input, output) {
     # spending_test <- reactive({input$sim_TouristSpending})
     # output$simCom_totalprod <- make_production_multipliers_plot("ComRevSh", spending_test())
     
+    # Make all the simulation PRODUCTION plots to output
     output$simTourists_totalprod <- renderPlot({
-        make_production_multipliers_plot2("Tourists", input$sim_TouristSpending)
+        make_production_multipliers_plot("Tourists", input$sim_TouristSpending)
     })
     output$simPA_totalprod <- renderPlot({
-        make_production_multipliers_plot2("PA", input$sim_PASpending)
+        make_production_multipliers_plot("PA", input$sim_PASpending)
     })
-    output$simComRevSH_totalprod <- renderPlot({
-        make_production_multipliers_plot2("ComRevSh", input$sim_ComRevShSpending)
+    output$simComRevSh_totalprod <- renderPlot({
+        make_production_multipliers_plot("ComRevSh", input$sim_ComRevShSpending)
     })
     output$simAg_totalprod <- renderPlot({
-        make_production_multipliers_plot2("Ag", input$sim_AgSpending)
+        make_production_multipliers_plot("Ag", input$sim_AgSpending)
     })
     output$simNag_totalprod <- renderPlot({
-        make_production_multipliers_plot2("Nag", input$sim_NagSpending)
+        make_production_multipliers_plot("Nag", input$sim_NagSpending)
     })
     output$simLFUSK_totalprod <- renderPlot({
-        make_production_multipliers_plot2("LFUSK", input$sim_LFUSKSpending)
+        make_production_multipliers_plot("LFUSK", input$sim_LFUSKSpending)
     })
     output$simLMUSK_totalprod <- renderPlot({
-        make_production_multipliers_plot2("LMUSK", input$sim_LMUSKSpending)
+        make_production_multipliers_plot("LMUSK", input$sim_LMUSKSpending)
     })
     output$simLFSK_totalprod <- renderPlot({
-        make_production_multipliers_plot2("LFSK", input$sim_LFSKSpending)
+        make_production_multipliers_plot("LFSK", input$sim_LFSKSpending)
     })
     output$simLMSK_totalprod <- renderPlot({
-        make_production_multipliers_plot2("LMSK", input$sim_LMSKSpending)
+        make_production_multipliers_plot("LMSK", input$sim_LMSKSpending)
     })
+    
+    
+    
+    # Make all the simulation INCOME plots to output 
+    output$simTourists_incomes <- renderPlot({
+        make_income_multipliers_plot("Tourists", input$sim_TouristSpending)
+    })
+    output$simPA_incomes <- renderPlot({
+        make_income_multipliers_plot("PA", input$sim_PASpending)
+    })
+    output$simComRevSh_incomes <- renderPlot({
+        make_income_multipliers_plot("ComRevSh", input$sim_ComRevShSpending)
+    })
+    output$simAg_incomes <- renderPlot({
+        make_income_multipliers_plot("Ag", input$sim_AgSpending)
+    })
+    output$simNag_incomes <- renderPlot({
+        make_income_multipliers_plot("Nag", input$sim_NagSpending)
+    })
+    output$simLFUSK_incomes <- renderPlot({
+        make_income_multipliers_plot("LFUSK", input$sim_LFUSKSpending)
+    })
+    output$simLMUSK_incomes <- renderPlot({
+        make_income_multipliers_plot("LMUSK", input$sim_LMUSKSpending)
+    })
+    output$simLFSK_incomes <- renderPlot({
+        make_income_multipliers_plot("LFSK", input$sim_LFSKSpending)
+    })
+    output$simLMSK_incomes <- renderPlot({
+        make_income_multipliers_plot("LMSK", input$sim_LMSKSpending)
+    })
+    
+    
+    # Make all the simulation LABOR INCOME plots to output 
+    output$simTourists_labor <- renderPlot({
+        make_labor_multipliers_plot("Tourists", input$sim_TouristSpending)
+    })
+    output$simPA_labor <- renderPlot({
+        make_labor_multipliers_plot("PA", input$sim_PASpending)
+    })
+    output$simComRevSh_labor <- renderPlot({
+        make_labor_multipliers_plot("ComRevSh", input$sim_ComRevShSpending)
+    })
+    output$simAg_labor <- renderPlot({
+        make_labor_multipliers_plot("Ag", input$sim_AgSpending)
+    })
+    output$simNag_labor <- renderPlot({
+        make_labor_multipliers_plot("Nag", input$sim_NagSpending)
+    })
+    output$simLFUSK_labor <- renderPlot({
+        make_labor_multipliers_plot("LFUSK", input$sim_LFUSKSpending)
+    })
+    output$simLMUSK_labor <- renderPlot({
+        make_labor_multipliers_plot("LMUSK", input$sim_LMUSKSpending)
+    })
+    output$simLFSK_labor <- renderPlot({
+        make_labor_multipliers_plot("LFSK", input$sim_LFSKSpending)
+    })
+    output$simLMSK_labor <- renderPlot({
+        make_labor_multipliers_plot("LMSK", input$sim_LMSKSpending)
+    })
+    
+    
     
 }
 
