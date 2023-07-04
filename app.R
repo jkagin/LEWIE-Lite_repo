@@ -1,3 +1,7 @@
+# LEWIE-Lite shiny app  
+# Summer 2023
+# Original code by Mateusz Filipski 
+
 library(shinydashboard)
 library(tidyverse)
 library(scales)
@@ -218,7 +222,7 @@ get_input_online_or_local <- function(address, sheet, range, mode = "online"){
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 # sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v01.xlsx"
+sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v02.xlsx"
 
 
 # Disable authentication: 
@@ -255,85 +259,6 @@ gdata_HHNPc2 = get_input_online_or_local(sheet_path, sheet = "Households", range
 gdata_HHNPc3 = get_input_online_or_local(sheet_path, sheet = "Households", range = "I67:N78", mode = sheet_location)
 
 
-
-
-# This should point to a google sheet in exactly the correct format. The Sheet needs to have permissions set to "anyone with the link". 
-# This points to "factor-preferred_Med-Multiplier_corr_addstep_simple_OnGDrive.sheets" 
-# googleSheet_url = "https://docs.google.com/spreadsheets/d/12oIjHsMO6YDprQRnZmPTtyQT8n-mLpBq5mY4w2SoOew/edit#gid=525184505"
-
-# This points to "LEWIE-Lite_OnlineInput_v03.sheets" in the "LEWIE-Lite_InputSheets/Brazil" google drive
-# googleSheet_url = "https://docs.google.com/spreadsheets/d/1voFrTpdElrrSKcZonJwVH7nEATHisgHZ/edit?usp=sharing&ouid=108908933264761327180&rtpof=true&sd=true"
-# googleSheet_url = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-# # 
-# # Tourists:
-# gdata_touristStats    = read_sheet(googleSheet_url, sheet = "Tourists", range = "B2:G7")
-# gdata_touristShares   = read_sheet(googleSheet_url, sheet = "Tourists", range = "B11:G17")
-# # Ag:
-# gdata_AgShares      = read_sheet(googleSheet_url, sheet = "Ag", range = "B51:G64")
-# # NonAg:
-# gdata_NagShares     = read_sheet(googleSheet_url, sheet = "Nonag", range = "B51:G64")
-# # Tourism businesses:
-# gdata_TourismShares = read_sheet(googleSheet_url, sheet = "Tourism", range = "B51:G64")
-# # Fish:
-# gdata_FishShares    = read_sheet(googleSheet_url, sheet = "Fishing", range = "B51:G64")
-# # Restaurants:
-# gdata_RestShares    = read_sheet(googleSheet_url, sheet = "Restaurants", range = "B51:G64")
-# # Lodges:
-# gdata_LodgesShares    = read_sheet(googleSheet_url, sheet = "Lodges", range = "B51:G64")
-# # NatParks:
-# gdata_NPBudget      = read_sheet(googleSheet_url, sheet = "NatParkPA", range = "B52:G53")
-# gdata_NPSpending    = read_sheet(googleSheet_url, sheet = "NatParkPA", range = "B57:G70")
-# 
-# # Com Rev Sh.:
-# gdata_ComRevShShares    = read_sheet(googleSheet_url, sheet = "ComRevSh", range = "B58:G69")
-# 
-# # Households (split into 2 tabs):
-# gdata_HHPc1 = read_sheet(googleSheet_url, sheet = "Households", range =  "B54:G58")
-# gdata_HHPc2 = read_sheet(googleSheet_url, sheet = "Households", range =  "B59:G65")
-# gdata_HHPc3 = read_sheet(googleSheet_url, sheet = "Households", range =  "B67:G78")
-# gdata_HHNPc1 = read_sheet(googleSheet_url, sheet = "Households", range = "I54:N58")
-# gdata_HHNPc2 = read_sheet(googleSheet_url, sheet = "Households", range = "I59:N65")
-# gdata_HHNPc3 = read_sheet(googleSheet_url, sheet = "Households", range = "I67:N78")
-
-
-# Input all the questions as tables FROM LOCAL FILE (faster, for debugging):
-# ------------------------------------------------------------------------------
-# Just for debugging, do it locally for now because quicker:
-# googleSheet_url = "LEWIE-Lite_OnlineInput_v02.xlsx"
-# 
-# # Tourists:
-# gdata_touristStats  = read_excel(googleSheet_url, sheet = "Tourists", range = "B2:G7")
-# gdata_touristShares = read_excel(googleSheet_url, sheet = "Tourists", range = "B11:G17")
-# # Ag:
-# gdata_AgShares      = read_excel(googleSheet_url, sheet = "Ag", range = "B51:G64")
-# # NonAg:
-# gdata_NagShares     = read_excel(googleSheet_url, sheet = "Nonag", range = "B51:G64")
-# # Tourism businesses:
-# gdata_TourismShares = read_excel(googleSheet_url, sheet = "Tourism", range = "B51:G64")
-# # Fish:
-# gdata_FishShares    = read_excel(googleSheet_url, sheet = "Fishing", range = "B51:G64")
-# # Restaurants:
-# gdata_RestShares    = read_excel(googleSheet_url, sheet = "Restaurants", range = "B51:G64")
-# # Lodges:
-# gdata_LodgesShares  = read_excel(googleSheet_url, sheet = "Lodges", range = "B51:G64")
-# # NatParks:
-# gdata_NPBudget      = read_excel(googleSheet_url, sheet = "NatParkPA", range = "B52:G53")
-# gdata_NPSpending    = read_excel(googleSheet_url, sheet = "NatParkPA", range = "B57:G70")
-# 
-# # Com Rev Sh.:
-# gdata_ComRevShShares    = read_excel(googleSheet_url, sheet = "ComRevSh", range = "B58:G69")
-# 
-# 
-# # Households (split into 2 tabs):
-# gdata_HHPc1  = read_excel(googleSheet_url, sheet = "Households", range =  "B54:G58")
-# gdata_HHPc2  = read_excel(googleSheet_url, sheet = "Households", range =  "B59:G65")
-# gdata_HHPc3  = read_excel(googleSheet_url, sheet = "Households", range =  "B67:G78")
-# gdata_HHNPc1 = read_excel(googleSheet_url, sheet = "Households", range =  "I54:N58")
-# gdata_HHNPc2 = read_excel(googleSheet_url, sheet = "Households", range =  "I59:N65")
-# gdata_HHNPc3 = read_excel(googleSheet_url, sheet = "Households", range =  "I67:N78")
-
-
-# gdata_touristShares
 
 # Transform all the questions into Shiny Inputs:
 #--------------------------------------------------
@@ -390,7 +315,7 @@ inp_sim_spending <- numericInput("sim_spending", "How much tourist spending ($) 
 
 ui <- dashboardPage(
     # %%%%%%%%%%%%%%%%% Header %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    dashboardHeader(title = "PA LEWIE-lite Dashboard",
+    dashboardHeader(title = "LEWIE-lite Dashboard",
                     titleWidth = 250),
     
     # %%%%%%%%%%%%%%%%% SideBar %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -525,6 +450,7 @@ ui <- dashboardPage(
                 #         )
                 #     )
                 # ), 
+                p("Local-economy impacts of tourist spending (US$)", style = "font-size:25px"),
                 fluidRow(
                     box(width = 12, title = "For every dollar of tourist spending (multipliers):",
                         fluidRow(
@@ -540,7 +466,7 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Total effect of tourist spending (total $)",
+                    box(width = 12, title = "Local Economy-wide impact of tourist spending",
                         fluidRow(
                             column(4, inp_sim_spending)
                         ),
@@ -552,13 +478,29 @@ ui <- dashboardPage(
                         #            tabPanel("Tab2", "Nothing here yet")
                         #     )
                         # ),
+                        p('EFFECTS OF THIS TOURISM SPENDING ON. . .'),
                         fluidRow(
                             column(width=4, plotOutput("sim_totalprod")),
                             column(width=4, plotOutput("sim_totalinc")), 
                             column(width=4, plotOutput("sim_totallab"))
                         )
                     )
+                ),
+                #simPark_totalprod
+                fluidRow(
+                    box(width = 12, title = "Local-economy impacts of park spending (US$)",
+                        # fluidRow(
+                        #     column(4, inp_sim_spending)
+                        # ),
+                        p('EFFECTS OF THIS TOURISM SPENDING ON. . .'),
+                        fluidRow(
+                            column(width=4, plotOutput("simPark_totalprod"))
+                            # column(width=4, plotOutput("sim_totalinc")), 
+                            # column(width=4, plotOutput("sim_totallab"))
+                        )
+                    )
                 )
+                
             )
         )
     )
@@ -1280,7 +1222,7 @@ server <- function(input, output) {
         scales::dollar(total)
     })
     
-    # %%%%%%%%%%%%%%%%% Compute some effects of spending, in $ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    # %%%%%%%%%%%%%%%%% Compute some effects of tourist spending, in $ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # Increase in production, total 
     output$sim_totalprod <- renderPlot({
         rows_to_plot = c("Ag","Nag", "Restaurants","Lodges")
@@ -1293,7 +1235,7 @@ server <- function(input, output) {
                  geom_bar(stat="sum") +
                  xlab("Categories") + ylab("Additional Production Value ($)") + 
                  geom_text(aes(label = total_prod), vjust = -0.2) +
-                 ggtitle("Effects of tourism spending on production") +
+                 ggtitle(" ... ON PRODUCTION") +
                 theme(plot.title = element_text(hjust = 0.5), 
                       legend.position = "none")
         bar
@@ -1309,7 +1251,7 @@ server <- function(input, output) {
             geom_bar(stat="sum") +
             xlab("Households") + ylab("Additional Income ($)") + 
             geom_text(aes(label = total_inc), vjust = -0.2) +
-            ggtitle("Effects of tourism spending on incomes ") + 
+            ggtitle("... ON INCOMES ") + 
             theme(plot.title = element_text(hjust = 0.5), 
                  legend.position = "none")
         bar
@@ -1325,11 +1267,32 @@ server <- function(input, output) {
             geom_bar(stat="sum") +
             xlab("Labor Categories") + ylab("Additional Labor Income ($)") + 
             geom_text(aes(label = total_lab), vjust = -0.2) +
-            ggtitle("Effects of tourism spending on labor incomes ") + 
+            ggtitle("... ON LABOR INCOME ") + 
             theme(plot.title = element_text(hjust = 0.5), 
                   legend.position = "none")
         bar
         # inctotals
+    })
+    
+    
+    # %%%%%%%%%%%%%%%%% Compute some effects of park spending, in $ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    # Increase in production, total 
+    output$simPark_totalprod <- renderPlot({
+        rows_to_plot = c("Ag","Nag", "Restaurants","Lodges")
+        mults <- multout()
+        totals <- data.frame(round(input$sim_spending*(mults[rownames(mults) %in% rows_to_plot,"PA"]), digits=2))
+        colnames(totals) <- "total_prod"
+        totals$cats = rows_to_plot
+        # bar <- barplot((mults[rownames(mults) %in% rows_to_plot,"Tourists"])*input$sim_spending)
+        bar <- ggplot(totals, aes(x = cats, y=total_prod, fill=cats )) +
+            geom_bar(stat="sum") +
+            xlab("Categories") + ylab("Additional Production Value ($)") + 
+            geom_text(aes(label = total_prod), vjust = -0.2) +
+            ggtitle("Effects of tourism spending on production") +
+            theme(plot.title = element_text(hjust = 0.5), 
+                  legend.position = "none")
+        bar
+        # totals
     })
     
 }
