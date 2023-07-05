@@ -1,6 +1,7 @@
 # LEWIE-Lite shiny app  
 # Summer 2023
-# Original code by Mateusz Filipski 
+# Original code by Mateusz Filipski
+# Edited by Parth Chawla
 
 library(shinydashboard)
 library(tidyverse)
@@ -625,6 +626,9 @@ ui <- dashboardPage(
                             column(width=4, plotOutput("simLMSK_labor"))
                         )
                     )
+                ),
+                fluidPage(
+                  downloadButton("report", "Generate report")
                 )
             )
         )
@@ -1275,59 +1279,81 @@ server <- function(input, output) {
     
     
     # %%%%%%%%%%%%%%%%% These multiplier computations can be sped up, I'm sure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    # Multiplier values to report in tiles: 
+    # Multiplier values to report in tiles
+    # Create functions to pass to download function
+    
     # Total production multiplier
+    totalmult <- function() {
+      rows_to_sum = c("Ag","Nag","NatRes","Restaurants","Lodges")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      scales::dollar(total)
+    }
+    
     output$totalmult <- renderText({
-        rows_to_sum = c("Ag","Nag","NatRes","Restaurants","Lodges")
-        mults <- multout()
-        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        scales::dollar(total)
-    }) 
+      totalmult()
+    })
     
     # Total income (GDP) multiplier
+    gdpmult <- function() {
+      rows_to_sum = c("Poor","NonPoor")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      total
+      scales::dollar(total)
+    }
+    
     output$gdpmult <- renderText({
-        rows_to_sum = c("Poor","NonPoor")
-        mults <- multout()
-        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        total
-        scales::dollar(total)
-    }) 
+      gdpmult()
+    })
     
-    # Average spending per tourist
+    labmult <- function() {
+      rows_to_sum = c("LMUSK", "LFUSK", "LMSK", "LFSK")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      round(total,3)
+      scales::dollar(total)
+    }
+    
     output$labmult <- renderText({
-        rows_to_sum = c("LMUSK", "LFUSK", "LMSK", "LFSK")
-        mults <- multout()
-        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        round(total,3)
-        scales::dollar(total)
+      labmult()
     }) 
     
-    # Average spending per tourist
+    capmult <- function() {
+      rows_to_sum = c("K")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      round(total,3)
+      scales::dollar(total)
+    }
+    
     output$capmult <- renderText({
-        rows_to_sum = c("K")
-        mults <- multout()
-        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        round(total,3)
-        scales::dollar(total)
-    }) 
+      capmult()
+    })
     
+    poormult <- function() {
+      rows_to_sum = c("Poor")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      round(total,3)
+      scales::dollar(total)
+    }
     
-    # Average spending per tourist
     output$poormult <- renderText({
-        rows_to_sum = c("Poor")
-        mults <- multout()
-        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        round(total,3)
-        scales::dollar(total)
+      poormult()
     }) 
     
-    # Average spending per tourist
+    nonpoormult <- function() {
+      mults <- multout()
+      total <- mults["NonPoor","Tourists"]
+      round(total,3)
+      scales::dollar(total)
+    }
+    
     output$nonpoormult <- renderText({
-        mults <- multout()
-        total <- mults["NonPoor","Tourists"]
-        round(total,3)
-        scales::dollar(total)
+      nonpoormult()
     }) 
+    
     
     
     # Sam multipliers
@@ -1533,7 +1559,8 @@ server <- function(input, output) {
 
     # spending_test <- reactive({input$sim_TouristSpending})
     # output$simCom_totalprod <- make_production_multipliers_plot("ComRevSh", spending_test())
-    
+
+
     # Make all the simulation PRODUCTION plots to output
     output$simTourists_totalprod <- renderPlot({
         make_production_multipliers_plot("Tourists", input$sim_TouristSpending)
@@ -1562,7 +1589,35 @@ server <- function(input, output) {
     output$simLMSK_totalprod <- renderPlot({
         make_production_multipliers_plot("LMSK", input$sim_LMSKSpending)
     })
-    
+  
+    # Functions to pass to download to create PRODUCTION plots in PDF report
+    reportplot_prod1 <- function() {
+      make_production_multipliers_plot("Tourists", input$sim_TouristSpending)
+    }
+    reportplot_prod2 <- function() {
+      make_production_multipliers_plot("PA", input$sim_PASpending)
+    }
+    reportplot_prod3 <- function() {
+      make_production_multipliers_plot("ComRevSh", input$sim_ComRevShSpending)
+    }
+    reportplot_prod4 <- function() {
+      make_production_multipliers_plot("Ag", input$sim_AgSpending)
+    }
+    reportplot_prod5 <- function() {
+      make_production_multipliers_plot("Nag", input$sim_NagSpending)
+    }
+    reportplot_prod6 <- function() {
+      make_production_multipliers_plot("LFUSK", input$sim_LFUSKSpending)
+    }
+    reportplot_prod7 <- function() {
+      make_production_multipliers_plot("LMUSK", input$sim_LMUSKSpending)
+    }
+    reportplot_prod8 <- function() {
+      make_production_multipliers_plot("LFSK", input$sim_LFSKSpending)
+    }
+    reportplot_prod9 <- function() {
+      make_production_multipliers_plot("LMSK", input$sim_LMSKSpending)
+    }
     
     
     # Make all the simulation INCOME plots to output 
@@ -1594,7 +1649,36 @@ server <- function(input, output) {
         make_income_multipliers_plot("LMSK", input$sim_LMSKSpending)
     })
     
-    
+    # Functions to pass to download to create INCOME plots in PDF report
+    reportplot_inc1 <- function() {
+      make_income_multipliers_plot("Tourists", input$sim_TouristSpending)
+    }
+    reportplot_inc2 <- function() {
+      make_income_multipliers_plot("PA", input$sim_PASpending)
+    }
+    reportplot_inc3 <- function() {
+      make_income_multipliers_plot("ComRevSh", input$sim_ComRevShSpending)
+    }
+    reportplot_inc4 <- function() {
+      make_income_multipliers_plot("Ag", input$sim_AgSpending)
+    }
+    reportplot_inc5 <- function() {
+      make_income_multipliers_plot("Nag", input$sim_NagSpending)
+    }
+    reportplot_inc6 <- function() {
+      make_income_multipliers_plot("LFUSK", input$sim_LFUSKSpending)
+    }
+    reportplot_inc7 <- function() {
+      make_income_multipliers_plot("LMUSK", input$sim_LMUSKSpending)
+    }
+    reportplot_inc8 <- function() {
+      make_income_multipliers_plot("LFSK", input$sim_LFSKSpending)
+    }
+    reportplot_inc9 <- function() {
+      make_income_multipliers_plot("LMSK", input$sim_LMSKSpending)
+    }
+
+
     # Make all the simulation LABOR INCOME plots to output 
     output$simTourists_labor <- renderPlot({
         make_labor_multipliers_plot("Tourists", input$sim_TouristSpending)
@@ -1624,7 +1708,76 @@ server <- function(input, output) {
         make_labor_multipliers_plot("LMSK", input$sim_LMSKSpending)
     })
     
+    # Functions to pass to download to create LABOR INCOME plots in PDF report
+    reportplot_linc1 <- function() {
+      make_labor_multipliers_plot("Tourists", input$sim_TouristSpending)
+    }
+    reportplot_linc2 <- function() {
+      make_labor_multipliers_plot("PA", input$sim_PASpending)
+    }
+    reportplot_linc3 <- function() {
+      make_labor_multipliers_plot("ComRevSh", input$sim_ComRevShSpending)
+    }
+    reportplot_linc4 <- function() {
+      make_labor_multipliers_plot("Ag", input$sim_AgSpending)
+    }
+    reportplot_linc5 <- function() {
+      make_labor_multipliers_plot("Nag", input$sim_NagSpending)
+    }
+    reportplot_linc6 <- function() {
+      make_labor_multipliers_plot("LFUSK", input$sim_LFUSKSpending)
+    }
+    reportplot_linc7 <- function() {
+      make_labor_multipliers_plot("LMUSK", input$sim_LMUSKSpending)
+    }
+    reportplot_linc8 <- function() {
+      make_labor_multipliers_plot("LFSK", input$sim_LFSKSpending)
+    }
+    reportplot_linc9 <- function() {
+      make_labor_multipliers_plot("LMSK", input$sim_LMSKSpending)
+    }
+
     
+    output$report <- downloadHandler(
+      filename = "report.pdf",
+      content = function(file) {
+        # Copy the report file to a temporary directory before processing it, in
+        # case we don't have write permissions to the current working dir (which
+        # can happen when deployed).
+        tempReport <- file.path(tempdir(), "report.Rmd")
+        file.copy("report.Rmd", tempReport, overwrite = TRUE)
+        
+        # Set up parameters to pass to Rmd document
+        params <- list(prod1 = reportplot_prod1, prod2 = reportplot_prod2, prod3 = reportplot_prod3,
+                       prod4 = reportplot_prod4, prod5 = reportplot_prod5, prod6 = reportplot_prod6,
+                       prod7 = reportplot_prod7, prod8 = reportplot_prod8, prod9 = reportplot_prod9,
+                       inc1 = reportplot_inc1, inc2 = reportplot_inc2, inc3 = reportplot_inc3,
+                       inc4 = reportplot_inc4, inc5 = reportplot_inc5, inc6 = reportplot_inc6,
+                       inc7 = reportplot_inc7, inc8 = reportplot_inc8, inc9 = reportplot_inc9,
+                       linc1 = reportplot_linc1, linc2 = reportplot_linc2, linc3 = reportplot_linc3,
+                       linc4 = reportplot_linc4, linc5 = reportplot_linc5, linc6 = reportplot_linc6,
+                       linc7 = reportplot_linc7, linc8 = reportplot_linc8, linc9 = reportplot_linc9,
+                       totalmult = totalmult, gdpmult = gdpmult, labmult = labmult,
+                       capmult = capmult, poormult = poormult, nonpoormult = nonpoormult,
+                       sim_TouristSpending = input$sim_TouristSpending,
+                       sim_PASpending = input$sim_PASpending,
+                       sim_ComRevShSpending = input$sim_ComRevShSpending,
+                       sim_AgSpending = input$sim_AgSpending,
+                       sim_NagSpending = input$sim_NagSpending,
+                       sim_LFUSKSpending = input$sim_LFUSKSpending,
+                       sim_LMUSKSpending = input$sim_LMUSKSpending,
+                       sim_LFSKSpending = input$sim_LFSKSpending,
+                       sim_LMSKSpending = input$sim_LMSKSpending)
+        
+        # Knit the document, passing in the `params` list, and eval it in a
+        # child of the global environment (this isolates the code in the document
+        # from the code in this app).
+        rmarkdown::render(tempReport, output_file = file,
+                          params = params,
+                          envir = new.env(parent = globalenv())
+        )
+      }
+    )
     
 }
 
