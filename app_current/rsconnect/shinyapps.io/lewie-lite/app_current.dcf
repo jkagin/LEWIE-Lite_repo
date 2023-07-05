@@ -1,0 +1,13 @@
+name: app_current
+title: app_current
+username:
+account: lewie-lite
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9408755
+bundleId: 7420167
+url: https://lewie-lite.shinyapps.io/app_current/
+when: 1688512804.48587
+lastSyncTime: 1688512804.48588
+asMultiple: FALSE
+asStatic: FALSE
