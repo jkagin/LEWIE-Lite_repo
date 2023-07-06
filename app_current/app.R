@@ -998,7 +998,12 @@ server <- function(input, output) {
         sam_pa["LFUSK", ] <- input$natPark_FwagesUnskilled * input$natPark_shareWorkersLocal/100 
         sam_pa["LFSK", ] <- input$natPark_FwagesSkilled * input$natPark_shareWorkersLocal/100 
         
+        # If parks send fees to government and to community revenue sharing: 
         sam_pa["ComRevSh", ] <- input$natPark_expComRevSh
+        sam_pa["G", ] <- max(0, sam_tourists["PA",] - input$natPark_totalBudget - input$natPark_expComRevSh)
+        
+        
+        
         
         # # ComRevSh Column - budget comes from a share of PA  
         # #------------------------------------
@@ -1113,10 +1118,14 @@ server <- function(input, output) {
         # %%%%%%%%%%%%%% questionnaire should ASK for a SHARE given to comrevsh instead of assuming 20% %%%%%%
         # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        sam_G["PA",] <- input$natPark_totalBudget + input$natPark_expComRevSh - sam_tourists["PA",]
+        
+        # sam_G["PA",] <- input$natPark_totalBudget + input$natPark_expComRevSh - sam_tourists["PA",]
+        # Tourist entry fees - park expenditures, if there is deficit)
+        sam_G["PA",] <- max(0, input$natPark_totalBudget - sam_tourists["PA",])
         sam_g_colsum = sum(sam_G)
         sam_g_rowsum = sam_ag["G",] + sam_nag["G",] + sam_fish["G",] + sam_hhp["G",] + sam_hhnp["G",] +
             sam_lodges["G",] + sam_restaurants["G",] + sam_tourists["G",] + sam_pa["G",]  + sam_tourism["G",] + sam_comrevsh["G", ]
+        # Government payment out, if there is surplus
         sam_G["ROW", ] = max(0, sam_g_rowsum-sam_g_colsum)
         
         
