@@ -12,6 +12,7 @@ library(ggplot2)
 library(RColorBrewer)
 
 
+
 ###############################################################################
 ###############################################################################
 ###############################################################################
@@ -509,10 +510,11 @@ ui <- dashboardPage(
                         p('EFFECTS OF THIS TOURISM SPENDING ON...'),
                         fluidRow(
                             # column(width=4, plotOutput("sim_totalprod")),
-                            column(width=4, plotOutput("simTourists_totalprod")),
+                            column(width=3, plotOutput("simTourists_totalprod")),
                             # column(width=4, plotOutput("sim_totalinc")), 
-                            column(width = 4, plotOutput("simTourists_incomes")),
-                            column(width=4, plotOutput("simTourists_labor"))
+                            column(width = 3, plotOutput("simTourists_incomes")),
+                            column(width=3, plotOutput("simTourists_labor")),
+                            column(width=3, plotOutput("simTourists_ComPA"))
                         )
                     )
                 ),
@@ -1486,15 +1488,20 @@ server <- function(input, output) {
     # Functions to make the plots
     # ---------------------------------
     
+    # NOTE: The request was to CLEARLY SEPARATE tourism-related activities from non-tourism-related activities. 
+    # This doesn't really do that, but gets a bit closer.  
+    # To do this properly, we might need to split into two plots, or somehow add brackets with text over the bars?
     make_production_multipliers_plot <- function(column, input_value){
-        rows_to_plot = c("Ag","Nag", "Restaurants","Lodges")
+        rows_to_plot = c("Tourism", "Restaurants", "Lodges", "Ag","Nag", "Fish")
         mults <- multout()
         totals <- data.frame(round(input_value*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
         colnames(totals) <- "total_prod"
         totals$cats = rows_to_plot
+        # This refactoring makes sure the cats are displayed in the right order (not alphabetical)
+        totals$cats <- factor(totals$cats, levels = rows_to_plot)
         bar <- ggplot(totals, aes(x = cats, y=total_prod, fill=cats )) +
             geom_bar(stat="sum") +
-            xlab("Categories") + ylab("Additional Production Value ($)") +
+            xlab("Tourism-related Activities  vs.  Non-Tourism-related Activities") + ylab("Additional Production Value ($)") +
             geom_text(aes(label = total_prod), vjust = -0.2) +
             ggtitle(" ... ON PRODUCTION") +
             theme(plot.title = element_text(hjust = 0.5),
@@ -1521,20 +1528,54 @@ server <- function(input, output) {
     }
     
     make_labor_multipliers_plot <- function(column, input_value){
+        rows_to_plot = c("LFUSK", "LMUSK", "LFSK", "LMSK")
         mults <- multout()
-        labtotals <- data.frame(round(input_value*(mults[rownames(mults) %in% c("LMUSK", "LMSK", "LFUSK", "LFSK"), column]), digits=2))
+        labtotals <- data.frame(round(input_value*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
         colnames(labtotals) <- "total_lab"
-        labtotals$cats = c("LMUSK", "LMSK", "LFUSK", "LFSK")
+        labtotals$cats = rows_to_plot
+        
+        # Rename the categories
+        labtotals$cats <- forcats::fct_recode(labtotals$cats,
+                                              "Female Unskilled" = "LFUSK",
+                                              "Male Unskilled" = "LMUSK",
+                                              "Female Skilled" = "LFSK",
+                                              "Male Skilled" = "LMSK")
+        
+        # Set the order of categories
+        labtotals$cats <- factor(labtotals$cats, levels = c("Female Unskilled", "Male Unskilled", "Female Skilled", "Male Skilled"))
+        
         bar <- ggplot(labtotals, aes(x = cats, y=total_lab, fill=cats )) +
             geom_bar(stat="sum") +
             xlab("Labor Categories") + ylab("Additional Labor Income ($)") + 
             geom_text(aes(label = total_lab), vjust = -0.2) +
             ggtitle("... ON LABOR INCOME ") + 
             theme(plot.title = element_text(hjust = 0.5), 
+                  legend.position = "none") 
+            # Adding geom_bracket requires a non-standard package
+            # geom_bracket(aes(xmin = 1, xmax = 2, y = max(total_lab) + 2, label = "unskilled labor"),
+            #              label.y.npc = 1.2, label.size = 4)
+        # return the bar plot
+        bar
+    }
+    
+    # One more graph type, but only for the first row: 
+    make_ComPA_multipliers_plot <- function(column, input_value){
+        rows_to_plot = c("ComRevSh", "PA")
+        mults <- multout()
+        inctotals <- data.frame(round(input_value*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
+        colnames(inctotals) <- "total_inc"
+        inctotals$cats = rows_to_plot
+        bar <- ggplot(inctotals, aes(x = cats, y=total_inc, fill=cats )) +
+            geom_bar(stat="sum") +
+            xlab("Households") + ylab("Additional Income ($)") +
+            geom_text(aes(label = total_inc), vjust = -0.2) +
+            ggtitle("... ON COMMUNITY AND PARK EARNINGS") +
+            theme(plot.title = element_text(hjust = 0.5),
                   legend.position = "none")
         # return the bar plot
         bar
     }
+    
 
     # output$sim_totallab <- renderPlot({
     #     mults <- multout()
@@ -1569,7 +1610,9 @@ server <- function(input, output) {
     # spending_test <- reactive({input$sim_TouristSpending})
     # output$simCom_totalprod <- make_production_multipliers_plot("ComRevSh", spending_test())
 
-
+    
+    # Production plots need to be split into two sub-plots: Tourism Activities vs Non-Tourism activities
+    
     # Make all the simulation PRODUCTION plots to output
     output$simTourists_totalprod <- renderPlot({
         make_production_multipliers_plot("Tourists", input$sim_TouristSpending)
@@ -1746,6 +1789,11 @@ server <- function(input, output) {
       make_labor_multipliers_plot("LMSK", input$sim_LMSKSpending)
     }
 
+    # Make last plot, just for the first row
+    output$simTourists_ComPA <- renderPlot({ 
+        make_ComPA_multipliers_plot("Tourists", input$sim_TouristSpending)
+    })
+    
     
     output$report <- downloadHandler(
       filename = "report.pdf",
