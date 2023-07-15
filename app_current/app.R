@@ -379,23 +379,9 @@ ui <- dashboardPage(
         tabItems(
             # ============================ Instructions Tab ======================================
             tabItem("instructions", 
-                p("WELCOME to the LEWIE-Lite DASHBOARD", style = "font-size:25px"),
-                p("On this dashboard, you can run simple simulations to calculate multipliers of a tourism project using a LEWIE-Lite model. 
-                  A LEWIE-Lite model is a multiplier model based on a Social Accounting Matrix (SAM) of the target area." ),
-                p("What does the Dashboard display?", style = "font-size:25px"),
-                p("The dashboard is divided into two main panels: "),
-                p("The TOP panel", style = "font-size:18px"),
-                p("It shows multipliers of tourism activities in the project area. They represent dollar increases <b>per dollar of tourist spending<\b>.  
-                  The __Total production multiplier__ is the overall increase value generated in the economy (any goods or services) for each dollar spent by a tourist. 
-                  The __Total income multiplier__ is the dollar increase in household incomes for each dollar of tourist spending.  We also break down this income multiplier in two ways: 
-                      * The total income multiplier can be broken down into:  
-                      * Accruing to Poor households: Dollar increase in Poor household incomes for each dollar of tourist spending. 
-                  * Accruing to NonPoor households: Dollar increase in NonPoor household incomes for each dollar of tourist spending. 
-                  * The same total income multiplier can also be broken down into:  
-                      * Accruing to Labor: Dollar increase in household incomes from use of their Labor (for each dollar of tourist spending) 
-                  * Accruing to Labor: Dollar increase in household incomes from as a return to Capital (for each dollar of tourist spending) "),
-                p("tbc", style = "color: red"),
-                p("The BOTTOM panel", style = "font-size:18px"),
+                fluidPage(
+                  uiOutput("doc_to_display")
+                )
             ),
             # ============================ Data Tab: (Where you can change the SAM) ======================================
             tabItem("data",
@@ -1835,7 +1821,10 @@ server <- function(input, output) {
         )
       }
     )
-    
+
+    output$doc_to_display <- renderUI({
+      includeMarkdown("instructions.md")
+    })
 }
 
     

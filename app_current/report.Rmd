@@ -102,19 +102,12 @@ How much tourist spending ($) do you expect?
 
 &nbsp;
 
-```{r echo=FALSE}
+```{r echo=FALSE, out.width="50%", fig.align="default"}
   params$prod1()
-```
-
-&nbsp;
-
-```{r echo=FALSE}
   params$inc1()
 ```
 
-&nbsp;
-
-```{r echo=FALSE}
+```{r echo=FALSE, out.width="50%", fig.align='center'}
   params$linc1()
 ```
 
