@@ -96,7 +96,7 @@ Accruing to Capital:
 \newpage
 ## Local-economy Impacts of Tourist Spending (US$)
 
-### How much tourist spending ($) do you expect?
+How much tourist spending ($) do you expect?
 ```{r echo=FALSE, comment=NA}
   cat(params$sim_TouristSpending)
 ```
