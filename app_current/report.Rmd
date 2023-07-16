@@ -53,6 +53,8 @@ params:
 
 ## For every dollar of tourist spending (multipliers):
 
+&nbsp;
+
 Total Production Multiplier:
 ```{r echo=FALSE, comment=NA}
   cat(params$totalmult())
