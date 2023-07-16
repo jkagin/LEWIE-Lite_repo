@@ -379,23 +379,9 @@ ui <- dashboardPage(
         tabItems(
             # ============================ Instructions Tab ======================================
             tabItem("instructions", 
-                p("WELCOME to the LEWIE-Lite DASHBOARD", style = "font-size:25px"),
-                p("On this dashboard, you can run simple simulations to calculate multipliers of a tourism project using a LEWIE-Lite model. 
-                  A LEWIE-Lite model is a multiplier model based on a Social Accounting Matrix (SAM) of the target area." ),
-                p("What does the Dashboard display?", style = "font-size:25px"),
-                p("The dashboard is divided into two main panels: "),
-                p("The TOP panel", style = "font-size:18px"),
-                p("It shows multipliers of tourism activities in the project area. They represent dollar increases <b>per dollar of tourist spending<\b>.  
-                  The __Total production multiplier__ is the overall increase value generated in the economy (any goods or services) for each dollar spent by a tourist. 
-                  The __Total income multiplier__ is the dollar increase in household incomes for each dollar of tourist spending.  We also break down this income multiplier in two ways: 
-                      * The total income multiplier can be broken down into:  
-                      * Accruing to Poor households: Dollar increase in Poor household incomes for each dollar of tourist spending. 
-                  * Accruing to NonPoor households: Dollar increase in NonPoor household incomes for each dollar of tourist spending. 
-                  * The same total income multiplier can also be broken down into:  
-                      * Accruing to Labor: Dollar increase in household incomes from use of their Labor (for each dollar of tourist spending) 
-                  * Accruing to Labor: Dollar increase in household incomes from as a return to Capital (for each dollar of tourist spending) "),
-                p("tbc", style = "color: red"),
-                p("The BOTTOM panel", style = "font-size:18px"),
+                fluidPage(
+                  uiOutput("doc_to_display")
+                )
             ),
             # ============================ Data Tab: (Where you can change the SAM) ======================================
             tabItem("data",
@@ -1794,6 +1780,11 @@ server <- function(input, output) {
         make_ComPA_multipliers_plot("Tourists", input$sim_TouristSpending)
     })
     
+    # Functions to pass to download to create last plot in PDF report
+    reportplot_earn1 <- function() {
+      make_ComPA_multipliers_plot("Tourists", input$sim_TouristSpending)
+    }
+    
     
     output$report <- downloadHandler(
       filename = "report.pdf",
@@ -1814,6 +1805,7 @@ server <- function(input, output) {
                        linc1 = reportplot_linc1, linc2 = reportplot_linc2, linc3 = reportplot_linc3,
                        linc4 = reportplot_linc4, linc5 = reportplot_linc5, linc6 = reportplot_linc6,
                        linc7 = reportplot_linc7, linc8 = reportplot_linc8, linc9 = reportplot_linc9,
+                       earn1 = reportplot_earn1,
                        totalmult = totalmult, gdpmult = gdpmult, labmult = labmult,
                        capmult = capmult, poormult = poormult, nonpoormult = nonpoormult,
                        sim_TouristSpending = input$sim_TouristSpending,
@@ -1835,7 +1827,10 @@ server <- function(input, output) {
         )
       }
     )
-    
+
+    output$doc_to_display <- renderUI({
+      includeMarkdown("instructions.md")
+    })
 }
 
     
