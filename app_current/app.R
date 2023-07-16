@@ -1780,6 +1780,11 @@ server <- function(input, output) {
         make_ComPA_multipliers_plot("Tourists", input$sim_TouristSpending)
     })
     
+    # Functions to pass to download to create last plot in PDF report
+    reportplot_earn1 <- function() {
+      make_ComPA_multipliers_plot("Tourists", input$sim_TouristSpending)
+    }
+    
     
     output$report <- downloadHandler(
       filename = "report.pdf",
@@ -1800,6 +1805,7 @@ server <- function(input, output) {
                        linc1 = reportplot_linc1, linc2 = reportplot_linc2, linc3 = reportplot_linc3,
                        linc4 = reportplot_linc4, linc5 = reportplot_linc5, linc6 = reportplot_linc6,
                        linc7 = reportplot_linc7, linc8 = reportplot_linc8, linc9 = reportplot_linc9,
+                       earn1 = reportplot_earn1,
                        totalmult = totalmult, gdpmult = gdpmult, labmult = labmult,
                        capmult = capmult, poormult = poormult, nonpoormult = nonpoormult,
                        sim_TouristSpending = input$sim_TouristSpending,

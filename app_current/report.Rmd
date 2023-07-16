@@ -28,6 +28,7 @@ params:
   linc7: NULL
   linc8: NULL
   linc9: NULL
+  earn1: NULL
   totalmult: NULL
   gdpmult: NULL
   labmult: NULL
@@ -46,7 +47,7 @@ params:
 ---
 
 
-# PA LEWIE-lite Dashboard: Local-economy impacts of tourist spending
+# PA LEWIE-lite: Local-Economy Impacts of Tourist Spending
 
 &nbsp;
 
@@ -93,204 +94,173 @@ Accruing to Capital:
 ```
 
 \newpage
-## Local economy-wide impact of tourist spending
+## Local-economy Impacts of Tourist Spending (US$)
 
-How much tourist spending ($) do you expect?
+### How much tourist spending ($) do you expect?
 ```{r echo=FALSE, comment=NA}
   cat(params$sim_TouristSpending)
 ```
 
 &nbsp;
 
+### EFFECTS OF THIS TOURISM SPENDING ON...
 ```{r echo=FALSE, out.width="50%", fig.align="default"}
   params$prod1()
   params$inc1()
 ```
-
-```{r echo=FALSE, out.width="50%", fig.align='center'}
+```{r echo=FALSE, out.width="50%", fig.align="default"}
   params$linc1()
+  params$earn1()
 ```
 
 \newpage
-## Local-economy impacts of park spending (US$)
+## Local-economy Impacts of Park Spending (US$)
 
 How much park spending ($) do you expect?
 ```{r echo=FALSE, comment=NA}
   cat(params$sim_PASpending)
-
-```{r echo=FALSE}
-  params$prod2()
 ```
 
 &nbsp;
 
-```{r echo=FALSE}
+### EFFECTS OF THIS PARK BUDGET ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod2()
   params$inc2()
 ```
-
-&nbsp;
-
-```{r echo=FALSE}
+```{r echo=FALSE, out.width="50%", fig.align="center"}
   params$linc2()
 ```
 
 \newpage
-## Local-economy impacts of community spending (US$)
+## Local-economy Impacts of Community Spending (US$)
 
 How much community spending ($) do you expect?
 ```{r echo=FALSE, comment=NA}
   cat(params$sim_ComRevShSpending)
-
-```{r echo=FALSE}
-  params$prod3()
 ```
 
 &nbsp;
 
-```{r echo=FALSE}
+### EFFECTS OF THIS COMMUNITY SPENDING ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod3()
   params$inc3()
 ```
-
-&nbsp;
-
-```{r echo=FALSE}
+```{r echo=FALSE, out.width="50%", fig.align="center"}
   params$linc3()
 ```
 
 \newpage
-## Local-economy impacts of increased agricultural production (US$)
+## Local-economy Impacts of Increased Agricultural Production (US$)
 
 How much increase in local agricultural production ($) do you expect?
 ```{r echo=FALSE, comment=NA}
   cat(params$sim_AgSpending)
-
-```{r echo=FALSE}
-  params$prod4()
 ```
 
 &nbsp;
 
-```{r echo=FALSE}
+### EFFECTS OF THIS INCREASE IN LOCAL AGRICULTURAL PRODUCTION ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod4()
   params$inc4()
 ```
-
-&nbsp;
-
-```{r echo=FALSE}
+```{r echo=FALSE, out.width="50%", fig.align="center"}
   params$linc4()
 ```
 
 \newpage
-## Local-economy impacts of increased Non-Agricultural production (US$)
+## Local-economy Impacts of Increased Non-Agricultural Production (US$)
 
 How much increase in local Non-Agricultural production ($) do you expect?
 ```{r echo=FALSE, comment=NA}
   cat(params$sim_NagSpending)
-
-```{r echo=FALSE}
-  params$prod5()
 ```
 
 &nbsp;
 
-```{r echo=FALSE}
+### EFFECTS OF THIS INCREASE IN LOCAL NON-AGRICULTURAL PRODUCTION ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod5()
   params$inc5()
 ```
-
-&nbsp;
-
-```{r echo=FALSE}
+```{r echo=FALSE, out.width="50%", fig.align="center"}
   params$linc5()
 ```
 
 \newpage
-## Local-economy impacts of low-skilled female earnings (US$)
+## Local-economy Impacts of Low-Skilled Female Earnings (US$)
 
 How much increase in earnings of low-skilled female workers ($) do you expect?
 ```{r echo=FALSE, comment=NA}
   cat(params$sim_LFUSKSpending)
-
-```{r echo=FALSE}
-  params$prod6()
 ```
 
 &nbsp;
 
-```{r echo=FALSE}
+### EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED FEMALE WORKERS ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod6()
   params$inc6()
 ```
-
-&nbsp;
-
-```{r echo=FALSE}
+```{r echo=FALSE, out.width="50%", fig.align="center"}
   params$linc6()
 ```
 
 \newpage
-## Local-economy impacts of low-skilled male earnings (US$)
+## Local-economy Impacts of Low-Skilled Male Earnings (US$)
 
 How much increase in earnings of low-skilled male workers ($) do you expect?
 ```{r echo=FALSE, comment=NA}
   cat(params$sim_LMUSKSpending)
-
-```{r echo=FALSE}
-  params$prod7()
 ```
 
 &nbsp;
 
-```{r echo=FALSE}
+### EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED MALE WORKERS ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod7()
   params$inc7()
 ```
-
-&nbsp;
-
-```{r echo=FALSE}
+```{r echo=FALSE, out.width="50%", fig.align="center"}
   params$linc7()
 ```
 
 \newpage
-## Local-economy impacts of skilled female earnings (US$)
+## Local-economy Impacts of Skilled Female Earnings (US$)
 
 How much increase in earnings of skilled female workers ($) do you expect?
 ```{r echo=FALSE, comment=NA}
   cat(params$sim_LFSKSpending)
-
-```{r echo=FALSE}
-  params$prod8()
 ```
 
 &nbsp;
 
-```{r echo=FALSE}
+### EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED FEMALE WORKERS ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod8()
   params$inc8()
 ```
-
-&nbsp;
-
-```{r echo=FALSE}
+```{r echo=FALSE, out.width="50%", fig.align="center"}
   params$linc8()
 ```
 
 \newpage
-## Local-economy impacts of skilled male earnings (US$)
+## Local-economy Impacts of Skilled Male Earnings (US$)
 
 How much increase in earnings of skilled male workers ($) do you expect?
 ```{r echo=FALSE, comment=NA}
   cat(params$sim_LMSKSpending)
-
-```{r echo=FALSE}
-  params$prod9()
 ```
 
 &nbsp;
 
-```{r echo=FALSE}
+### EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED MALE WORKERS ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod9()
   params$inc9()
 ```
-
-&nbsp;
-
-```{r echo=FALSE}
+```{r echo=FALSE, out.width="50%", fig.align="center"}
   params$linc9()
 ```
