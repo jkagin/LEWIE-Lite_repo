@@ -1482,7 +1482,7 @@ server <- function(input, output) {
         mults <- multout()
         totals <- data.frame(round(input_value*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
         colnames(totals) <- "total_prod"
-        totals$cats = rows_to_plot
+        totals$cats = rownames(totals)
         # This refactoring makes sure the cats are displayed in the right order (not alphabetical)
         totals$cats <- factor(totals$cats, levels = rows_to_plot)
         bar <- ggplot(totals, aes(x = cats, y=total_prod, fill=cats )) +
@@ -1501,7 +1501,7 @@ server <- function(input, output) {
         mults <- multout()
         inctotals <- data.frame(round(input_value*(mults[rownames(mults) %in% c("Poor", "NonPoor"), column]), digits=2))
         colnames(inctotals) <- "total_inc"
-        inctotals$cats = c("Poor", "NonPoor")
+        inctotals$cats = rownames(inctotals)
         bar <- ggplot(inctotals, aes(x = cats, y=total_inc, fill=cats )) +
             geom_bar(stat="sum") +
             xlab("Households") + ylab("Additional Income ($)") + 
@@ -1518,7 +1518,7 @@ server <- function(input, output) {
         mults <- multout()
         labtotals <- data.frame(round(input_value*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
         colnames(labtotals) <- "total_lab"
-        labtotals$cats = rows_to_plot
+        labtotals$cats = rownames(labtotals)
         
         # Rename the categories
         labtotals$cats <- forcats::fct_recode(labtotals$cats,
@@ -1550,7 +1550,7 @@ server <- function(input, output) {
         mults <- multout()
         inctotals <- data.frame(round(input_value*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
         colnames(inctotals) <- "total_inc"
-        inctotals$cats = rows_to_plot
+        inctotals$cats = rownames(inctotals)
         bar <- ggplot(inctotals, aes(x = cats, y=total_inc, fill=cats )) +
             geom_bar(stat="sum") +
             xlab("Households") + ylab("Additional Income ($)") +
