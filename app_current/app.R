@@ -1829,7 +1829,7 @@ server <- function(input, output) {
     )
 
     output$doc_to_display <- renderUI({
-      includeMarkdown("instructions.md")
+      includeHTML("instructions.html")
     })
 }
 
