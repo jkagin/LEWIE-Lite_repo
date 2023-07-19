@@ -225,7 +225,7 @@ get_input_online_or_local <- function(address, sheet, range, mode = "online"){
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 # sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v03.xlsx"
+sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v04.xlsx"
 
 
 # Disable authentication: 
@@ -247,7 +247,7 @@ gdata_RestShares    = get_input_online_or_local(sheet_path, sheet = "Restaurants
 # Lodges:
 gdata_LodgesShares    = get_input_online_or_local(sheet_path, sheet = "Lodges", range = "B51:G65", mode = sheet_location)
 # NatParks:
-gdata_NPBudget      = get_input_online_or_local(sheet_path, sheet = "NatParkPA", range = "B52:G53", mode = sheet_location)
+gdata_NPBudget      = get_input_online_or_local(sheet_path, sheet = "NatParkPA", range = "B52:G54", mode = sheet_location)
 gdata_NPSpending    = get_input_online_or_local(sheet_path, sheet = "NatParkPA", range = "B57:G70", mode = sheet_location)
 
 # Com Rev Sh.:
@@ -891,9 +891,10 @@ server <- function(input, output) {
                                                         input$tourists_expSouvenirs)
         sam_tourists["Restaurants",] <- tourist_days * input$tourists_expRestaurants
         sam_tourists["Lodges", ] <- tourexp_lodging 
-        sam_tourists["PA",] <- (input$tourists_popMultiDay + input$tourists_popSingleDay) * input$tourists_expParkEntry
-        # sam_tourists
         
+        # Changed the way we calculate the entries 
+        # sam_tourists["PA",] <- (input$tourists_popMultiDay + input$tourists_popSingleDay) * input$tourists_expParkEntry
+        sam_tourists["PA",] <- input$natPark_entryFees
     
         
         # Tourism Column not same as tourists column : it's the specialized tourism shops sam_tourists["Tourism",]
