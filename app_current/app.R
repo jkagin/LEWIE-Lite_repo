@@ -11,6 +11,7 @@ library(readxl)
 library(ggplot2)
 library(RColorBrewer)
 library(markdown)
+library(shinyjs)
 
 
 ###############################################################################
@@ -472,7 +473,7 @@ ui <- dashboardPage(
                 #             valueBox(textOutput("nothing"), "Total GDP multiplier", icon = icon("gears"),  color = "aqua"),
                 #         )
                 #     )
-                # ), 
+                # ),
                 p("Local-economy impacts of tourist spending (US$)", style = "font-size:25px"),
                 fluidRow(
                     box(width = 12, title = "For every dollar of tourist spending (multipliers):",
@@ -501,7 +502,12 @@ ui <- dashboardPage(
                             column(width = 3, plotOutput("simTourists_incomes")),
                             column(width=3, plotOutput("simTourists_labor")),
                             column(width=3, plotOutput("simTourists_ComPA"))
-                        )
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop1", "Jump to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 #simPark_totalprod
@@ -515,7 +521,12 @@ ui <- dashboardPage(
                             column(width=4, plotOutput("simPA_totalprod")),
                             column(width=4, plotOutput("simPA_incomes")),
                             column(width=4, plotOutput("simPA_labor"))
-                        )
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop2", "Jump to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidRow(
@@ -528,7 +539,12 @@ ui <- dashboardPage(
                             column(width=4, plotOutput("simComRevSh_totalprod")),
                             column(width=4, plotOutput("simComRevSh_incomes")),
                             column(width=4, plotOutput("simComRevSh_labor"))
-                        )
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop3", "Jump to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidRow(
@@ -542,7 +558,12 @@ ui <- dashboardPage(
                             column(width=4, plotOutput("simAg_totalprod")),
                             column(width=4, plotOutput("simAg_incomes")),
                             column(width=4, plotOutput("simAg_labor"))
-                        )
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop4", "Jump to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidRow(
@@ -556,7 +577,12 @@ ui <- dashboardPage(
                             column(width=4, plotOutput("simNag_totalprod")),
                             column(width=4, plotOutput("simNag_incomes")),
                             column(width=4, plotOutput("simNag_labor"))
-                        )
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop5", "Jump to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidRow(
@@ -570,7 +596,12 @@ ui <- dashboardPage(
                             column(width=4, plotOutput("simLFUSK_totalprod")),
                             column(width=4, plotOutput("simLFUSK_incomes")),
                             column(width=4, plotOutput("simLFUSK_labor"))
-                        )
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop6", "Jump to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidRow(
@@ -584,7 +615,12 @@ ui <- dashboardPage(
                             column(width=4, plotOutput("simLMUSK_totalprod")),
                             column(width=4, plotOutput("simLMUSK_incomes")),
                             column(width=4, plotOutput("simLMUSK_labor"))
-                        )
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop7", "Jump to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidRow(
@@ -598,7 +634,12 @@ ui <- dashboardPage(
                             column(width=4, plotOutput("simLFSK_totalprod")),
                             column(width=4, plotOutput("simLFSK_incomes")),
                             column(width=4, plotOutput("simLFSK_labor"))
-                        )
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop8", "Jump to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidRow(
@@ -612,7 +653,12 @@ ui <- dashboardPage(
                             column(width=4, plotOutput("simLMSK_totalprod")),
                             column(width=4, plotOutput("simLMSK_incomes")),
                             column(width=4, plotOutput("simLMSK_labor"))
-                        )
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop9", "Jump to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidPage(
@@ -1831,8 +1877,37 @@ server <- function(input, output) {
     output$doc_to_display <- renderUI({
       includeHTML("instructions.html")
     })
-}
+    
+    observeEvent(input$toTop1, {
+      shinyjs::runjs("window.scrollTo(0, 0)")
+    })
+    observeEvent(input$toTop2, {
+      shinyjs::runjs("window.scrollTo(0, 0)")
+    })
+    observeEvent(input$toTop3, {
+      shinyjs::runjs("window.scrollTo(0, 0)")
+    })
+    observeEvent(input$toTop4, {
+      shinyjs::runjs("window.scrollTo(0, 0)")
+    })
+    observeEvent(input$toTop5, {
+      shinyjs::runjs("window.scrollTo(0, 0)")
+    })
+    observeEvent(input$toTop6, {
+      shinyjs::runjs("window.scrollTo(0, 0)")
+    })
+    observeEvent(input$toTop7, {
+      shinyjs::runjs("window.scrollTo(0, 0)")
+    })
+    observeEvent(input$toTop8, {
+      shinyjs::runjs("window.scrollTo(0, 0)")
+    })
+    observeEvent(input$toTop9, {
+      shinyjs::runjs("window.scrollTo(0, 0)")
+    })
 
+  }
+    
     
 
     
