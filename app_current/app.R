@@ -296,7 +296,8 @@ inp_HHNPc3 <- pmap(gdata_HHNPc3, myfunc_CreateNumericInput)
 # Now create the input fields for making "simulations":
 # ------------------------------------------------------
 # the names should match the intended SAM columns 
-inp_sim_TouristSpending <- numericInput("sim_TouristSpending", "How much tourist spending ($) do you expect?", min = 0, max = 10000000, value = 100, step = 0.01)
+inp_sim_TouristSpending <- numericInput("sim_TouristSpending", 
+    "Tourist spending you wish to evaluate: total tourist spending, tourist spending attributable to the PA, change in tourist spending you expect from this project, etc. ", min = 0, max = 10000000, value = 100, step = 0.01)
 inp_sim_PASpending <- numericInput("sim_PASpending", "How much Park spending ($) do you expect?", min = 0, max = 10000000, value = 100, step = 0.01)
 inp_sim_ComRevShSpending <- numericInput("sim_ComRevShSpending", "How much Community spending ($) do you expect?", min = 0, max = 10000000, value = 100, step = 0.01)
 inp_sim_AgSpending <- numericInput("sim_AgSpending", "How much increase in local Agricultural production ($) do you expect?", min = 0, max = 10000000, value = 100, step = 0.01)
