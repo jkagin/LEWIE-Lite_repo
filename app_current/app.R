@@ -225,7 +225,7 @@ get_input_online_or_local <- function(address, sheet, range, mode = "online"){
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 # sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v04.xlsx"
+sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v05.xlsx"
 
 
 # Disable authentication: 
@@ -1049,10 +1049,10 @@ server <- function(input, output) {
         sam_comrevsh["Fish",] <- input$natPark_expComRevSh/100 * input$comRevSh_expLocalFish
         sam_comrevsh["ROW",] <- input$natPark_expComRevSh/100 * input$comRevSh_expOutside
         
-        sam_comrevsh["LMUSK", ] <- input$comRevSh_MwagesUnskilled 
-        sam_comrevsh["LMSK", ] <-  input$comRevSh_MwagesSkilled
-        sam_comrevsh["LFUSK", ] <- input$comRevSh_FwagesUnskilled
-        sam_comrevsh["LFSK", ] <-  input$comRevSh_FwagesSkilled
+        sam_comrevsh["LMUSK", ] <-  input$natPark_expComRevSh/100 * input$comRevSh_MwagesUnskilled 
+        sam_comrevsh["LMSK", ] <-   input$natPark_expComRevSh/100 * input$comRevSh_MwagesSkilled
+        sam_comrevsh["LFUSK", ] <-  input$natPark_expComRevSh/100 * input$comRevSh_FwagesUnskilled
+        sam_comrevsh["LFSK", ] <-   input$natPark_expComRevSh/100 * input$comRevSh_FwagesSkilled
         
         
         
