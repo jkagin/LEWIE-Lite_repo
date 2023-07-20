@@ -5,10 +5,10 @@ account: lewie-lite
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 9408755
-bundleId: 7468070
+bundleId: 7477440
 url: https://lewie-lite.shinyapps.io/app_current/
-when: 1689634093.19366
-lastSyncTime: 1689634093.19367
+when: 1689828161.68012
+lastSyncTime: 1689828161.68014
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: instructions_test.html|instructions.md
+ignoredFiles: .vscode/settings.json|~$LEWIE-Lite_NewInput_v06.xlsx|LEWIE-Lite_NewInput_v03.xlsx|LEWIE-Lite_NewInput_v04.xlsx|LEWIE-Lite_NewInput_v05.xlsx

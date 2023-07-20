@@ -225,7 +225,7 @@ get_input_online_or_local <- function(address, sheet, range, mode = "online"){
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 # sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v05.xlsx"
+sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v06.xlsx"
 
 
 # Disable authentication: 
@@ -702,10 +702,10 @@ server <- function(input, output) {
         # &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         # &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         # Rescale Ag
-        ag_totalshares =  (input$ag_MwagesUnskilled_raw + input$ag_MwagesSkilled_raw + input$ag_MwagesSkilled_raw + input$ag_FwagesSkilled_raw + 
+        ag_totalshares =  (input$ag_MwagesUnskilled_raw + input$ag_MwagesSkilled_raw + input$ag_FwagesUnskilled_raw + input$ag_FwagesSkilled_raw + 
             input$ag_expLocalAg_raw +   input$ag_expTourism_raw + input$ag_expLocalFish_raw + input$ag_expServices_raw + input$ag_expLocalStores_raw + 
             input$ag_expOutside_raw + input$ag_expTaxes_raw)
-        ag_scaleshares = (ag_totalshares - input$ag_profitMargin)/ag_totalshares
+        ag_scaleshares = (100 - input$ag_profitMargin)/ag_totalshares
         
         ag_MwagesUnskilled = input$ag_MwagesUnskilled_raw * ag_scaleshares
         ag_MwagesSkilled = input$ag_MwagesSkilled_raw * ag_scaleshares
@@ -736,7 +736,7 @@ server <- function(input, output) {
             input$tourism_expOutside_raw +
             input$tourism_expTaxes_raw )
 
-        tourism_scaleshares = (tourism_totalshares - input$tourism_profitMargin)/tourism_totalshares
+        tourism_scaleshares = (100 - input$tourism_profitMargin)/tourism_totalshares
 
         tourism_MwagesUnskilled = input$tourism_MwagesUnskilled_raw * tourism_scaleshares
         tourism_MwagesSkilled = input$tourism_MwagesSkilled_raw * tourism_scaleshares
@@ -765,7 +765,7 @@ server <- function(input, output) {
                 input$nag_expOutside_raw +
                 input$nag_expTaxes_raw )
 
-        nag_scaleshares = (nag_totalshares - input$nag_profitMargin)/nag_totalshares
+        nag_scaleshares = (100 - input$nag_profitMargin)/nag_totalshares
 
         nag_MwagesUnskilled = input$nag_MwagesUnskilled_raw * nag_scaleshares
         nag_MwagesSkilled = input$nag_MwagesSkilled_raw * nag_scaleshares
@@ -794,7 +794,7 @@ server <- function(input, output) {
                 input$fish_expOutside_raw +
                 input$fish_expTaxes_raw )
         
-        fish_scaleshares = (fish_totalshares - input$fish_profitMargin)/fish_totalshares
+        fish_scaleshares = (100 - input$fish_profitMargin)/fish_totalshares
         
         fish_MwagesUnskilled = input$fish_MwagesUnskilled_raw * fish_scaleshares
         fish_MwagesSkilled = input$fish_MwagesSkilled_raw * fish_scaleshares
@@ -823,7 +823,7 @@ server <- function(input, output) {
                 input$restaurants_expOutside_raw +
                 input$restaurants_expTaxes_raw )
         
-        restaurants_scaleshares = (restaurants_totalshares - input$restaurants_profitMargin)/restaurants_totalshares
+        restaurants_scaleshares = (100 - input$restaurants_profitMargin)/restaurants_totalshares
         
         restaurants_MwagesUnskilled = input$restaurants_MwagesUnskilled_raw * restaurants_scaleshares
         restaurants_MwagesSkilled = input$restaurants_MwagesSkilled_raw * restaurants_scaleshares
@@ -852,7 +852,7 @@ server <- function(input, output) {
                 input$lodges_expOutside_raw +
                 input$lodges_expTaxes_raw )
         
-        lodges_scaleshares = (lodges_totalshares - input$lodges_profitMargin)/lodges_totalshares
+        lodges_scaleshares = (100 - input$lodges_profitMargin)/lodges_totalshares
         
         lodges_MwagesUnskilled = input$lodges_MwagesUnskilled_raw * lodges_scaleshares
         lodges_MwagesSkilled = input$lodges_MwagesSkilled_raw * lodges_scaleshares
@@ -919,12 +919,11 @@ server <- function(input, output) {
         
         sam_tourism["G",] <- sam_tourism_totalrev * (tourism_expTaxes)/100
         sam_tourism["ROW",] <- sam_tourism_totalrev * (tourism_expOutside)/100
-        
         # K account used to be the residual, now computed directly
         # sam_tourism_allbutK <- sum(sam_tourism)
         # sam_tourism["K",] <- sam_tourism_totalrev - sam_tourism_allbutK
-        sam_tourism["K",] <- sam_tourism_totalrev * (input$tourism_profitMargin)/100
-        
+        sam_tourism["K",] <- sam_tourism_totalrev * (input$tourism_profitMargin)/100 * input$tourism_shareLocallyOwned/100
+
        
         # Lodges Column
         #------------------------------------
@@ -945,7 +944,7 @@ server <- function(input, output) {
         # K account used to be the residual, but now it is the PROFIT SHARE
         # sam_lodges_allbutK <- sum(sam_lodges)
         # sam_lodges["K",] <- (rev_Lodging - sam_lodges_allbutK)* input$lodges_shareOwned / 100
-        sam_lodges["K",] <- rev_Lodging * input$lodges_profitMargin/100
+        sam_lodges["K",] <- rev_Lodging * input$lodges_profitMargin/100 * input$lodges_shareLocallyOwned/100
         
         
 
@@ -953,7 +952,7 @@ server <- function(input, output) {
         #======================================================================
         hhp_totalInc <- input$hhp_pcinc * input$hhp_pop
         hhnp_totalInc <- input$hhnp_pcinc * input$hhnp_pop
-        
+
         hhp_sumshares <- input$hhp_expGroceryFood + input$hhp_expGroceryOther + input$hhp_expMarkets + input$hhp_expLocalFarms +
                 input$hhp_expLocalFish + input$hhp_expLocalProc + input$hhp_expRest + input$hhp_expOtherLocal + input$hhp_expOutside +
                 input$hhp_expRent + input$hhp_expTax
@@ -995,8 +994,7 @@ server <- function(input, output) {
         # ROW account is the RESIDUAL
         sam_hhnp_allbutrow <- sum(sam_hhnp)
         sam_hhnp["ROW", ] <- hhnp_totalInc - sam_hhnp_allbutrow
-        
-    
+
 
         # # Restaurants Column
         # #------------------------------------
@@ -1017,22 +1015,22 @@ server <- function(input, output) {
         # K account used to be RESIDUAL, now calculated directly 
         # sam_rest_allbutrow <- sum(sam_restaurants)
         # sam_restaurants["K", ] <- (rev_Restaurants - sam_rest_allbutrow) * input$restaurants_shareOwned / 100
-        sam_restaurants["K", ] <- rev_Restaurants * input$restaurants_profitMargin/100
+        sam_restaurants["K", ] <- rev_Restaurants * input$restaurants_profitMargin/100 * input$restaurants_shareLocallyOwned/100
        
         # NOTE: Order matters here, because Non-Ag feeds into Ag totals 
         
          
         # # PA Column
         # #------------------------------------
-        sam_pa["Ag",] <- input$natPark_expLocalAg
-        sam_pa["Nag",] <- input$natPark_expServices + input$natPark_expLocalStores
-        sam_pa["Tourism",] <- input$natPark_expTourism
-        sam_pa["Fish",] <- input$natPark_expLocalFish
-        sam_pa["ROW",] <- input$natPark_expOutside
-        sam_pa["LMUSK", ] <- input$natPark_MwagesUnskilled * input$natPark_shareWorkersLocal/100 
-        sam_pa["LMSK", ] <- input$natPark_MwagesSkilled * input$natPark_shareWorkersLocal/100 
-        sam_pa["LFUSK", ] <- input$natPark_FwagesUnskilled * input$natPark_shareWorkersLocal/100 
-        sam_pa["LFSK", ] <- input$natPark_FwagesSkilled * input$natPark_shareWorkersLocal/100 
+        sam_pa["Ag",] <- input$natPark_totalBudget * input$natPark_expLocalAg/100
+        sam_pa["Nag",] <-input$natPark_totalBudget * ( input$natPark_expServices + input$natPark_expLocalStores)/100
+        sam_pa["Tourism",] <- input$natPark_totalBudget * input$natPark_expTourism/100
+        sam_pa["Fish",] <- input$natPark_totalBudget * input$natPark_expLocalFish/100
+        sam_pa["ROW",] <- input$natPark_totalBudget * input$natPark_expOutside/100
+        sam_pa["LMUSK", ] <- input$natPark_totalBudget * input$natPark_MwagesUnskilled/100 * input$natPark_shareWorkersLocal/100 
+        sam_pa["LMSK", ] <- input$natPark_totalBudget * input$natPark_MwagesSkilled/100 * input$natPark_shareWorkersLocal/100 
+        sam_pa["LFUSK", ] <- input$natPark_totalBudget * input$natPark_FwagesUnskilled/100 * input$natPark_shareWorkersLocal/100 
+        sam_pa["LFSK", ] <-  input$natPark_totalBudget * input$natPark_FwagesSkilled/100 * input$natPark_shareWorkersLocal/100 
         
         # If parks send fees to government and to community revenue sharing: 
         sam_pa["ComRevSh", ] <- input$natPark_expComRevSh
@@ -1053,7 +1051,7 @@ server <- function(input, output) {
         sam_comrevsh["LMSK", ] <-   input$natPark_expComRevSh/100 * input$comRevSh_MwagesSkilled
         sam_comrevsh["LFUSK", ] <-  input$natPark_expComRevSh/100 * input$comRevSh_FwagesUnskilled
         sam_comrevsh["LFSK", ] <-   input$natPark_expComRevSh/100 * input$comRevSh_FwagesSkilled
-        
+
         
         
         # NonAg Column
@@ -1084,9 +1082,8 @@ server <- function(input, output) {
         # K account used to be the residual, now computed directly. No rescaling for that. 
         # sam_nag_allbutK <- sum(sam_nag)
         # sam_nag["K",] <- sam_nag_totalrev - sam_nag_allbutK
-        sam_nag["K",] <- sam_nag_totalrev * (input$nag_profitMargin)/100 
-        
-        
+        sam_nag["K",] <- sam_nag_totalrev * (input$nag_profitMargin)/100 * input$nag_shareLocallyOwned/100
+
         
         # Ag Column 
         # #------------------------------------
@@ -1110,8 +1107,7 @@ server <- function(input, output) {
         # K account used to be the residual, but now computed directly 
         # sam_ag_allbutK <- sum(sam_ag)
         # sam_ag["K",] <- sam_ag_totalrev - sam_ag_allbutK
-        sam_ag["K",] <- sam_ag_totalrev * (input$ag_profitMargin)/100
-       
+        sam_ag["K",] <- sam_ag_totalrev * (input$ag_profitMargin)/100 * input$ag_shareLocallyOwned/100
         
         
         
@@ -1138,8 +1134,7 @@ server <- function(input, output) {
         # K account used to be the residual, now computed directly
         # sam_fish_allbutK <- sum(sam_fish)
         # sam_fish["K",] <- sam_fish_totalrev - sam_fish_allbutK
-        sam_fish["K",] <- sam_fish_totalrev * (input$fish_profitMargin)/100
-        
+        sam_fish["K",] <- sam_fish_totalrev * (input$fish_profitMargin)/100 * input$fish_shareLocallyOwned/100
         
         # G Column - based simply on NatParks + the difference of other cols
         # #---------------------------------------------------------------------
@@ -1163,8 +1158,7 @@ server <- function(input, output) {
             sam_lodges["G",] + sam_restaurants["G",] + sam_tourists["G",] + sam_pa["G",]  + sam_tourism["G",] + sam_comrevsh["G", ]
         # Government payment out, if there is surplus
         sam_G["ROW", ] = max(0, sam_g_rowsum-sam_g_colsum)
-        
-        
+
         # L Columns (4 of them)
         # ---------------------------------------------------------------------
         # l_rowsum = sam_ag["L",] + sam_nag["L",] + sam_fish["L",] + sam_hhp["L",] + sam_hhnp["L",] +
