@@ -553,7 +553,9 @@ ui <- dashboardPage(
                 ),
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of increased Agricultural production (US$)",
-                        p('Tourist activities create demand for local agricultural products. We can also use this model to see the effects of this additional agricultural production.'),
+                        p('Tourist activities create demand for local agricultural products.  We can also use this model to see the effects of complementary
+                          interventions to increase the demand for local agricultural products, for example, 
+                          by enabling restaurants and lodges to source more food locally.'),
                         fluidRow(
                             column(4, inp_sim_AgSpending)
                         ),
@@ -573,7 +575,9 @@ ui <- dashboardPage(
                 ),
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of increased Non-Agricultural production (US$)",
-                        p('Tourist activities create demand for local non-agricultural products. We can also use this model to see the effects of this additional non-agricultural production.'),
+                        p('Tourist activities create demand for local non-agricultural products. We can also use this model to see the effects of complementary
+                          interventions to increase the demand for local non-agricultural products, for example, 
+                          by enabling restaurants and lodges to source local artifacts or processed goods.'),
                         fluidRow(
                             column(4, inp_sim_NagSpending)
                         ),
@@ -593,7 +597,8 @@ ui <- dashboardPage(
                 ),
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of Low-skilled Female earnings (US$)",
-                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of this additional labor, including by group.'),
+                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
+                          interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
                             column(4, inp_sim_LFUSKSpending)
                         ),
@@ -613,7 +618,8 @@ ui <- dashboardPage(
                 ),
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of Low-Skilled Male earnings (US$)",
-                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of this additional labor, including by group.'),
+                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
+                          interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
                             column(4, inp_sim_LMUSKSpending)
                         ),
@@ -633,7 +639,8 @@ ui <- dashboardPage(
                 ),
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of Skilled Female earnings (US$)",
-                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of this additional labor, including by group.'),
+                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
+                          interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
                             column(4, inp_sim_LFSKSpending)
                         ),
@@ -653,7 +660,8 @@ ui <- dashboardPage(
                 ),
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of Skilled Male earnings (US$)",
-                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of this additional labor, including by group.'),
+                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
+                          interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
                             column(4, inp_sim_LMSKSpending)
                         ),
