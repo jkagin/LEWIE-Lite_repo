@@ -1332,7 +1332,7 @@ server <- function(input, output) {
     
     # Total production multiplier
     totalmult <- function() {
-      rows_to_sum = c("Ag","Nag","NatRes","Restaurants","Lodges")
+      rows_to_sum = c("Ag","Nag","Fish","Tourism", "Restaurants","Lodges")
       mults <- multout()
       total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
       scales::dollar(total)
@@ -1406,7 +1406,7 @@ server <- function(input, output) {
     
     # Sam multipliers
     output$mult_barplot <- renderPlot({
-        rows_to_plot = c("Ag","Nag","NatRes","Restaurants","Lodges")
+        rows_to_plot = c("Ag","Nag","Fish","Tourism", "Restaurants","Lodges")
         mults <- multout()
         bar <- barplot(mults[rownames(mults) %in% rows_to_plot,"Tourists"])
         bar
