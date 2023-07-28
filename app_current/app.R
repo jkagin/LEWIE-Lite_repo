@@ -480,12 +480,12 @@ ui <- dashboardPage(
                     box(width = 12, title = "For every dollar of tourist spending (multipliers):",
                         fluidRow(
                             valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
-                            valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("money"),  color = "red"),
+                            valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("wallet"),  color = "red"),
                             valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
                         ),
                         fluidRow(
-                            valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("money"),  color = "green"),
-                            valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("money"),  color = "red"),
+                            valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("coins"),  color = "green"),
+                            valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "red"),
                             valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
                         )
                     )
