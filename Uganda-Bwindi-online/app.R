@@ -224,8 +224,8 @@ get_input_online_or_local <- function(address, sheet, range, mode = "online"){
 # Input all the questions as tables FROM GOOGLE SHEETS or FROM LOCAL FILE (unstar only one at a time):
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
-# sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v08_Uganda_QE.xlsx"
+sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1ElpHmVndRIm53uqhixm1V6mT4QHMH9vsVRXaD42ndP4/edit#gid=1273926798"
+# sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v07_Uganda_Bwindi.xlsx"
 
 
 # Disable authentication: 

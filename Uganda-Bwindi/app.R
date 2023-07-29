@@ -225,7 +225,7 @@ get_input_online_or_local <- function(address, sheet, range, mode = "online"){
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 # sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v07_Uganda_Bwindi.xlsx"
+sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v08_Uganda_Bwindi.xlsx"
 
 
 # Disable authentication: 
