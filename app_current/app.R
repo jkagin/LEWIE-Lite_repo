@@ -480,15 +480,28 @@ ui <- dashboardPage(
                     box(width = 12, title = "For every dollar of tourist spending (multipliers):",
                         fluidRow(
                             valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
-                            valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("money"),  color = "red"),
+                            valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("wallet"),  color = "red"),
                             valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
                         ),
                         fluidRow(
-                            valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("money"),  color = "green"),
-                            valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("money"),  color = "red"),
+                            valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("coins"),  color = "green"),
+                            valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "red"),
                             valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
                         )
                     )
+                ),
+                fluidRow(
+                  box(width = 12, title = "Explore the local economy impacts of…",
+                      p(HTML("1. <a href='#sim_TouristSpending'>Tourist Spending</a>"), style = "margin-left: 20px"),
+                      p(HTML("2. <a href='#sim_PASpending'>Park Spending</a>"), style = "margin-left: 20px"),
+                      p(HTML("3. <a href='#sim_ComRevShSpending'>Community Spending</a>"), style = "margin-left: 20px"),
+                      p(HTML("4. <a href='#sim_AgSpending'>Agricultural Production</a>"), style = "margin-left: 20px"),
+                      p(HTML("5. <a href='#sim_NagSpending'>Non-Agricultural Production</a>"), style = "margin-left: 20px"),
+                      p(HTML("6. <a href='#sim_LFUSKSpending'>Low-Skilled Female Earnings</a>"), style = "margin-left: 20px"),
+                      p(HTML("7. <a href='#sim_LMUSKSpending'>Low-Skilled Male Earnings</a>"), style = "margin-left: 20px"),
+                      p(HTML("8. <a href='#sim_LFSKSpending'>Skilled Female Earnings</a>"), style = "margin-left: 20px"),
+                      p(HTML("9. <a href='#sim_LMSKSpending'>Skilled Male Earnings</a>"), style = "margin-left: 20px")
+                  )
                 ),
                 fluidRow(
                     box(width = 12, title = "Local Economy-wide impact of tourist spending",
@@ -507,7 +520,7 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop1", "Jump to top",
+                        actionButton("toTop1", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
@@ -527,7 +540,7 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop2", "Jump to top",
+                        actionButton("toTop2", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
@@ -546,7 +559,7 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop3", "Jump to top",
+                        actionButton("toTop3", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
@@ -568,7 +581,7 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop4", "Jump to top",
+                        actionButton("toTop4", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
@@ -590,7 +603,7 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop5", "Jump to top",
+                        actionButton("toTop5", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
@@ -611,7 +624,7 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop6", "Jump to top",
+                        actionButton("toTop6", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
@@ -632,7 +645,7 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop7", "Jump to top",
+                        actionButton("toTop7", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
@@ -653,7 +666,7 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop8", "Jump to top",
+                        actionButton("toTop8", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
@@ -674,7 +687,7 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop9", "Jump to top",
+                        actionButton("toTop9", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
