@@ -972,7 +972,7 @@ server <- function(input, output) {
         sam_lodges["G", ] <- rev_Lodging * lodges_expTaxes/100
         sam_lodges["ROW", ] <- rev_Lodging * (lodges_expOutside/100 
                             +  input$lodges_profitMargin/100 * (1-input$lodges_shareLocallyOwned/100)
-                            +  (lodges_MwagesUnskilled + lodges_MwagesSkilled + lodges_FwagesUnskilled + lodges_FwagesSkilled)/100 * (1 - input$lodges_shareWorkersLocal)/100)
+                            +  (lodges_MwagesUnskilled + lodges_MwagesSkilled + lodges_FwagesUnskilled + lodges_FwagesSkilled)/100 * (1 - input$lodges_shareWorkersLocal/100))
     
         
         
@@ -1047,7 +1047,7 @@ server <- function(input, output) {
         sam_restaurants["G", ] <- rev_Restaurants * restaurants_expTaxes/100
         sam_restaurants["ROW", ] <- rev_Restaurants * (restaurants_expOutside/100 
                                                 +  input$restaurants_profitMargin/100 * (1-input$restaurants_shareLocallyOwned/100)
-                                                +  (restaurants_MwagesUnskilled + restaurants_MwagesSkilled + restaurants_FwagesUnskilled + restaurants_FwagesSkilled)/100 * (1 - input$restaurants_shareWorkersLocal)/100)
+                                                +  (restaurants_MwagesUnskilled + restaurants_MwagesSkilled + restaurants_FwagesUnskilled + restaurants_FwagesSkilled)/100 * (1 - input$restaurants_shareWorkersLocal/100))
         
         # K account used to be RESIDUAL, now calculated directly 
         # sam_rest_allbutrow <- sum(sam_restaurants)
@@ -1117,7 +1117,7 @@ server <- function(input, output) {
         # Don't forget to funnel the shares not locally owned to the outside.  
         sam_nag["ROW",] <- sam_nag_totalrev * (nag_expOutside/100 
                                                + input$nag_profitMargin/100 * (1-input$nag_shareLocallyOwned/100)
-                                               + (nag_MwagesUnskilled + nag_MwagesSkilled + nag_FwagesUnskilled + nag_FwagesSkilled)/100 * (1 - input$nag_shareWorkersLocal)/100)
+                                               + (nag_MwagesUnskilled + nag_MwagesSkilled + nag_FwagesUnskilled + nag_FwagesSkilled)/100 * (1 - input$nag_shareWorkersLocal/100))
         
         # K account used to be the residual, now computed directly. No rescaling for that. 
         # sam_nag_allbutK <- sum(sam_nag)
@@ -1144,7 +1144,7 @@ server <- function(input, output) {
         sam_ag["G",] <- sam_ag_totalrev * (ag_expTaxes)/100
         sam_ag["ROW",] <- sam_ag_totalrev * (ag_expOutside/100 
                                         +  input$ag_profitMargin/100 * (1-input$ag_shareLocallyOwned/100)
-                                        + (ag_MwagesUnskilled + ag_MwagesSkilled + ag_FwagesUnskilled + ag_FwagesSkilled)/100 * (1 - input$ag_shareWorkersLocal)/100)
+                                        + (ag_MwagesUnskilled + ag_MwagesSkilled + ag_FwagesUnskilled + ag_FwagesSkilled)/100 * (1 - input$ag_shareWorkersLocal/100))
     
         # K account used to be the residual, but now computed directly 
         # sam_ag_allbutK <- sum(sam_ag)
