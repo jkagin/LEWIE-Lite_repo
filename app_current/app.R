@@ -12,6 +12,7 @@ library(ggplot2)
 library(RColorBrewer)
 library(markdown)
 library(shinyjs)
+library(emojifont)
 
 
 
@@ -694,7 +695,8 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidPage(
-                  downloadButton("report", "Generate report")
+                  downloadButton("report", "Generate report"),
+                  p('This can take up to 30sec to generate. There is no need for multiple clicks.')
                 )
             )
         )
