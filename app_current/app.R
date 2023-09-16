@@ -13,7 +13,7 @@ library(RColorBrewer)
 library(markdown)
 library(shinyjs)
 library(emojifont)
-library(xlsx)
+# library(xlsx)
 
 
 
@@ -458,9 +458,9 @@ ui <- dashboardPage(
                 fluidRow(
                     tabBox(width = 12,
                        title = ("SAM"),
+                       tabPanel("Multipliers", tableOutput("mult")),
                        tabPanel("SAM_RASed", tableOutput("sam_RASed")),
                        tabPanel("SAM_preRAS", tableOutput("sam_preRAS")),
-                       tabPanel("Multipliers", tableOutput("mult")),
                        tabPanel("Hide the tables")
                     )
                 )
@@ -697,8 +697,8 @@ ui <- dashboardPage(
                 ),
                 fluidPage(
                   downloadButton("report", "Generate PDF Report"),
-                  downloadButton("download1.Excel", "Generate Excel File (with data)"),
-                  p('Generating these files can take up to 30 seconds. There is no need for multiple clicks.')
+                  # downloadButton("download1.Excel", "Generate Excel File (with data)"),
+                  p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.')
                 )
             )
         )
