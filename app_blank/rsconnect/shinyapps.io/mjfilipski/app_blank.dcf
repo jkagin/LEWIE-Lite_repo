@@ -1,0 +1,12 @@
+name: app_blank
+title: app_blank
+username: mjfilipski
+account: mjfilipski
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9919759
+bundleId: 7703838
+url: https://mjfilipski.shinyapps.io/app_blank/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

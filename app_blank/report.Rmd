@@ -1,0 +1,295 @@
+---
+output: pdf_document
+params:
+  prod1: NULL
+  prod2: NULL
+  prod3: NULL
+  prod4: NULL
+  prod5: NULL
+  prod6: NULL
+  prod7: NULL
+  prod8: NULL
+  prod9: NULL
+  inc1: NULL
+  inc2: NULL
+  inc3: NULL
+  inc4: NULL
+  inc5: NULL
+  inc6: NULL
+  inc7: NULL
+  inc8: NULL
+  inc9: NULL
+  linc1: NULL
+  linc2: NULL
+  linc3: NULL
+  linc4: NULL
+  linc5: NULL
+  linc6: NULL
+  linc7: NULL
+  linc8: NULL
+  linc9: NULL
+  earn1: NULL
+  totalmult: NULL
+  gdpmult: NULL
+  labmult: NULL
+  capmult: NULL
+  poormult: NULL
+  nonpoormult: NULL
+  sim_TouristSpending: NULL
+  sim_PASpending: NULL
+  sim_ComRevShSpending: NULL
+  sim_AgSpending: NULL
+  sim_NagSpending: NULL
+  sim_LFUSKSpending: NULL
+  sim_LMUSKSpending: NULL
+  sim_LFSKSpending: NULL
+  sim_LMSKSpending: NULL
+---
+
+\begin{center}
+\section{PA LEWIE-Lite: Local-Economy Impacts of Tourist Spending}
+\end{center}
+
+&nbsp;
+
+\subsection{For \textbf{every dollar} of tourist spending (multipliers):}
+
+&nbsp;
+
+```{r echo=FALSE, comment=NA, fig.align="center", message = FALSE}
+library(ggplot2)
+library(emojifont)
+library(fontawesome)
+
+rows <- 3
+cols <- 2
+boxes <- 6
+padding <- 1
+h <- 8
+w <- 16
+icons<-c("fa-gears", "fa-money", "fa-user", "fa-line-chart", "fa-money", "fa-building")
+
+df <- data.frame(
+    x = rep(seq(0, (w+padding)*cols-1, w+padding), times=rows),
+    y = rep(seq(0, (h+padding)*rows-1, h+padding), each=cols),
+    h = rep(h, boxes),
+    w = rep(w, boxes),
+    value = c(params$totalmult(),params$poormult(),params$labmult(),params$gdpmult(),params$nonpoormult(),params$capmult()),
+    info = c("Total Production Multiplier",
+             "Accruing to Poor Households",
+             "Accruing to Labor",
+             "Total Income Multiplier",
+             "Accruing to NonPoor Households",
+             "Accruing to Capital"),
+    icon = fontawesome(icons),
+    font_family = c(rep("fontawesome-webfont", boxes)),
+    color = factor(1:boxes)
+)
+
+ggplot(df, aes(x, y, height = h, width = w, label = info)) +
+    ## Create the tiles using the `color` column
+    geom_tile(aes(fill = color)) +
+    ## Add the numeric values as text in `value` column
+    geom_text(color = "white", fontface = "bold", size = 10,
+              aes(label = value, x = x - w/2.2, y = y + h/4), hjust = 0) +
+    ## Add the labels for each box stored in the `info` column
+    geom_text(color = "white", fontface = "bold", size = 3,
+              aes(label = info, x = x - w/2.2, y = y-h/4), hjust = 0) +
+    coord_fixed() +
+    scale_fill_brewer(type = "qual",palette = "Dark2") +
+    ## Use `geom_text()` to add the icons by specifying the unicode symbol.
+    geom_text(size = 20, aes(label = icon, family = font_family,
+                             x = x + w/4, y = y + h/8), alpha = 0.25) +
+    theme_void() +
+    guides(fill = FALSE)
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Tourist Spending (US\$)}
+
+You may wish to evaluate different values of tourist spending: total tourist spending, tourist spending attributable to the PA, change in tourist spending you expect from this project, etc.
+
+How much tourist spending ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_TouristSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS TOURISM SPENDING ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod1()
+  params$inc1()
+```
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$linc1()
+  params$earn1()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Park Spending (US\$)}
+
+Park spending is policy-determined, even though there are visitor fees in most places.
+
+How much park spending ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_PASpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS PARK BUDGET ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod2()
+  params$inc2()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$linc2()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Community Spending (US\$)}
+
+Our simulations assume that part of PA visitor fees are shared with communities. We can also use this model to see the effects of giving additional money to communities near the park. For example, some NGOs support communities near PAs that may or may not happen if the PA did not exist.
+
+How much community spending ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_ComRevShSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS COMMUNITY SPENDING ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod3()
+  params$inc3()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$linc3()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Increased Agricultural Production (US\$)}
+
+Tourist activities create demand for local agricultural products. We can also use this model to see the effects of complementary interventions to increase the demand for local agricultural products, for example, by enabling restaurants and lodges to source more food locally.
+
+How much increase in local agricultural production ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_AgSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS INCREASE IN LOCAL AGRICULTURAL PRODUCTION ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod4()
+  params$inc4()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$linc4()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Increased Non-Agricultural Production (US\$)}
+
+Tourist activities create demand for local non-agricultural products. We can also use this model to see the effects of complementary interventions to increase the demand for local non-agricultural products, for example, by enabling restaurants and lodges to source local artifacts or processed goods.
+
+How much increase in local Non-Agricultural production ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_NagSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS INCREASE IN LOCAL NON-AGRICULTURAL PRODUCTION ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod5()
+  params$inc5()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$linc5()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Low-Skilled Female Earnings (US\$)}
+
+Tourist activities create demand for local labor. We can also use this model to see the effects of complementary interventions to increase the employment of local workers, for example, through job training programs.
+
+How much increase in earnings of low-skilled female workers ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_LFUSKSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED FEMALE WORKERS ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod6()
+  params$inc6()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$linc6()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Low-Skilled Male Earnings (US\$)}
+
+Tourist activities create demand for local labor. We can also use this model to see the effects of complementary interventions to increase the employment of local workers, for example, through job training programs.
+
+How much increase in earnings of low-skilled male workers ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_LMUSKSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED MALE WORKERS ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod7()
+  params$inc7()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$linc7()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Skilled Female Earnings (US\$)}
+
+Tourist activities create demand for local labor. We can also use this model to see the effects of complementary interventions to increase the employment of local workers, for example, through job training programs.
+
+How much increase in earnings of skilled female workers ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_LFSKSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED FEMALE WORKERS ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod8()
+  params$inc8()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$linc8()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Skilled Male Earnings (US\$)}
+
+Tourist activities create demand for local labor. We can also use this model to see the effects of complementary interventions to increase the employment of local workers, for example, through job training programs.
+
+How much increase in earnings of skilled male workers ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_LMSKSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED MALE WORKERS ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod9()
+  params$inc9()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$linc9()
+```
