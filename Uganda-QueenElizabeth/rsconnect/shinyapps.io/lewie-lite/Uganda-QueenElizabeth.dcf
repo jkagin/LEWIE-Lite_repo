@@ -5,10 +5,8 @@ account: lewie-lite
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 9487463
-bundleId: 7509814
+bundleId: 7736080
 url: https://lewie-lite.shinyapps.io/Uganda-QueenElizabeth/
-when: 1690650343.12778
-lastSyncTime: 1690650343.1278
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: LEWIE-Lite_NewInput_v07_Uganda_QE.xlsx
+ignoredFiles: archives/LEWIE-Lite_NewInput_v07_Uganda_QE.xlsx|archives/LEWIE-Lite_NewInput_v08_Uganda_QE.xlsx|archives/LEWIE-Lite_NewInput_v09_Uganda_QE.xlsx|archives/LEWIE-Lite_NewInput_v10_Uganda_QE copy.xlsx

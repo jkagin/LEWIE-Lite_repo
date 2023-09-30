@@ -12,6 +12,9 @@ library(ggplot2)
 library(RColorBrewer)
 library(markdown)
 library(shinyjs)
+library(emojifont)
+# library(xlsx)
+
 
 
 ###############################################################################
@@ -225,8 +228,8 @@ get_input_online_or_local <- function(address, sheet, range, mode = "online"){
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 # sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v10_Uganda_Bwindi.xlsx"
-# sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v08_Uganda_Bwindi.xlsx"
+# sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v10_Uganda_Bwindi.xlsx"
+sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v11_Uganda_QE.xlsx"
 
 
 # Disable authentication: 
@@ -456,9 +459,9 @@ ui <- dashboardPage(
                 fluidRow(
                     tabBox(width = 12,
                        title = ("SAM"),
+                       tabPanel("Multipliers", tableOutput("mult")),
                        tabPanel("SAM_RASed", tableOutput("sam_RASed")),
                        tabPanel("SAM_preRAS", tableOutput("sam_preRAS")),
-                       tabPanel("Multipliers", tableOutput("mult")),
                        tabPanel("Hide the tables")
                     )
                 )
@@ -481,15 +484,28 @@ ui <- dashboardPage(
                     box(width = 12, title = "For every dollar of tourist spending (multipliers):",
                         fluidRow(
                             valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
-                            valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("money"),  color = "red"),
+                            valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("wallet"),  color = "red"),
                             valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
                         ),
                         fluidRow(
-                            valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("money"),  color = "green"),
-                            valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("money"),  color = "red"),
+                            valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("coins"),  color = "green"),
+                            valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "red"),
                             valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
                         )
                     )
+                ),
+                fluidRow(
+                  box(width = 12, title = "Explore the local economy impacts of…",
+                      p(HTML("1. <a href='#sim_TouristSpending'>Tourist Spending</a>"), style = "margin-left: 20px"),
+                      p(HTML("2. <a href='#sim_PASpending'>Park Spending</a>"), style = "margin-left: 20px"),
+                      p(HTML("3. <a href='#sim_ComRevShSpending'>Community Spending</a>"), style = "margin-left: 20px"),
+                      p(HTML("4. <a href='#sim_AgSpending'>Agricultural Production</a>"), style = "margin-left: 20px"),
+                      p(HTML("5. <a href='#sim_NagSpending'>Non-Agricultural Production</a>"), style = "margin-left: 20px"),
+                      p(HTML("6. <a href='#sim_LFUSKSpending'>Low-Skilled Female Earnings</a>"), style = "margin-left: 20px"),
+                      p(HTML("7. <a href='#sim_LMUSKSpending'>Low-Skilled Male Earnings</a>"), style = "margin-left: 20px"),
+                      p(HTML("8. <a href='#sim_LFSKSpending'>Skilled Female Earnings</a>"), style = "margin-left: 20px"),
+                      p(HTML("9. <a href='#sim_LMSKSpending'>Skilled Male Earnings</a>"), style = "margin-left: 20px")
+                  )
                 ),
                 fluidRow(
                     box(width = 12, title = "Local Economy-wide impact of tourist spending",
@@ -508,7 +524,7 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop1", "Jump to top",
+                        actionButton("toTop1", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
@@ -528,7 +544,7 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop2", "Jump to top",
+                        actionButton("toTop2", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
@@ -547,14 +563,16 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop3", "Jump to top",
+                        actionButton("toTop3", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of increased Agricultural production (US$)",
-                        p('Tourist activities create demand for local agricultural products. We can also use this model to see the effects of this additional agricultural production.'),
+                        p('Tourist activities create demand for local agricultural products.  We can also use this model to see the effects of complementary
+                          interventions to increase the demand for local agricultural products, for example, 
+                          by enabling restaurants and lodges to source more food locally.'),
                         fluidRow(
                             column(4, inp_sim_AgSpending)
                         ),
@@ -567,14 +585,16 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop4", "Jump to top",
+                        actionButton("toTop4", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of increased Non-Agricultural production (US$)",
-                        p('Tourist activities create demand for local non-agricultural products. We can also use this model to see the effects of this additional non-agricultural production.'),
+                        p('Tourist activities create demand for local non-agricultural products. We can also use this model to see the effects of complementary
+                          interventions to increase the demand for local non-agricultural products, for example, 
+                          by enabling restaurants and lodges to source local artifacts or processed goods.'),
                         fluidRow(
                             column(4, inp_sim_NagSpending)
                         ),
@@ -587,14 +607,15 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop5", "Jump to top",
+                        actionButton("toTop5", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of Low-skilled Female earnings (US$)",
-                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of this additional labor, including by group.'),
+                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
+                          interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
                             column(4, inp_sim_LFUSKSpending)
                         ),
@@ -607,14 +628,15 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop6", "Jump to top",
+                        actionButton("toTop6", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of Low-Skilled Male earnings (US$)",
-                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of this additional labor, including by group.'),
+                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
+                          interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
                             column(4, inp_sim_LMUSKSpending)
                         ),
@@ -627,14 +649,15 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop7", "Jump to top",
+                        actionButton("toTop7", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of Skilled Female earnings (US$)",
-                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of this additional labor, including by group.'),
+                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
+                          interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
                             column(4, inp_sim_LFSKSpending)
                         ),
@@ -647,14 +670,15 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop8", "Jump to top",
+                        actionButton("toTop8", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of Skilled Male earnings (US$)",
-                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of this additional labor, including by group.'),
+                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
+                          interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
                             column(4, inp_sim_LMSKSpending)
                         ),
@@ -667,13 +691,15 @@ ui <- dashboardPage(
                         ),
                         p(),
                         useShinyjs(),
-                        actionButton("toTop9", "Jump to top",
+                        actionButton("toTop9", "Back to top",
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
                 ),
                 fluidPage(
-                  downloadButton("report", "Generate report")
+                  downloadButton("report", "Generate PDF Report"),
+                  # downloadButton("download1.Excel", "Generate Excel File (with data)"),
+                  p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.')
                 )
             )
         )
@@ -949,7 +975,11 @@ server <- function(input, output) {
         sam_lodges["LFSK", ] <- rev_Lodging * (lodges_FwagesSkilled)/100 * input$lodges_shareWorkersLocal/100
         
         sam_lodges["G", ] <- rev_Lodging * lodges_expTaxes/100
-        sam_lodges["ROW", ] <- rev_Lodging * lodges_expOutside/100
+        sam_lodges["ROW", ] <- rev_Lodging * (lodges_expOutside/100 
+                            +  input$lodges_profitMargin/100 * (1-input$lodges_shareLocallyOwned/100)
+                            +  (lodges_MwagesUnskilled + lodges_MwagesSkilled + lodges_FwagesUnskilled + lodges_FwagesSkilled)/100 * (1 - input$lodges_shareWorkersLocal/100))
+    
+        
         
         # K account used to be the residual, but now it is the PROFIT SHARE
         # sam_lodges_allbutK <- sum(sam_lodges)
@@ -1020,7 +1050,9 @@ server <- function(input, output) {
         sam_restaurants["LFSK", ] <- rev_Restaurants * (restaurants_FwagesSkilled)/100 * input$restaurants_shareWorkersLocal/100
         
         sam_restaurants["G", ] <- rev_Restaurants * restaurants_expTaxes/100
-        sam_restaurants["ROW", ] <- rev_Restaurants * restaurants_expOutside/100
+        sam_restaurants["ROW", ] <- rev_Restaurants * (restaurants_expOutside/100 
+                                                +  input$restaurants_profitMargin/100 * (1-input$restaurants_shareLocallyOwned/100)
+                                                +  (restaurants_MwagesUnskilled + restaurants_MwagesSkilled + restaurants_FwagesUnskilled + restaurants_FwagesSkilled)/100 * (1 - input$restaurants_shareWorkersLocal/100))
         
         # K account used to be RESIDUAL, now calculated directly 
         # sam_rest_allbutrow <- sum(sam_restaurants)
@@ -1087,7 +1119,10 @@ server <- function(input, output) {
         
         
         sam_nag["G",] <- sam_nag_totalrev * (nag_expTaxes)/100
-        sam_nag["ROW",] <- sam_nag_totalrev * (nag_expOutside)/100
+        # Don't forget to funnel the shares not locally owned to the outside.  
+        sam_nag["ROW",] <- sam_nag_totalrev * (nag_expOutside/100 
+                                               + input$nag_profitMargin/100 * (1-input$nag_shareLocallyOwned/100)
+                                               + (nag_MwagesUnskilled + nag_MwagesSkilled + nag_FwagesUnskilled + nag_FwagesSkilled)/100 * (1 - input$nag_shareWorkersLocal/100))
         
         # K account used to be the residual, now computed directly. No rescaling for that. 
         # sam_nag_allbutK <- sum(sam_nag)
@@ -1112,7 +1147,9 @@ server <- function(input, output) {
         sam_ag["LFSK",] <- sam_ag_totalrev * ( ag_FwagesSkilled)/100 * input$ag_shareWorkersLocal/100
         
         sam_ag["G",] <- sam_ag_totalrev * (ag_expTaxes)/100
-        sam_ag["ROW",] <- sam_ag_totalrev * (ag_expOutside)/100
+        sam_ag["ROW",] <- sam_ag_totalrev * (ag_expOutside/100 
+                                        +  input$ag_profitMargin/100 * (1-input$ag_shareLocallyOwned/100)
+                                        + (ag_MwagesUnskilled + ag_MwagesSkilled + ag_FwagesUnskilled + ag_FwagesSkilled)/100 * (1 - input$ag_shareWorkersLocal/100))
     
         # K account used to be the residual, but now computed directly 
         # sam_ag_allbutK <- sum(sam_ag)
@@ -1139,12 +1176,15 @@ server <- function(input, output) {
         sam_fish["LFSK",] <- sam_fish_totalrev * ( fish_FwagesSkilled)/100 * input$fish_shareWorkersLocal/100
         
         sam_fish["G",] <- sam_fish_totalrev * (fish_expTaxes)/100
-        sam_fish["ROW",] <- sam_fish_totalrev * (fish_expOutside)/100
+        sam_fish["ROW",] <- sam_fish_totalrev * (fish_expOutside/100 
+                                                 +  input$fish_profitMargin/100 * (1-input$fish_shareLocallyOwned/100)
+                                                 + (fish_MwagesUnskilled + fish_MwagesSkilled + fish_FwagesUnskilled + fish_FwagesSkilled)/100 * (1 - input$fish_shareWorkersLocal)/100)
         
         # K account used to be the residual, now computed directly
         # sam_fish_allbutK <- sum(sam_fish)
         # sam_fish["K",] <- sam_fish_totalrev - sam_fish_allbutK
         sam_fish["K",] <- sam_fish_totalrev * (input$fish_profitMargin)/100 * input$fish_shareLocallyOwned/100
+        
         
         # G Column - based simply on NatParks + the difference of other cols
         # #---------------------------------------------------------------------
@@ -1153,10 +1193,6 @@ server <- function(input, output) {
         # Funding from govt = budget - revenue
         # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        # %%%%%%%%%%%%%% this is probably not the right way to compute this %%%%%%
-        # %%%%%%%%%%%%%% questionnaire should ASK for a SHARE given to comrevsh instead of assuming 20% %%%%%%
         # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
@@ -1407,7 +1443,7 @@ server <- function(input, output) {
     
     # Sam multipliers
     output$mult_barplot <- renderPlot({
-        rows_to_plot = c("Ag","Nag","Fish","Tourism", "Restaurants","Lodges")
+        rows_to_plot = c("Ag","Nag","Fish","Restaurants","Lodges")
         mults <- multout()
         bar <- barplot(mults[rownames(mults) %in% rows_to_plot,"Tourists"])
         bar
@@ -1911,6 +1947,129 @@ server <- function(input, output) {
     observeEvent(input$toTop9, {
       shinyjs::runjs("window.scrollTo(0, 0)")
     })
+
+    
+    output$download1.Excel <- downloadHandler(
+    
+      filename = function() { paste("data.xlsx")},
+      
+      content = function(file){
+        Results_Workbook <- createWorkbook(type='xlsx')
+
+        mults <- multout()
+        sheet.1 <- createSheet(Results_Workbook, sheetName = "Multipliers")
+        addDataFrame(mults, sheet=sheet.1, startRow=1, startColumn=1,row.names=TRUE)
+        
+        sam <- sam_RASed()
+        sheet.2 <- createSheet(Results_Workbook, sheetName = "SAM (RASed)")
+        addDataFrame(sam, sheet=sheet.2, startRow=1, startColumn=1,row.names=TRUE)
+        
+        prod1 = reportplot_prod1()
+        inc1 = reportplot_inc1()
+        linc1 = reportplot_linc1()
+        earn1 = reportplot_earn1()
+        sheet.3 <- createSheet(Results_Workbook, sheetName = "Tourism Spending")
+        ggsave("prod1.jpeg", prod1, device="jpeg", dpi = 80)
+        ggsave("inc1.jpeg", inc1, device="jpeg", dpi = 80)
+        ggsave("linc1.jpeg", linc1, device="jpeg", dpi = 80)
+        ggsave("earn1.jpeg", earn1, device="jpeg", dpi = 80)
+        addPicture(file = paste0(getwd(),"/prod1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=2)
+        addPicture(file = paste0(getwd(),"/inc1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=12)
+        addPicture(file = paste0(getwd(),"/linc1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=22)
+        addPicture(file = paste0(getwd(),"/earn1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=32)
+        
+        prod2 = reportplot_prod2()
+        inc2 = reportplot_inc2()
+        linc2 = reportplot_linc2()
+        sheet.4 <- createSheet(Results_Workbook, sheetName = "Park Spending")
+        ggsave("prod2.jpeg", prod2, device="jpeg", dpi = 80)
+        ggsave("inc2.jpeg", inc2, device="jpeg", dpi = 80)
+        ggsave("linc2.jpeg", linc2, device="jpeg", dpi = 80)
+        addPicture(file = paste0(getwd(),"/prod2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=2)
+        addPicture(file = paste0(getwd(),"/inc2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=12)
+        addPicture(file = paste0(getwd(),"/linc2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=22)
+        
+        prod3 = reportplot_prod3()
+        inc3 = reportplot_inc3()
+        linc3 = reportplot_linc3()
+        sheet.5 <- createSheet(Results_Workbook, sheetName = "Community Spending")
+        ggsave("prod3.jpeg", prod3, device="jpeg", dpi = 80)
+        ggsave("inc3.jpeg", inc3, device="jpeg", dpi = 80)
+        ggsave("linc3.jpeg", linc3, device="jpeg", dpi = 80)
+        addPicture(file = paste0(getwd(),"/prod3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=2)
+        addPicture(file = paste0(getwd(),"/inc3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=12)
+        addPicture(file = paste0(getwd(),"/linc3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=22)
+        
+        prod4 = reportplot_prod4()
+        inc4 = reportplot_inc4()
+        linc4 = reportplot_linc4()
+        sheet.6 <- createSheet(Results_Workbook, sheetName = "Increased Agricultural Production")
+        ggsave("prod4.jpeg", prod4, device="jpeg", dpi = 80)
+        ggsave("inc4.jpeg", inc4, device="jpeg", dpi = 80)
+        ggsave("linc4.jpeg", linc4, device="jpeg", dpi = 80)
+        addPicture(file = paste0(getwd(),"/prod4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=2)
+        addPicture(file = paste0(getwd(),"/inc4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=12)
+        addPicture(file = paste0(getwd(),"/linc4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=22)
+        
+        prod5 = reportplot_prod5()
+        inc5 = reportplot_inc5()
+        linc5 = reportplot_linc5()
+        sheet.7 <- createSheet(Results_Workbook, sheetName = "Increased Non-Agricultural Production")
+        ggsave("prod5.jpeg", prod5, device="jpeg", dpi = 80)
+        ggsave("inc5.jpeg", inc5, device="jpeg", dpi = 80)
+        ggsave("linc5.jpeg", linc5, device="jpeg", dpi = 80)
+        addPicture(file = paste0(getwd(),"/prod5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=2)
+        addPicture(file = paste0(getwd(),"/inc5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=12)
+        addPicture(file = paste0(getwd(),"/linc5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=22)
+        
+        prod6 = reportplot_prod6()
+        inc6 = reportplot_inc6()
+        linc6 = reportplot_linc6()
+        sheet.8 <- createSheet(Results_Workbook, sheetName = "Low-Skilled Female Earnings")
+        ggsave("prod6.jpeg", prod6, device="jpeg", dpi = 80)
+        ggsave("inc6.jpeg", inc6, device="jpeg", dpi = 80)
+        ggsave("linc6.jpeg", linc6, device="jpeg", dpi = 80)
+        addPicture(file = paste0(getwd(),"/prod6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=2)
+        addPicture(file = paste0(getwd(),"/inc6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=12)
+        addPicture(file = paste0(getwd(),"/linc6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=22)
+        
+        prod7 = reportplot_prod7()
+        inc7 = reportplot_inc7()
+        linc7 = reportplot_linc7()
+        sheet.9 <- createSheet(Results_Workbook, sheetName = "Low-Skilled Male Earnings")
+        ggsave("prod7.jpeg", prod7, device="jpeg", dpi = 80)
+        ggsave("inc7.jpeg", inc7, device="jpeg", dpi = 80)
+        ggsave("linc7.jpeg", linc7, device="jpeg", dpi = 80)
+        addPicture(file = paste0(getwd(),"/prod7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=2)
+        addPicture(file = paste0(getwd(),"/inc7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=12)
+        addPicture(file = paste0(getwd(),"/linc7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=22)
+        
+        prod8 = reportplot_prod8()
+        inc8 = reportplot_inc8()
+        linc8 = reportplot_linc8()
+        sheet.10 <- createSheet(Results_Workbook, sheetName = "Skilled Female Earnings")
+        ggsave("prod8.jpeg", prod8, device="jpeg", dpi = 80)
+        ggsave("inc8.jpeg", inc8, device="jpeg", dpi = 80)
+        ggsave("linc8.jpeg", linc8, device="jpeg", dpi = 80)
+        addPicture(file = paste0(getwd(),"/prod8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=2)
+        addPicture(file = paste0(getwd(),"/inc8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=12)
+        addPicture(file = paste0(getwd(),"/linc8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=22)
+        
+        prod9 = reportplot_prod9()
+        inc9 = reportplot_inc9()
+        linc9 = reportplot_linc9()
+        sheet.11 <- createSheet(Results_Workbook, sheetName = "Skilled Male Earnings")
+        ggsave("prod9.jpeg", prod9, device="jpeg", dpi = 80)
+        ggsave("inc9.jpeg", inc9, device="jpeg", dpi = 80)
+        ggsave("linc9.jpeg", linc9, device="jpeg", dpi = 80)
+        addPicture(file = paste0(getwd(),"/prod9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=2)
+        addPicture(file = paste0(getwd(),"/inc9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=12)
+        addPicture(file = paste0(getwd(),"/linc9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=22)
+        
+        saveWorkbook(Results_Workbook,file)
+      } 
+    
+    )
 
   }
     
