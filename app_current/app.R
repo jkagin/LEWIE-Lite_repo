@@ -31,6 +31,26 @@ library(emojifont)
 ###############################################################################
 ###############################################################################
 
+
+# -----------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------
+# DEFINE THE SOURCE FILE FOR ALL THE DATA: EITHER GOOGLE SHEETS or FROM LOCAL FILE (unstar only one line at a time):
+# -----------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------
+# sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
+sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v11.xlsx"
+# -----------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------
+
+
+
+
+###############################################################################
+###############################################################################
+###############################################################################
+
+
+
 ## Make the data structures we need for SAM output
 ###############################################################################
 sam_row_names <- c("Ag", "Tourism", "Nag", "Fish", "LMUSK", "LMSK", "LFUSK", "LFSK", "K", "Poor", "NonPoor", "Restaurants", 
@@ -222,21 +242,16 @@ get_input_online_or_local <- function(address, sheet, range, mode = "online"){
 } 
 
 
-# -----------------------------------------------------------------------------------------------------
-# -----------------------------------------------------------------------------------------------------
-# Input all the questions as tables FROM GOOGLE SHEETS or FROM LOCAL FILE (unstar only one at a time):
-# -----------------------------------------------------------------------------------------------------
-# -----------------------------------------------------------------------------------------------------
-# sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v09.xlsx"
 
-
+# -----------------------------------------------------------------------------------------------------
+## This loads all the values.  The source is defined at the very top of the file. - 
+###############################################################################
 # Disable authentication: 
 gs4_deauth()
 
 # Tourists:
 gdata_touristStats    = get_input_online_or_local(sheet_path, sheet = "Tourists", range = "B2:G7", mode = sheet_location)
-gdata_touristShares   = get_input_online_or_local(sheet_path, sheet = "Tourists", range = "B11:G17", mode = sheet_location)
+gdata_touristShares   = get_input_online_or_local(sheet_path, sheet = "Tourists", range = "B11:G16", mode = sheet_location)
 # Ag:
 gdata_AgShares      = get_input_online_or_local(sheet_path, sheet = "Ag", range = "B51:G65", mode = sheet_location)
 # NonAg:
@@ -250,8 +265,9 @@ gdata_RestShares    = get_input_online_or_local(sheet_path, sheet = "Restaurants
 # Lodges:
 gdata_LodgesShares    = get_input_online_or_local(sheet_path, sheet = "Lodges", range = "B51:G65", mode = sheet_location)
 # NatParks:
-gdata_NPBudget      = get_input_online_or_local(sheet_path, sheet = "NatParkPA", range = "B52:G54", mode = sheet_location)
-gdata_NPSpending    = get_input_online_or_local(sheet_path, sheet = "NatParkPA", range = "B57:G70", mode = sheet_location)
+gdata_NPName        = get_input_online_or_local(sheet_path, sheet = "NatParkPA", range = "B54:D55", mode = sheet_location)
+gdata_NPBudget      = get_input_online_or_local(sheet_path, sheet = "NatParkPA", range = "B58:G60", mode = sheet_location)
+gdata_NPSpending    = get_input_online_or_local(sheet_path, sheet = "NatParkPA", range = "B63:G76", mode = sheet_location)
 
 # Com Rev Sh.:
 gdata_ComRevShShares    = get_input_online_or_local(sheet_path, sheet = "ComRevSh", range = "B58:G69", mode = sheet_location)
@@ -309,7 +325,6 @@ inp_sim_LFUSKSpending <- numericInput("sim_LFUSKSpending", "How much increase in
 inp_sim_LMUSKSpending <- numericInput("sim_LMUSKSpending", "How much in earnings of Low-skilled Male workers ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
 inp_sim_LFSKSpending <- numericInput("sim_LFSKSpending", "How much in earnings of Skilled Female workers ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
 inp_sim_LMSKSpending <- numericInput("sim_LMSKSpending", "How much in earnings of Skilled Male workers ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
-
 
 
 
@@ -371,6 +386,10 @@ ui <- dashboardPage(
             ),
             menuItem("Data",
                      tabName = "data",
+                     icon = icon("table")
+            ),
+            menuItem("SAMs", 
+                     tabName = "sams",
                      icon = icon("table")
             ),
             menuItem("Instructions",
@@ -454,20 +473,43 @@ ui <- dashboardPage(
                            column(4, inp_HHNPc3)
                        )
                     )
-                ), 
+                )
+                # , 
+                # fluidRow(
+                #     tabBox(width = 12,
+                #        title = ("SAM"),
+                #        tabPanel("Multipliers", tableOutput("mult")),
+                #        tabPanel("SAM_RASed", tableOutput("sam_RASed")),
+                #        tabPanel("SAM_preRAS", tableOutput("sam_preRAS")),
+                #        tabPanel("Hide the tables")
+                #     )
+                # )
+            ),
+            
+            
+            # ============================ SAMS Tab ======================================
+            tabItem("sams", 
+                p("All the relevant matrices are here:", style = "font-size:25px"), 
                 fluidRow(
                     tabBox(width = 12,
-                       title = ("SAM"),
-                       tabPanel("Multipliers", tableOutput("mult")),
-                       tabPanel("SAM_RASed", tableOutput("sam_RASed")),
-                       tabPanel("SAM_preRAS", tableOutput("sam_preRAS")),
-                       tabPanel("Hide the tables")
+                           title = ("SAMs etc."),
+                           tabPanel("Multipliers", tableOutput("mult")),
+                           tabPanel("Shares", tableOutput("matA")),
+                           tabPanel("SAM_RASed", tableOutput("sam_RASed")),
+                           tabPanel("SAM_preRAS", tableOutput("sam_preRAS")),
+                           tabPanel("Hide the tables")
                     )
                 )
             ),
-            
             # ============================ RESULTS DASHBOARD ======================================
             tabItem("dashboard",
+                # p("Protected area:", style = "font-size:25px"), 
+                h2(textOutput("park_name")),
+                fluidRow(
+                    box(width = 12, title = "Overview of tourism in the park:", 
+                        p(textOutput("park_stats")))
+                    
+                ),
                 # fluidRow(
                 #     infoBox("Some output", textOutput("Output"), icon = icon("dollar-sign"))
                 # ),
@@ -480,17 +522,45 @@ ui <- dashboardPage(
                 # ),
                 p("Local-economy impacts of tourist spending (US$)", style = "font-size:25px"),
                 fluidRow(
-                    box(width = 12, title = "For every dollar of tourist spending (multipliers):",
-                        fluidRow(
-                            valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
-                            valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("wallet"),  color = "red"),
-                            valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
+                    box(width = 12, title = "For every dollar of tourist spending, the total production multiplier is:",
+                        column(width = 4,
+                            valueBox(textOutput("totalmult"), width = 12, "Total Production Multiplier", icon = icon("gears"),  color = "maroon"),
                         ),
-                        fluidRow(
-                            valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("coins"),  color = "green"),
-                            valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "red"),
-                            valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
+                        column(width = 4,
+                            p("Which can be split into:"),
+                            valueBox(textOutput("touractmult"), width = 12, "Tourism activities", icon = icon("sun"),  color = "orange"),
+                            valueBox(textOutput("nontouractmult"), width = 12, "Non-Tourism activities", icon = icon("briefcase"),  color = "orange")
                         )
+                    )
+                ),
+                fluidRow(
+                    box(width = 12, title = "For every dollar of tourist spending, the total income multiplier is:",
+                        column(width = 4, 
+                            # p("total mult")
+                            valueBox(textOutput("gdpmult"), width = 12, "Total Income Multiplier", icon = icon("coins"),  color = "blue"),
+                        ),
+                        column(width = 4, 
+                            p("Which can be split into:"),
+                            valueBox(textOutput("labmult"),  width = 12, "Accruing to Labor", icon = icon("user"),  color = "teal"),
+                            valueBox(textOutput("capmult"),  width = 12, "Accruing to Capital", icon = icon("building"),  color = "teal")
+                        ),
+                        column(width = 4,
+                            p("Or can also be split into:"),
+                            valueBox(textOutput("poormult"), width = 12, "Accruing to Poor Households", icon = icon("wallet"),  color = "aqua"), 
+                            valueBox(textOutput("nonpoormult"), width = 12, "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "aqua")
+                        )  
+                        
+                        
+                        # fluidRow(
+                        #     valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
+                        #     valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("wallet"),  color = "red"),
+                        #     valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
+                        # ),
+                        # fluidRow(
+                        #     valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("coins"),  color = "green"),
+                        #     valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "red"),
+                        #     valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
+                        # )
                     )
                 ),
                 fluidRow(
@@ -514,12 +584,9 @@ ui <- dashboardPage(
                         ),
                         p('EFFECTS OF THIS TOURISM SPENDING ON...'),
                         fluidRow(
-                            # column(width=4, plotOutput("sim_totalprod")),
-                            column(width=3, plotOutput("simTourists_totalprod")),
-                            # column(width=4, plotOutput("sim_totalinc")), 
-                            column(width = 3, plotOutput("simTourists_incomes")),
-                            column(width=3, plotOutput("simTourists_labor")),
-                            column(width=3, plotOutput("simTourists_ComPA"))
+                            column(width=4, plotOutput("simTourists_totalprod")),
+                            column(width = 4, plotOutput("simTourists_incomes")),
+                            column(width=4, plotOutput("simTourists_labor"))
                         ),
                         p(),
                         useShinyjs(),
@@ -528,7 +595,6 @@ ui <- dashboardPage(
                                      style="padding:4px; font-size:80%; float:right")
                     )
                 ),
-                #simPark_totalprod
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of Park spending (US$)",
                         p('Park spending is policy-determined, even though there are visitor fees in most places.'),
@@ -730,6 +796,7 @@ server <- function(input, output) {
     # %%%%%%%%%%%%%%%%% Compute the SAM pre-RAS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     sam_preRAS <- reactive({
         
+        # park_name = gdata_NPName$label
         
         # &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         # &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -927,7 +994,7 @@ server <- function(input, output) {
         sam_tourists["Restaurants",] <- tourist_days * input$tourists_expRestaurants
         sam_tourists["Lodges", ] <- tourexp_lodging 
         
-        # Changed the way we calculate the entries 
+        # Changed the way we calculate the entries: it comes straight from the natural park
         # sam_tourists["PA",] <- (input$tourists_popMultiDay + input$tourists_popSingleDay) * input$tourists_expParkEntry
         sam_tourists["PA",] <- input$natPark_entryFees
     
@@ -1353,14 +1420,44 @@ server <- function(input, output) {
         sam_mult
     })
     
+    # this just repeats the above code to output a shares matrix - not used for calculation
+    mat_A <- reactive({ 
+        sam_shares <- sam() %>% 
+            rownames_to_column  
+        
+        rownames(sam_shares) = rownames(sam()) 
+        sam_shares <- sam_shares %>%
+            filter(rowname !="TotalExp") 
+        sam_shares2 <- as.data.frame(apply(sam_shares[,-1],2, function(x) x /sum(x)))
+        
+        
+        # Extract only the endogenous accounts:
+        sam_shares_endog <-sam_shares2 %>%
+            rownames_to_column %>% 
+            filter(rowname !="ROW" & rowname !="G") %>%
+            select(-c(ROW, rowname, TotalExp, G))  
+        rownames(sam_shares_endog) <- colnames(sam_shares_endog)
+        
+        A <- as.matrix(sam_shares_endog)
+        A
+    })
 
     
     
     # %%%%%%%%%%%%%%%%% Compute some outputs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    output$park_name <- renderText(gdata_NPName$label)
+    
+    output$park_stats <- renderText(paste("The park receives", input$tourists_popMultiDay, "and has a budget of", round(input$natPark_totalBudget), "."))
+    
+    
+    # Matrices: 
     output$sam_preRAS <- renderTable({sam_preRAS()}, rownames=TRUE, digits=0, striped = T)
     output$sam_RASed <- renderTable({sam_RASed()}, rownames=TRUE, digits=0, striped = T)
+    output$matA <- renderTable({mat_A()}, rownames=TRUE, digits=2, striped = T)
     output$mult <- renderTable({multout()}, rownames=TRUE, digits=2, striped = T)
     
+    # browser()
     
     # %%%%%%%%%%%%%%%%% These multiplier computations can be sped up, I'm sure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # Multiplier values to report in tiles
@@ -1376,6 +1473,30 @@ server <- function(input, output) {
     
     output$totalmult <- renderText({
       totalmult()
+    })
+    
+    # Of which: Tourism-related production multiplier
+    touractmult <- function() {
+        rows_to_sum = c("Tourism", "Restaurants","Lodges")
+        mults <- multout()
+        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+        scales::dollar(total)
+    }
+    
+    output$touractmult <- renderText({
+        touractmult()
+    })
+    
+    # Of which: Non-tourism-related production multiplier
+    nontouractmult <- function() {
+        rows_to_sum = c("Ag","Nag","Fish")
+        mults <- multout()
+        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+        scales::dollar(total)
+    }
+    
+    output$nontouractmult <- renderText({
+        nontouractmult()
     })
     
     # Total income (GDP) multiplier
