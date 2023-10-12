@@ -38,7 +38,7 @@ library(emojifont)
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 # sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v11.xlsx"
+sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v12.xlsx"
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 
@@ -251,7 +251,7 @@ gs4_deauth()
 
 # Tourists:
 gdata_touristStats    = get_input_online_or_local(sheet_path, sheet = "Tourists", range = "B2:G7", mode = sheet_location)
-gdata_touristShares   = get_input_online_or_local(sheet_path, sheet = "Tourists", range = "B11:G16", mode = sheet_location)
+gdata_touristShares   = get_input_online_or_local(sheet_path, sheet = "Tourists", range = "B11:G17", mode = sheet_location)
 # Ag:
 gdata_AgShares      = get_input_online_or_local(sheet_path, sheet = "Ag", range = "B51:G65", mode = sheet_location)
 # NonAg:
@@ -380,8 +380,12 @@ ui <- dashboardPage(
         collapsed = T,
         sidebarMenu(
             # Note: Create a "Welcome" tab to the top once I'm done coding, or move Dashboard up. 
-            menuItem("Dashboard",
-                     tabName = "dashboard",
+            menuItem("Home",
+                     tabName = "home",
+                     icon = icon("home")
+            ),
+            menuItem("Simulations",
+                     tabName = "simulations",
                      icon = icon("dashboard")
             ),
             menuItem("Data",
@@ -501,14 +505,19 @@ ui <- dashboardPage(
                     )
                 )
             ),
-            # ============================ RESULTS DASHBOARD ======================================
-            tabItem("dashboard",
+            # ============================ HOME with some key information  ======================================
+            tabItem("home",
                 # p("Protected area:", style = "font-size:25px"), 
                 h2(textOutput("park_name")),
                 fluidRow(
                     box(width = 12, title = "Overview of tourism in the park:", 
-                        p(textOutput("park_stats")))
-                    
+                        p(textOutput("park_stats"))
+                    ),
+                    valueBoxOutput("valueBox_numtour"), 
+                    valueBoxOutput("valueBox_entryFees"),
+                    valueBoxOutput("valueBox_budget"), 
+                    # valueBox(textOutput("tourist_avgDays"), width = 12, "Average Days", icon = icon("sun"),  color = "orange"),
+                    valueBox(textOutput("tourists_avgSpending"), width = 12, "Average Spending", icon = icon("sun"),  color = "orange")
                 ),
                 # fluidRow(
                 #     infoBox("Some output", textOutput("Output"), icon = icon("dollar-sign"))
@@ -520,8 +529,14 @@ ui <- dashboardPage(
                 #         )
                 #     )
                 # ),
-                p("Local-economy impacts of tourist spending (US$)", style = "font-size:25px"),
+                p("Local-economy impacts of tourist spending (US$):", style = "font-size:25px"),
                 fluidRow(
+                    box(width = 12, 
+                        p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
+                            including all higher-order impacts, or ripple effects 
+                            (e.g.: tourist spends at the restaurant, waiter spends at shop, shopkeeper spends on farm , etc...)"
+                        )
+                    ),
                     box(width = 12, title = "For every dollar of tourist spending, the total production multiplier is:",
                         column(width = 4,
                             valueBox(textOutput("totalmult"), width = 12, "Total Production Multiplier", icon = icon("gears"),  color = "maroon"),
@@ -531,6 +546,14 @@ ui <- dashboardPage(
                             valueBox(textOutput("touractmult"), width = 12, "Tourism activities", icon = icon("sun"),  color = "orange"),
                             valueBox(textOutput("nontouractmult"), width = 12, "Non-Tourism activities", icon = icon("briefcase"),  color = "orange")
                         )
+                        # column(width = 4, 
+                        #        p(" okay do i need to write something?  ", width = 12),
+                        #        
+                        # ),
+                        # fluidRow(
+                            
+                            # )
+                        # )
                     )
                 ),
                 fluidRow(
@@ -545,11 +568,13 @@ ui <- dashboardPage(
                             valueBox(textOutput("capmult"),  width = 12, "Accruing to Capital", icon = icon("building"),  color = "teal")
                         ),
                         column(width = 4,
-                            p("Or can also be split into:"),
+                            p("Or, alternatively, can be split into:"),
                             valueBox(textOutput("poormult"), width = 12, "Accruing to Poor Households", icon = icon("wallet"),  color = "aqua"), 
                             valueBox(textOutput("nonpoormult"), width = 12, "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "aqua")
-                        )  
-                        
+                        ),  
+                        p("Notes: The income multiplier and total production multiplier can NOT added together. 
+                        Rather, the income multiplier captures a part of the production multiplier (like profits vs. revenue)"
+                        )
                         
                         # fluidRow(
                         #     valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
@@ -562,7 +587,10 @@ ui <- dashboardPage(
                         #     valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
                         # )
                     )
-                ),
+                )
+            ),
+            # ============================ SIMULATIONS DASHBOARD ======================================
+            tabItem("simulations",
                 fluidRow(
                   box(width = 12, title = "Explore the local economy impacts of…",
                       p(HTML("1. <a href='#sim_TouristSpending'>Tourist Spending</a>"), style = "margin-left: 20px"),
@@ -994,7 +1022,7 @@ server <- function(input, output) {
         sam_tourists["Restaurants",] <- tourist_days * input$tourists_expRestaurants
         sam_tourists["Lodges", ] <- tourexp_lodging 
         
-        # Changed the way we calculate the entries: it comes straight from the natural park
+        # Should not matter which calculation you use : natural park and tourist tabs need to agree
         # sam_tourists["PA",] <- (input$tourists_popMultiDay + input$tourists_popSingleDay) * input$tourists_expParkEntry
         sam_tourists["PA",] <- input$natPark_entryFees
     
@@ -1446,9 +1474,40 @@ server <- function(input, output) {
     
     # %%%%%%%%%%%%%%%%% Compute some outputs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
+    # Outputs for the top of the page: 
     output$park_name <- renderText(gdata_NPName$label)
     
+    # Park stats: number of visitors, revenue, budget 
     output$park_stats <- renderText(paste("The park receives", input$tourists_popMultiDay, "and has a budget of", round(input$natPark_totalBudget), "."))
+    # output$park_numtour <- renderText(input$touri)
+    
+    # Text for all the value boxes at the top
+    output$valueBox_numtour <- renderValueBox({
+        valueBox(value = format(input$tourists_popMultiDay + input$tourists_popSingleDay, big.mark = ","),
+            subtitle = "Total Number of Tourists", icon = icon("flag"))
+    })
+    output$valueBox_entryFees <- renderValueBox({
+        valueBox(value = format(round(input$natPark_entryFees), big.mark=","),
+                 subtitle = "Total Entry Fees", icon = icon("flag"))
+    })
+    output$valueBox_budget <- renderValueBox({
+        valueBox(value = format(round(input$natPark_totalBudget), big.mark = ",", scientific = FALSE) ,
+                 subtitle = "Total Park Budget", icon = icon("flag"))
+    })
+    
+    
+    # Average tourist spending (calculating average lodging per night including those without nights): 
+    
+    
+    # tourists_avgDays <- tourist_days / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+    
+    output$tourists_avgSpending <- renderText({
+        tourists_avgSpending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+            input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
+            (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+        out <-round(tourists_avgSpending, digits = 2) 
+        return(out)})
+    # output$tourists_avgDays <- renderText({tourists_avgDays})
     
     
     # Matrices: 
@@ -2096,7 +2155,7 @@ server <- function(input, output) {
         addPicture(file = paste0(getwd(),"/prod1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=2)
         addPicture(file = paste0(getwd(),"/inc1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=12)
         addPicture(file = paste0(getwd(),"/linc1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=22)
-        addPicture(file = paste0(getwd(),"/earn1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=32)
+        # addPicture(file = paste0(getwd(),"/earn1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=32)
         
         prod2 = reportplot_prod2()
         inc2 = reportplot_inc2()
