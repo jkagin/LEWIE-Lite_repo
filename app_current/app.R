@@ -1745,7 +1745,7 @@ server <- function(input, output) {
     # This doesn't really do that, but gets a bit closer.  
     # To do this properly, we might need to split into two plots, or somehow add brackets with text over the bars?
     make_production_multipliers_plot <- function(column, input_value){
-        rows_to_plot = c("Tourism", "Restaurants", "Lodges", "Ag","Nag", "Fish")
+        rows_to_plot = c("Lodges", "Restaurants", "Tourism", "Ag","Nag", "Fish")
         mults <- multout()
         totals <- data.frame(round(input_value*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
         colnames(totals) <- "total_prod"
