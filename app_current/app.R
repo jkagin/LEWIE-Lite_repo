@@ -1644,125 +1644,39 @@ server <- function(input, output) {
     # %%%%%%%%%%%%%%%%% Compute some effects of tourist spending, in $ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    # These plots are made with functions now - should be able to comment out. 
-    
-    # Increase in production, total 
-    # output$sim_totalprod <- renderPlot({
-    #     rows_to_plot = c("Ag","Nag", "Restaurants","Lodges")
-    #     mults <- multout()
-    #     totals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% rows_to_plot,"Tourists"]), digits=2))
-    #     colnames(totals) <- "total_prod"
-    #     totals$cats = rows_to_plot
-    #     # now the actual plot
-    #     bar <- ggplot(totals, aes(x = cats, y=total_prod, fill=cats )) +
-    #              geom_bar(stat="sum") +
-    #              xlab("Categories") + ylab("Additional Production Value ($)") + 
-    #              geom_text(aes(label = total_prod), vjust = -0.2) +
-    #              ggtitle(" ... ON PRODUCTION") +
-    #             theme(plot.title = element_text(hjust = 0.5), 
-    #                   legend.position = "none")
-    #     bar
-    #     # totals
-    # })
-    
-    # These are now
-    # output$sim_totalinc <- renderPlot({
-    #     mults <- multout()
-    #     inctotals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% c("Poor", "NonPoor"),"Tourists"]), digits=2))
-    #     colnames(inctotals) <- "total_inc"
-    #     inctotals$cats = c("Poor", "NonPoor")
-    #     bar <- ggplot(inctotals, aes(x = cats, y=total_inc, fill=cats )) +
-    #         geom_bar(stat="sum") +
-    #         xlab("Households") + ylab("Additional Income ($)") + 
-    #         geom_text(aes(label = total_inc), vjust = -0.2) +
-    #         ggtitle("... ON INCOMES ") + 
-    #         theme(plot.title = element_text(hjust = 0.5), 
-    #              legend.position = "none")
-    #     bar
-    #     # inctotals
-    # })
-    # 
-    # output$sim_totallab <- renderPlot({
-    #     mults <- multout()
-    #     labtotals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% c("LMUSK", "LMSK", "LFUSK", "LFSK"),"Tourists"]), digits=2))
-    #     colnames(labtotals) <- "total_lab"
-    #     labtotals$cats = c("LMUSK", "LMSK", "LFUSK", "LFSK")
-    #     bar <- ggplot(labtotals, aes(x = cats, y=total_lab, fill=cats )) +
-    #         geom_bar(stat="sum") +
-    #         xlab("Labor Categories") + ylab("Additional Labor Income ($)") + 
-    #         geom_text(aes(label = total_lab), vjust = -0.2) +
-    #         ggtitle("... ON LABOR INCOME ") + 
-    #         theme(plot.title = element_text(hjust = 0.5), 
-    #               legend.position = "none")
-    #     bar
-    #     # inctotals
-    # })
-    # 
-    # 
-    # %%%%%%%%%%%%%%%%% Compute some more effects of park spending, in $ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    # Increase in production, total 
-    # output$simPark_totalprod <- renderPlot({
-    #     rows_to_plot = c("Ag","Nag", "Restaurants","Lodges")
-    #     mults <- multout()
-    #     totals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% rows_to_plot,"PA"]), digits=2))
-    #     colnames(totals) <- "total_prod"
-    #     totals$cats = rows_to_plot
-    #     # bar <- barplot((mults[rownames(mults) %in% rows_to_plot,"Tourists"])*input$sim_TouristSpending)
-    #     bar <- ggplot(totals, aes(x = cats, y=total_prod, fill=cats )) +
-    #         geom_bar(stat="sum") +
-    #         xlab("Categories") + ylab("Additional Production Value ($)") + 
-    #         geom_text(aes(label = total_prod), vjust = -0.2) +
-    #         ggtitle("Effects of tourism spending on production") +
-    #         theme(plot.title = element_text(hjust = 0.5), 
-    #               legend.position = "none")
-    #     bar
-    #     # totals
-    # })
-    
-    # Try a server function for plotting
-    # make_production_multipliers_plot <- function(column, input_value){
-    #     plot <- renderPlot({
-    #         rows_to_plot = c("Ag","Nag", "Restaurants","Lodges")
-    #         mults <- multout()
-    #         totals <- data.frame(round(input_value*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
-    #         colnames(totals) <- "total_prod"
-    #         totals$cats = rows_to_plot
-    #         bar <- ggplot(totals, aes(x = cats, y=total_prod, fill=cats )) +
-    #             geom_bar(stat="sum") +
-    #             xlab("Categories") + ylab("Additional Production Value ($)") +
-    #             geom_text(aes(label = total_prod), vjust = -0.2) +
-    #             ggtitle(" ... ON PRODUCTION") +
-    #             theme(plot.title = element_text(hjust = 0.5),
-    #                   legend.position = "none")
-    #         bar
-    #     })
-    # }
-    
     # Functions to make the plots
     # ---------------------------------
     
-    # NOTE: The request was to CLEARLY SEPARATE tourism-related activities from non-tourism-related activities. 
-    # This doesn't really do that, but gets a bit closer.  
-    # To do this properly, we might need to split into two plots, or somehow add brackets with text over the bars?
     make_production_multipliers_plot <- function(column, input_value){
-        rows_to_plot = c("Lodges", "Restaurants", "Tourism", "Ag","Nag", "Fish")
+        activity_types = c("Tourism-related Activities", "Non-Tourism-related Activities")
+        rows_to_plot = c("Lodges", "Restaurants", "Tourism", "Ag", "Nag", "Fish")
         mults <- multout()
         totals <- data.frame(round(input_value*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
         colnames(totals) <- "total_prod"
         totals$cats = rownames(totals)
+        totals$activity_type <- with(totals, ifelse(cats=="Lodges" | cats=="Restaurants" | cats=="Tourism", "Tourism-related Activities", "Non-Tourism-related Activities"))
         # This refactoring makes sure the cats are displayed in the right order (not alphabetical)
         totals$cats <- factor(totals$cats, levels = rows_to_plot)
-        bar <- ggplot(totals, aes(x = cats, y=total_prod, fill=cats )) +
-            geom_bar(stat="sum") +
-            xlab("Tourism-related Activities  vs.  Non-Tourism-related Activities") + ylab("Additional Production Value ($)") +
+        totals$activity_type <- factor(totals$activity_type, levels = activity_types)
+        bar <- ggplot(totals, aes(x = cats, y = total_prod, fill = cats)) +
+            geom_bar(stat = "sum", width = 1) +
+            xlab("") + ylab("Additional Production Value ($)") +
             geom_text(aes(label = total_prod), vjust = -0.2) +
             ggtitle(" ... ON PRODUCTION") +
-            theme(plot.title = element_text(hjust = 0.5),
-                  legend.position = "none")
-        # return the bar plot:
+            facet_wrap(~activity_type, strip.position = "bottom", scales = "free_x") +
+            theme(plot.title = element_text(hjust=0.5, size=14, face="bold", margin=margin(5, 0, 5, 0)),
+                  axis.text.x = element_text(size=10),
+                  axis.text.y = element_text(size=10),
+                  axis.title.x = element_text(size=12, margin = margin(t=5, r=0, b=0, l=0)),
+                  axis.title.y = element_text(size=12, margin = margin(t=0, r=10, b=0, l=0)),
+                  axis.ticks.x = element_blank(),
+                  axis.ticks.y = element_blank(),
+                  legend.position = "none",
+                  strip.background = element_blank(),
+                  strip.placement = "outside",
+                  strip.text = element_text(size=12, vjust=4))
         bar
     }
-    
     
     make_income_multipliers_plot <- function(column, input_value){
         mults <- multout()
@@ -1770,13 +1684,18 @@ server <- function(input, output) {
         colnames(inctotals) <- "total_inc"
         inctotals$cats = rownames(inctotals)
         bar <- ggplot(inctotals, aes(x = cats, y=total_inc, fill=cats )) +
-            geom_bar(stat="sum") +
+            geom_bar(stat = "sum", width = 1) +
             xlab("Households") + ylab("Additional Income ($)") + 
             geom_text(aes(label = total_inc), vjust = -0.2) +
-            ggtitle("... ON INCOMES ") + 
-            theme(plot.title = element_text(hjust = 0.5), 
+            ggtitle("... ON INCOMES ") +
+            theme(plot.title = element_text(hjust=0.5, size=14, face="bold", margin=margin(5, 0, 5, 0)),
+                  axis.text.x = element_text(size=10),
+                  axis.text.y = element_text(size=10),
+                  axis.title.x = element_text(size=12, margin = margin(t=5, r=0, b=0, l=0)),
+                  axis.title.y = element_text(size=12, margin = margin(t=0, r=10, b=0, l=0)),
+                  axis.ticks.x = element_blank(),
+                  axis.ticks.y = element_blank(),
                   legend.position = "none")
-        # return the bar plot
         bar
     }
     
@@ -1798,16 +1717,21 @@ server <- function(input, output) {
         labtotals$cats <- factor(labtotals$cats, levels = c("Female Unskilled", "Male Unskilled", "Female Skilled", "Male Skilled"))
         
         bar <- ggplot(labtotals, aes(x = cats, y=total_lab, fill=cats )) +
-            geom_bar(stat="sum") +
+            geom_bar(stat = "sum", width = 1) +
             xlab("Labor Categories") + ylab("Additional Labor Income ($)") + 
             geom_text(aes(label = total_lab), vjust = -0.2) +
-            ggtitle("... ON LABOR INCOME ") + 
-            theme(plot.title = element_text(hjust = 0.5), 
-                  legend.position = "none") 
+            ggtitle("... ON LABOR INCOME ") +
+            theme(plot.title = element_text(hjust=0.5, size=14, face="bold", margin=margin(5, 0, 5, 0)),
+                  axis.text.x = element_text(size=10),
+                  axis.text.y = element_text(size=10),
+                  axis.title.x = element_text(size=12, margin = margin(t=5, r=0, b=0, l=0)),
+                  axis.title.y = element_text(size=12, margin = margin(t=0, r=10, b=0, l=0)),
+                  axis.ticks.x = element_blank(),
+                  axis.ticks.y = element_blank(),
+                  legend.position = "none")
             # Adding geom_bracket requires a non-standard package
             # geom_bracket(aes(xmin = 1, xmax = 2, y = max(total_lab) + 2, label = "unskilled labor"),
             #              label.y.npc = 1.2, label.size = 4)
-        # return the bar plot
         bar
     }
     
@@ -1823,7 +1747,13 @@ server <- function(input, output) {
             xlab("Households") + ylab("Additional Income ($)") +
             geom_text(aes(label = total_inc), vjust = -0.2) +
             ggtitle("... ON COMMUNITY AND PARK EARNINGS") +
-            theme(plot.title = element_text(hjust = 0.5),
+            theme(plot.title = element_text(hjust=0.5, size=14, face="bold", margin=margin(5, 0, 5, 0)),
+                  axis.text.x = element_text(size=10),
+                  axis.text.y = element_text(size=10),
+                  axis.title.x = element_text(size=12, margin = margin(t=5, r=0, b=0, l=0)),
+                  axis.title.y = element_text(size=12, margin = margin(t=0, r=10, b=0, l=0)),
+                  axis.ticks.x = element_blank(),
+                  axis.ticks.y = element_blank(),
                   legend.position = "none")
         # return the bar plot
         bar
