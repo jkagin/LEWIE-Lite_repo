@@ -505,19 +505,32 @@ ui <- dashboardPage(
                     )
                 )
             ),
-            # ============================ HOME with some key information  ======================================
+            # ============================ HOME Tab with some key information  ======================================
             tabItem("home",
                 # p("Protected area:", style = "font-size:25px"), 
                 h2(textOutput("park_name")),
+                p("Overview of tourism in the park:", style = "font-size:25px"),
                 fluidRow(
-                    box(width = 12, title = "Overview of tourism in the park:", 
-                        p(textOutput("park_stats"))
+                    box(width = 12, 
+                        # p(textOutput("park_stats")),
+                        p("Tourists in the park:", style = "font-size:18px"),
+                        # Tourists, multi-day tourists, length of stay, avg spending
+                        valueBoxOutput("valueBox_numtour", width = 3),
+                        valueBoxOutput("valueBox_numtourMulti", width = 3),
+                        valueBoxOutput("valueBox_avgTouristLength", width = 3),
+                        valueBoxOutput("valueBox_avgTouristSpending", width = 3),
+                        # Overview of 
+                        p("Park finances:", style = "font-size:18px"),
+                        valueBoxOutput("valueBox_entryFee", width = 3),
+                        valueBoxOutput("valueBox_totalEntryFees", width = 3),
+                        valueBoxOutput("valueBox_budget", width = 3), 
+                        valueBoxOutput("valueBox_parkWageBill", width = 3), 
+                        # valueBox(textOutput("tourist_avgDays"), width = 12, "Average Days", icon = icon("sun"),  color = "orange"),
+                        # valueBox(textOutput("tourists_avgSpending"), width = 12, "Average Spending", icon = icon("sun"),  color = "orange"),
+                        p("Tourism scenarios:", style = "font-size:18px"), 
+                        sliderInput("pct_increase_tourists", "Percent Increase in total tourists", min = -100, max = 100, value = 10, width = "20%"), 
+                        p(textOutput("increased_tourist_number"))
                     ),
-                    valueBoxOutput("valueBox_numtour"), 
-                    valueBoxOutput("valueBox_entryFees"),
-                    valueBoxOutput("valueBox_budget"), 
-                    # valueBox(textOutput("tourist_avgDays"), width = 12, "Average Days", icon = icon("sun"),  color = "orange"),
-                    valueBox(textOutput("tourists_avgSpending"), width = 12, "Average Spending", icon = icon("sun"),  color = "orange")
                 ),
                 # fluidRow(
                 #     infoBox("Some output", textOutput("Output"), icon = icon("dollar-sign"))
@@ -534,8 +547,8 @@ ui <- dashboardPage(
                     box(width = 12, 
                         p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
                             including all higher-order impacts, or ripple effects 
-                            (e.g.: tourist spends at the restaurant, waiter spends at shop, shopkeeper spends on farm , etc...)"
-                        )
+                            (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
+                        , width = 10)
                     ),
                     box(width = 12, title = "For every dollar of tourist spending, the total production multiplier is:",
                         column(width = 4,
@@ -569,7 +582,7 @@ ui <- dashboardPage(
                         ),
                         column(width = 4,
                             p("Or, alternatively, can be split into:"),
-                            valueBox(textOutput("poormult"), width = 12, "Accruing to Poor Households", icon = icon("wallet"),  color = "aqua"), 
+                            valueBox(textOutput("poormult"), width = 12, "Accruing to Poor Households", icon = icon("money-bill"),  color = "aqua"), 
                             valueBox(textOutput("nonpoormult"), width = 12, "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "aqua")
                         ),  
                         p("Notes: The income multiplier and total production multiplier can NOT added together. 
@@ -1481,33 +1494,82 @@ server <- function(input, output) {
     output$park_stats <- renderText(paste("The park receives", input$tourists_popMultiDay, "and has a budget of", round(input$natPark_totalBudget), "."))
     # output$park_numtour <- renderText(input$touri)
     
-    # Text for all the value boxes at the top
+    # Note: you can define the whole valuebox here instead of up in the UI section.  It seems to make nicer boxes. 
+    
+    #### Four boxes about tourists: Number, number multi-day, length of stay, spending
     output$valueBox_numtour <- renderValueBox({
         valueBox(value = format(input$tourists_popMultiDay + input$tourists_popSingleDay, big.mark = ","),
-            subtitle = "Total Number of Tourists", icon = icon("flag"))
+            subtitle = "Total Number of Tourists", icon = icon("person"))
     })
-    output$valueBox_entryFees <- renderValueBox({
-        valueBox(value = format(round(input$natPark_entryFees), big.mark=","),
-                 subtitle = "Total Entry Fees", icon = icon("flag"))
+    
+    output$valueBox_numtourMulti <- renderValueBox({
+        valueBox(value = format(input$tourists_popMultiDay, big.mark = ","),
+                 subtitle = "Of which: Multi-day Tourists", icon = icon("bed"), color = "blue")
     })
+    
+    # Average length of stay
+    output$valueBox_avgTouristLength <- renderValueBox({
+        # Assuming single-day tourists spend 1 day (though technically it could be just a few hours)
+        tourists_avgLength <-  (input$tourists_nbNights*input$tourists_popMultiDay + input$tourists_popSingleDay) / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+        out <-round(tourists_avgLength, digits = 2)
+        valueBox(value = format(out, big.mark = ",", scientific = FALSE) ,
+                 subtitle = "Average Length of Stay", icon = icon("calendar"), color = "maroon")
+    })
+        
+    # Average tourist spending (calculating average lodging per night including those without nights): 
+    output$valueBox_avgTouristSpending <- renderValueBox({
+        tourists_avgSpending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+            input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
+            # note: single day tourists spend 0 on lodging, but they are still in the denominator:
+            (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+        out <-scales::dollar(round(tourists_avgSpending, digits = 2))
+        valueBox(value = format(out, big.mark = ",", scientific = FALSE) ,
+                 subtitle = "Average Tourist Spending", icon = icon("wallet"), color = "green")
+    })
+    
+    
+    ##### Four boxes about park finances: entry fee, total entry fees, total park budget, total wage spending
+    output$valueBox_entryFee <- renderValueBox({
+        # valueBox(value = format(round(input$tourists_expParkEntry), big.mark=","),
+        valueBox(value = format(scales::dollar(round(input$tourists_expParkEntry)), big.mark=","),      
+                 subtitle = "Park Entry Fee", icon = icon("coins"), color = "olive")
+    })
+    output$valueBox_totalEntryFees <- renderValueBox({
+        valueBox(value = format(scales::dollar(round(input$natPark_entryFees)), big.mark=","),
+                 subtitle = "Total Entry Fees", icon = icon("money-bill-trend-up"), color = "orange")
+    })
+    
     output$valueBox_budget <- renderValueBox({
-        valueBox(value = format(round(input$natPark_totalBudget), big.mark = ",", scientific = FALSE) ,
-                 subtitle = "Total Park Budget", icon = icon("flag"))
+        valueBox(value = format(scales::dollar(round(input$natPark_totalBudget)), big.mark = ",", scientific = FALSE) ,
+                 subtitle = "Total Park Budget", icon = icon("file-invoice-dollar"), color = "teal")
     })
+    
+    output$valueBox_parkWageBill <- renderValueBox({
+        valueBox(value = format(scales::dollar(round(input$natPark_totalBudget * 
+                                    (input$natPark_MwagesUnskilled + input$natPark_MwagesSkilled + input$natPark_FwagesUnskilled + input$natPark_FwagesSkilled)/100 * 
+                                        input$natPark_shareWorkersLocal/100)), 
+                                big.mark = ",", scientific = FALSE) ,
+                 subtitle = "Park Spending on Local Wages", icon = icon("person-digging"), color = "light-blue")
+    })
+
+    
+    
+    ##### Compute some stuff for the tourism scenarios
+    ################################################################################
+    output$increased_tourist_number <- renderText({
+        paste("Increased or decreased by", format(input$pct_increase_tourists, nsmall = 2), "% = ", (input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100)
+    })
+    
     
     
     # Average tourist spending (calculating average lodging per night including those without nights): 
-    
-    
-    # tourists_avgDays <- tourist_days / (input$tourists_popMultiDay + input$tourists_popSingleDay)
-    
-    output$tourists_avgSpending <- renderText({
-        tourists_avgSpending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
-            input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
-            (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
-        out <-round(tourists_avgSpending, digits = 2) 
-        return(out)})
-    # output$tourists_avgDays <- renderText({tourists_avgDays})
+    # output$tourists_avgSpending <- renderText({
+    #     tourists_avgSpending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+    #         input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
+    #         (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+    #     out <-round(tourists_avgSpending, digits = 2) 
+    #     return(out)})
+    # # output$tourists_avgDays <- renderText({tourists_avgDays})
     
     
     # Matrices: 
@@ -2252,9 +2314,6 @@ server <- function(input, output) {
 
   }
     
-    
 
-    
-    
     
 shinyApp(ui, server)
