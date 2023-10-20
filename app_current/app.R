@@ -315,16 +315,15 @@ inp_HHNPc3 <- pmap(gdata_HHNPc3, myfunc_CreateNumericInput)
 # Now create the input fields for making "simulations":
 # ------------------------------------------------------
 # the names should match the intended SAM columns 
-inp_sim_TouristSpending <- numericInput("sim_TouristSpending", 
-    "How much Tourist spending ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
-inp_sim_PASpending <- numericInput("sim_PASpending", "How much Park spending ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
-inp_sim_ComRevShSpending <- numericInput("sim_ComRevShSpending", "How much Community spending ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
-inp_sim_AgSpending <- numericInput("sim_AgSpending", "How much increase in local Agricultural production ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
-inp_sim_NagSpending <- numericInput("sim_NagSpending", "How much increase in local Non-Agricultural production ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
-inp_sim_LFUSKSpending <- numericInput("sim_LFUSKSpending", "How much increase in earnings of Low-skilled Female workers ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
-inp_sim_LMUSKSpending <- numericInput("sim_LMUSKSpending", "How much in earnings of Low-skilled Male workers ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
-inp_sim_LFSKSpending <- numericInput("sim_LFSKSpending", "How much in earnings of Skilled Female workers ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
-inp_sim_LMSKSpending <- numericInput("sim_LMSKSpending", "How much in earnings of Skilled Male workers ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
+inp_sim_TouristSpending <- numericInput("sim_TouristSpending", "How much tourist spending ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
+inp_sim_PASpending <- numericInput("sim_PASpending", "How much park spending ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
+inp_sim_ComRevShSpending <- numericInput("sim_ComRevShSpending", "How much community spending ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
+inp_sim_AgSpending <- numericInput("sim_AgSpending", "How much increase in local agricultural production ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
+inp_sim_NagSpending <- numericInput("sim_NagSpending", "How much increase in local non-agricultural production ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
+inp_sim_LFUSKSpending <- numericInput("sim_LFUSKSpending", "How much increase in earnings of low-skilled female workers ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
+inp_sim_LMUSKSpending <- numericInput("sim_LMUSKSpending", "How much in earnings of low-skilled male workers ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
+inp_sim_LFSKSpending <- numericInput("sim_LFSKSpending", "How much in earnings of skilled female workers ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
+inp_sim_LMSKSpending <- numericInput("sim_LMSKSpending", "How much in earnings of skilled male workers ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
 
 
 
@@ -618,12 +617,12 @@ ui <- dashboardPage(
                   )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local Economy-wide impact of tourist spending",
+                    box(width = 12, title = "Local Economy-wide Impacts of Tourist Spending",
                         p('You may wish to evaluate different values of tourist spending: total tourist spending, tourist spending attributable to the PA, change in tourist spending you expect from this project, etc.'),
                         fluidRow(
                             column(4, inp_sim_TouristSpending)
                         ),
-                        p('EFFECTS OF THIS TOURISM SPENDING ON...'),
+                        p("EFFECTS OF THIS TOURISM SPENDING ON...", style = "font-size: 12pt"),
                         fluidRow(
                             column(width=4, plotOutput("simTourists_totalprod")),
                             column(width = 4, plotOutput("simTourists_incomes")),
@@ -637,12 +636,12 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of Park spending (US$)",
+                    box(width = 12, title = "Local Economy-wide Impacts of Park Spending (US$)",
                         p('Park spending is policy-determined, even though there are visitor fees in most places.'),
                         fluidRow(
                             column(4, inp_sim_PASpending)
                         ),
-                        p('EFFECTS OF THIS PARK BUDGET ON...'),
+                        p("EFFECTS OF THIS PARK BUDGET ON...", style = "font-size: 12pt"),
                         fluidRow(
                             column(width=4, plotOutput("simPA_totalprod")),
                             column(width=4, plotOutput("simPA_incomes")),
@@ -656,12 +655,12 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of Community spending (US$)",
+                    box(width = 12, title = "Local Economy-wide Impacts of Community Spending (US$)",
                         p('Our simulations assume that part of PA visitor fees are shared with communities. We can also use this model to see the effects of giving additional money to communities near the park. For example, some NGOs support communities near PAs that may or may not happen if the PA did not exist.'),
                         fluidRow(
                             column(4, inp_sim_ComRevShSpending)
                         ),
-                        p('EFFECTS OF THIS COMMUNITY SPENDING ON...'),
+                        p("EFFECTS OF THIS COMMUNITY SPENDING ON...", style = "font-size: 12pt"),
                         fluidRow(
                             column(width=4, plotOutput("simComRevSh_totalprod")),
                             column(width=4, plotOutput("simComRevSh_incomes")),
@@ -675,14 +674,14 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of increased Agricultural production (US$)",
+                    box(width = 12, title = "Local Economy-wide Impacts of Increased Agricultural Production (US$)",
                         p('Tourist activities create demand for local agricultural products.  We can also use this model to see the effects of complementary
                           interventions to increase the demand for local agricultural products, for example, 
                           by enabling restaurants and lodges to source more food locally.'),
                         fluidRow(
                             column(4, inp_sim_AgSpending)
                         ),
-                        p('EFFECTS OF THIS INCREASE IN LOCAL AGRICULTURAL PRODUCTION ON...'),
+                        p("EFFECTS OF THIS INCREASE IN LOCAL AGRICULTURAL PRODUCTION ON...", style = "font-size: 12pt"),
                         fluidRow(
                             # p('blank'),
                             column(width=4, plotOutput("simAg_totalprod")),
@@ -697,14 +696,14 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of increased Non-Agricultural production (US$)",
+                    box(width = 12, title = "Local Economy-wide Impacts of Increased Non-Agricultural Production (US$)",
                         p('Tourist activities create demand for local non-agricultural products. We can also use this model to see the effects of complementary
                           interventions to increase the demand for local non-agricultural products, for example, 
                           by enabling restaurants and lodges to source local artifacts or processed goods.'),
                         fluidRow(
                             column(4, inp_sim_NagSpending)
                         ),
-                        p('EFFECTS OF THIS INCREASE IN LOCAL NON-AGRICULTURAL PRODUCTION ON...'),
+                        p("EFFECTS OF THIS INCREASE IN LOCAL NON-AGRICULTURAL PRODUCTION ON...", style = "font-size: 12pt"),
                         fluidRow(
                             # p('blank')
                             column(width=4, plotOutput("simNag_totalprod")),
@@ -719,13 +718,13 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of Low-skilled Female earnings (US$)",
+                    box(width = 12, title = "Local Economy-wide Impacts of Low-skilled Female Earnings (US$)",
                         p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
                           interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
                             column(4, inp_sim_LFUSKSpending)
                         ),
-                        p('EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED FEMALE WORKERS ON...'),
+                        p("EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED FEMALE WORKERS ON...", style = "font-size: 12pt"),
                         fluidRow(
                             # p('blank')
                             column(width=4, plotOutput("simLFUSK_totalprod")),
@@ -740,13 +739,13 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of Low-Skilled Male earnings (US$)",
+                    box(width = 12, title = "Local Economy-wide Impacts of Low-skilled Male Earnings (US$)",
                         p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
                           interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
                             column(4, inp_sim_LMUSKSpending)
                         ),
-                        p('EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED MALE WORKERS ON...'),
+                        p("EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED MALE WORKERS ON...", style = "font-size: 12pt"),
                         fluidRow(
                             # p('blank')
                             column(width=4, plotOutput("simLMUSK_totalprod")),
@@ -761,13 +760,13 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of Skilled Female earnings (US$)",
+                    box(width = 12, title = "Local Economy-wide Impacts of Skilled Female Earnings (US$)",
                         p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
                           interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
                             column(4, inp_sim_LFSKSpending)
                         ),
-                        p('EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED FEMALE WORKERS ON...'),
+                        p("EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED FEMALE WORKERS ON...", style = "font-size: 12pt"),
                         fluidRow(
                             # p('blank')
                             column(width=4, plotOutput("simLFSK_totalprod")),
@@ -782,13 +781,13 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local-economy impacts of Skilled Male earnings (US$)",
+                    box(width = 12, title = "Local Economy-wide Impacts of Skilled Male Earnings (US$)",
                         p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
                           interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
                             column(4, inp_sim_LMSKSpending)
                         ),
-                        p('EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED MALE WORKERS ON...'),
+                        p("EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED MALE WORKERS ON...", style = "font-size: 12pt"),
                         fluidRow(
                             # p('blank')
                             column(width=4, plotOutput("simLMSK_totalprod")),
@@ -1736,7 +1735,7 @@ server <- function(input, output) {
                   legend.position = "none",
                   strip.background = element_blank(),
                   strip.placement = "outside",
-                  strip.text = element_text(size=12, vjust=4))
+                  strip.text = element_text(size=12))
         bar
     }
     
