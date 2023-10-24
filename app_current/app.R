@@ -537,19 +537,25 @@ ui <- dashboardPage(
                     ),
                     fluidRow(
                         box(width = 12,
-                            p("Tourism scenarios:", style = "font-size:18px"), 
-                            p("Tourism scenario #1: increase total number of tourists", style = "font-size:16px"), 
+                            # p("Tourism scenarios:", style = "font-size:18px"), 
+                            p("Tourism scenario #1: increase total number of tourists", style = "font-size:18px"), 
                             fluidRow(
                                 column(3, sliderInput("pct_increase_tourists", "Percent Increase in total tourists", min = -100, max = 100, value = 10)),
-                                column(9, p(textOutput("increased_tourist_number")))
+                                column(9)
                             ),
-                            p("Tourism scenario #2: detailed increases in tourist numbers or spending", style = "font-size:16px"), 
+                            p(textOutput("increased_tourist_number")),
+                            hr(),
+                        # ),
+                        # box(width = 12, 
+                            p("Tourism scenario #2: detailed increases in tourism stats", style = "font-size:18px"), 
                             fluidRow(
-                                column(3, numericInput("inc_touristsSingle_count", "Increase count of Single-day tourists:", value = 0, min = 0, max = 100)),
-                                column(3, sliderInput("inc_touristsMulti_count", "Increase count of Multi-day tourists:", value = 50, min = 0, max = 100)),
-                                column(3, sliderInput("inc_touristsLength_days", "Increase avg number of days:", value = c(10, 20), min = 0, max = 100)),
-                                column(3, sliderInput("inc_", "Range", value = c(10, 20), min = 0, max = 100))
+                                column(4, numericInput("inc_touristsSingle_count", "Increase count of Single-day tourists:", value = 0, step = 1, min = -1000000, max = 1000000)),
+                                column(4, numericInput("inc_touristsMulti_count", "Increase count of Multi-day tourists:", value = 0, step = 1,  min = -1000000, max = 1000000)),
+                                # column(3, numericInput("inc_touristsLength_days", "Increase avg length of stay (days):", value = 0.00, step = 0.01,  min = -100, max = 100)),
+                                column(4, numericInput("inc_fee", "Increase in park entry fee ($):", value = 0.00, step = 0.01, min = -100000, max = 100000))
                             ),
+                            p(textOutput("detailed_tourist_increases")),
+                            p(textOutput("detailed_tourist_increases_result"))
                         ),
                     ),
                     # fluidRow(
@@ -1583,7 +1589,54 @@ server <- function(input, output) {
     ##### Compute some stuff for the tourism scenarios
     ################################################################################
     output$increased_tourist_number <- renderText({
-        paste("Increased or decreased by", format(input$pct_increase_tourists, nsmall = 2), "% = ", (input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100)
+        pct_change = format(input$pct_increase_tourists, nsmall = 2)
+        nb_increase <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(input$pct_increase_tourists)/100, big.mark=",")
+        new_total <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100, big.mark=",")
+        fees_increase <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(input$pct_increase_tourists)/100 * input$tourists_expParkEntry, big.mark =",")
+        new_total_fees <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100 * input$tourists_expParkEntry, big.mark=",")
+        # nb_increase <- paste("<b>", result , "</b>")
+        HTML(paste("If you increase (decrease) tourism by", pct_change , "%, that is a change of ",  nb_increase, "tourists and $", fees_increase,"change in entry fees.", 
+                   "This yields", new_total, "total number of tourists and $",new_total_fees,"total fees." ))
+    })
+    
+    
+    
+    output$detailed_tourist_increases <- renderText({
+        # inc_touristsSingle_count <- input$inc_touristsSingle_count
+        # inc_touristsMulti_count <- input$inc_touristsMulti_count
+        # inc_touristsLength_days <- input$inc_touristsLength_days
+        # inc_fee <- input$inc_fee
+        
+        new_touristsSingle <- format(round(input$tourists_popSingleDay + input$inc_touristsSingle_count), big.mark = ",")
+        new_touristsMulti <- format(round(input$tourists_popMultiDay + input$inc_touristsMulti_count), big.mark = ",") 
+        # new_avg
+        new_fee <- format(round(input$tourists_expParkEntry + input$inc_fee, 2))
+        
+        # new_total_fees <- format(round(new_fee*(new_touristsSingle + new_touristsMulti)), big.mark = ",")
+        # fees_increase <- format(round(new_fee*(new_touristsSingle + new_touristsMulti) - input$natPark_entryFees), big.mark = ",")
+        # nb_increase <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(input$pct_increase_tourists)/100, big.mark=",")
+        # new_total <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100, big.mark=",")
+        # nb_increase <- paste("<b>", result , "</b>")
+        HTML(paste("With those changes you would have", new_touristsSingle , "single-day tourists,", new_touristsMulti, "multiday tourists, all paying $", new_fee, "entry fees."))
+    })
+    
+    output$detailed_tourist_increases_result <- renderText({
+        # inc_touristsSingle_count <- input$inc_touristsSingle_count
+        # inc_touristsMulti_count <- input$inc_touristsMulti_count
+        # inc_touristsLength_days <- input$inc_touristsLength_days
+        # inc_fee <- input$inc_fee
+        
+        new_touristsSingle <- input$tourists_popSingleDay + input$inc_touristsSingle_count
+        new_touristsMulti <- input$tourists_popMultiDay + input$inc_touristsMulti_count 
+        # new_avg
+        new_fee <- input$tourists_expParkEntry + input$inc_fee 
+        
+        new_total_fees <- format(round(new_fee*(new_touristsSingle + new_touristsMulti)), big.mark = ",")
+        fees_increase <- format(round(new_fee*(new_touristsSingle + new_touristsMulti) - input$natPark_entryFees), big.mark = ",")
+        # nb_increase <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(input$pct_increase_tourists)/100, big.mark=",")
+        # new_total <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100, big.mark=",")
+        # nb_increase <- paste("<b>", result , "</b>")
+        HTML(paste("Under those conditions, you would get an increase of $", fees_increase , "in entry fees, for a total of $", new_total_fees, "entry fees."))
     })
     
     
