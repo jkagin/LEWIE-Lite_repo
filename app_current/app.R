@@ -506,104 +506,126 @@ ui <- dashboardPage(
             ),
             # ============================ HOME Tab with some key information  ======================================
             tabItem("home",
-                # p("Protected area:", style = "font-size:25px"), 
-                h2(textOutput("park_name")),
-                p("Overview of tourism in the park:", style = "font-size:25px"),
-                fluidRow(
-                    box(width = 12, 
-                        # p(textOutput("park_stats")),
-                        p("Tourists in the park:", style = "font-size:18px"),
-                        # Tourists, multi-day tourists, length of stay, avg spending
-                        valueBoxOutput("valueBox_numtour", width = 3),
-                        valueBoxOutput("valueBox_numtourMulti", width = 3),
-                        valueBoxOutput("valueBox_avgTouristLength", width = 3),
-                        valueBoxOutput("valueBox_avgTouristSpending", width = 3),
-                        # Overview of 
-                        p("Park finances:", style = "font-size:18px"),
-                        valueBoxOutput("valueBox_entryFee", width = 3),
-                        valueBoxOutput("valueBox_totalEntryFees", width = 3),
-                        valueBoxOutput("valueBox_budget", width = 3), 
-                        valueBoxOutput("valueBox_parkWageBill", width = 3), 
-                        # valueBox(textOutput("tourist_avgDays"), width = 12, "Average Days", icon = icon("sun"),  color = "orange"),
-                        # valueBox(textOutput("tourists_avgSpending"), width = 12, "Average Spending", icon = icon("sun"),  color = "orange"),
-                        p("Tourism scenarios:", style = "font-size:18px"), 
-                        sliderInput("pct_increase_tourists", "Percent Increase in total tourists", min = -100, max = 100, value = 10, width = "20%"), 
-                        p(textOutput("increased_tourist_number"))
-                    ),
-                ),
-                # fluidRow(
-                #     infoBox("Some output", textOutput("Output"), icon = icon("dollar-sign"))
-                # ),
-                # fluidRow(
-                #     box(width = 12, title = "For each dollar of tourist spending:",
-                #         fluidRow(
-                #             valueBox(textOutput("nothing"), "Total GDP multiplier", icon = icon("gears"),  color = "aqua"),
-                #         )
-                #     )
-                # ),
-                p("Local-economy impacts of tourist spending (US$):", style = "font-size:25px"),
-                fluidRow(
-                    box(width = 12, 
-                        p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
-                            including all higher-order impacts, or ripple effects 
-                            (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
-                        , width = 10)
-                    ),
-                    box(width = 12, title = "For every dollar of tourist spending, the total production multiplier is:",
-                        column(width = 4,
-                            valueBox(textOutput("totalmult"), width = 12, "Total Production Multiplier", icon = icon("gears"),  color = "maroon"),
-                        ),
-                        column(width = 4,
-                            p("Which can be split into:"),
-                            valueBox(textOutput("touractmult"), width = 12, "Tourism activities", icon = icon("sun"),  color = "orange"),
-                            valueBox(textOutput("nontouractmult"), width = 12, "Non-Tourism activities", icon = icon("briefcase"),  color = "orange")
-                        )
-                        # column(width = 4, 
-                        #        p(" okay do i need to write something?  ", width = 12),
-                        #        
-                        # ),
-                        # fluidRow(
-                            
-                            # )
-                        # )
-                    )
-                ),
-                fluidRow(
-                    box(width = 12, title = "For every dollar of tourist spending, the total income multiplier is:",
-                        column(width = 4, 
-                            # p("total mult")
-                            valueBox(textOutput("gdpmult"), width = 12, "Total Income Multiplier", icon = icon("coins"),  color = "blue"),
-                        ),
-                        column(width = 4, 
-                            p("Which can be split into:"),
-                            valueBox(textOutput("labmult"),  width = 12, "Accruing to Labor", icon = icon("user"),  color = "teal"),
-                            valueBox(textOutput("capmult"),  width = 12, "Accruing to Capital", icon = icon("building"),  color = "teal")
-                        ),
-                        column(width = 4,
-                            p("Or, alternatively, can be split into:"),
-                            valueBox(textOutput("poormult"), width = 12, "Accruing to Poor Households", icon = icon("money-bill"),  color = "aqua"), 
-                            valueBox(textOutput("nonpoormult"), width = 12, "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "aqua")
-                        ),  
-                        p("Notes: The income multiplier and total production multiplier can NOT added together. 
-                        Rather, the income multiplier captures a part of the production multiplier (like profits vs. revenue)"
-                        )
-                        
-                        # fluidRow(
-                        #     valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
-                        #     valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("wallet"),  color = "red"),
-                        #     valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
-                        # ),
-                        # fluidRow(
-                        #     valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("coins"),  color = "green"),
-                        #     valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "red"),
-                        #     valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
-                        # )
-                    )
-                ),
                 fluidPage(
-                    downloadButton("report", "Generate PDF Report"),
-                    # downloadButton("download1.Excel", "Generate Excel File (with data)"),
-                    p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.')
+                    # p("Protected area:", style = "font-size:25px"), 
+                    h2(textOutput("park_name")),
+                    p("Overview of tourism in the park:", style = "font-size:25px"),
+                    fluidRow(
+                        box(width = 12, 
+                            # p(textOutput("park_stats")),
+                            p("Total tourists in the park:", style = "font-size:18px"),
+                            # Tourists, multi-day tourists, length of stay, avg spending
+                            fluidRow( 
+                                column(3, valueBoxOutput("valueBox_numtour", width = 12)),
+                                column(9)
+                            ),
+                            p("Details on tourists in the park:", style = "font-size:18px"),
+                            # Single-day, multi-day tourists, length of stay, avg spending
+                            valueBoxOutput("valueBox_numtourSingle", width = 3),
+                            valueBoxOutput("valueBox_numtourMulti", width = 3),
+                            valueBoxOutput("valueBox_avgTouristLength", width = 3),
+                            valueBoxOutput("valueBox_avgTouristSpending", width = 3),
+                            # Overview of 
+                            p("Park finances:", style = "font-size:18px"),
+                            valueBoxOutput("valueBox_entryFee", width = 3),
+                            valueBoxOutput("valueBox_totalEntryFees", width = 3),
+                            valueBoxOutput("valueBox_budget", width = 3), 
+                            valueBoxOutput("valueBox_parkWageBill", width = 3), 
+                            # valueBox(textOutput("tourist_avgDays"), width = 12, "Average Days", icon = icon("sun"),  color = "orange"),
+                            # valueBox(textOutput("tourists_avgSpending"), width = 12, "Average Spending", icon = icon("sun"),  color = "orange"),
+                        ),
+                    ),
+                    fluidRow(
+                        box(width = 12,
+                            p("Tourism scenarios:", style = "font-size:18px"), 
+                            p("Tourism scenario #1: increase total number of tourists", style = "font-size:16px"), 
+                            fluidRow(
+                                column(3, sliderInput("pct_increase_tourists", "Percent Increase in total tourists", min = -100, max = 100, value = 10)),
+                                column(9, p(textOutput("increased_tourist_number")))
+                            ),
+                            p("Tourism scenario #2: detailed increases in tourist numbers or spending", style = "font-size:16px"), 
+                            fluidRow(
+                                column(3, numericInput("inc_touristsSingle_count", "Increase count of Single-day tourists:", value = 0, min = 0, max = 100)),
+                                column(3, sliderInput("inc_touristsMulti_count", "Increase count of Multi-day tourists:", value = 50, min = 0, max = 100)),
+                                column(3, sliderInput("inc_touristsLength_days", "Increase avg number of days:", value = c(10, 20), min = 0, max = 100)),
+                                column(3, sliderInput("inc_", "Range", value = c(10, 20), min = 0, max = 100))
+                            ),
+                        ),
+                    ),
+                    # fluidRow(
+                    #     infoBox("Some output", textOutput("Output"), icon = icon("dollar-sign"))
+                    # ),
+                    # fluidRow(
+                    #     box(width = 12, title = "For each dollar of tourist spending:",
+                    #         fluidRow(
+                    #             valueBox(textOutput("nothing"), "Total GDP multiplier", icon = icon("gears"),  color = "aqua"),
+                    #         )
+                    #     )
+                    # ),
+                    p("Local-economy impacts of tourist spending (US$):", style = "font-size:25px"),
+                    fluidRow(
+                        box(width = 12, 
+                            p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
+                                including all higher-order impacts, or ripple effects 
+                                (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
+                            , width = 10)
+                        ),
+                        box(width = 12, title = "For every dollar of tourist spending, the total production multiplier is:",
+                            column(width = 4,
+                                valueBox(textOutput("totalmult"), width = 12, "Total Production Multiplier", icon = icon("gears"),  color = "maroon"),
+                            ),
+                            column(width = 4,
+                                p("Which can be split into:"),
+                                valueBox(textOutput("touractmult"), width = 12, "Tourism activities", icon = icon("sun"),  color = "orange"),
+                                valueBox(textOutput("nontouractmult"), width = 12, "Non-Tourism activities", icon = icon("briefcase"),  color = "orange")
+                            )
+                            # column(width = 4, 
+                            #        p(" okay do i need to write something?  ", width = 12),
+                            #        
+                            # ),
+                            # fluidRow(
+                                
+                                # )
+                            # )
+                        )
+                    ),
+                    fluidRow(
+                        box(width = 12, title = "For every dollar of tourist spending, the total income multiplier is:",
+                            column(width = 4, 
+                                # p("total mult")
+                                valueBox(textOutput("gdpmult"), width = 12, "Total Income Multiplier", icon = icon("coins"),  color = "blue"),
+                            ),
+                            column(width = 4, 
+                                p("Which can be split into:"),
+                                valueBox(textOutput("labmult"),  width = 12, "Accruing to Labor", icon = icon("user"),  color = "teal"),
+                                valueBox(textOutput("capmult"),  width = 12, "Accruing to Capital", icon = icon("building"),  color = "teal")
+                            ),
+                            column(width = 4,
+                                p("Or, alternatively, can be split into:"),
+                                valueBox(textOutput("poormult"), width = 12, "Accruing to Poor Households", icon = icon("money-bill"),  color = "aqua"), 
+                                valueBox(textOutput("nonpoormult"), width = 12, "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "aqua")
+                            ),  
+                            p("Notes: The income multiplier and total production multiplier can NOT added together. 
+                            Rather, the income multiplier captures a part of the production multiplier (like profits vs. revenue)"
+                            )
+                            
+                            # fluidRow(
+                            #     valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
+                            #     valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("wallet"),  color = "red"),
+                            #     valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
+                            # ),
+                            # fluidRow(
+                            #     valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("coins"),  color = "green"),
+                            #     valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "red"),
+                            #     valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
+                            # )
+                        )
+                    ),
+                    fluidRow(
+                        downloadButton("report", "Generate PDF Report"),
+                        # downloadButton("download1.Excel", "Generate Excel File (with data)"),
+                        p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.')
+                    )
                 )
             ),
             # ============================ SIMULATIONS DASHBOARD ======================================
@@ -1498,12 +1520,17 @@ server <- function(input, output) {
     #### Four boxes about tourists: Number, number multi-day, length of stay, spending
     output$valueBox_numtour <- renderValueBox({
         valueBox(value = format(input$tourists_popMultiDay + input$tourists_popSingleDay, big.mark = ","),
-            subtitle = "Total Number of Tourists", icon = icon("person"))
+            subtitle = "Total Number of Tourists", icon = icon("person"), color= "yellow")
+    })
+    
+    output$valueBox_numtourSingle <- renderValueBox({
+        valueBox(value = format(input$tourists_popSingleDay, big.mark = ","),
+                 subtitle = "Single-day Tourists", icon = icon("sun"))
     })
     
     output$valueBox_numtourMulti <- renderValueBox({
         valueBox(value = format(input$tourists_popMultiDay, big.mark = ","),
-                 subtitle = "Of which: Multi-day Tourists", icon = icon("bed"), color = "blue")
+                 subtitle = "Multi-day Tourists", icon = icon("bed"), color = "blue")
     })
     
     # Average length of stay
