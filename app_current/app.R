@@ -412,7 +412,8 @@ ui <- dashboardPage(
             ),
             # ============================ Data Tab: (Where you can change the SAM) ======================================
             tabItem("data",
-                p("This page is where you change the data and the SAM if you need to", style = "font-size:25px"),
+                p("This page is where you see the data inputs", style = "font-size:25px"),
+                p("You can even change these inputs and explore what happens to the multipliers - but those changes cannot be saved.", style = "font-size:16px"),
                 tabBox(
                     title = "Data Inputs", width = 12,
                     tabPanel("Tourists",
@@ -509,11 +510,16 @@ ui <- dashboardPage(
                 fluidPage(
                     # p("Protected area:", style = "font-size:25px"), 
                     h2(textOutput("park_name")),
+                    p("Welcome to the LEWIE-Lite dashboard. This tool allows you to explore the impacts of Protected Areas on the local economy surrounding them.", style = "font-size:16px"),
+                    p("On this page, you can see some general information about tourism in the Protected Area being studied. At the top, some basic stats regarding the numbers of tourists and park revenues, 
+                    along with some simple scenario calculations. 
+                      Scrolling down, you will find some see the local-economy multipliers calculated using the LEWIE-Lite model.", style = "font-size:16px"),
+                    p("If you open the side-bar menu, you will find a number of useful tabs.  Most importantly, the Simulations tab offers a range of options to simulate the local-economy impacts of tourism spending.", style = "font-size:16px"),
                     p("Overview of tourism in the park:", style = "font-size:25px"),
                     fluidRow(
                         box(width = 12, 
                             # p(textOutput("park_stats")),
-                            p("Total tourists in the park:", style = "font-size:18px"),
+                            p("Total tourists coming to the park (annually):", style = "font-size:18px"),
                             # Tourists, multi-day tourists, length of stay, avg spending
                             fluidRow( 
                                 column(3, valueBoxOutput("valueBox_numtour", width = 12)),
@@ -599,7 +605,7 @@ ui <- dashboardPage(
                         box(width = 12, title = "For every dollar of tourist spending, the total income multiplier is:",
                             column(width = 4, 
                                 # p("total mult")
-                                valueBox(textOutput("gdpmult"), width = 12, "Total Income Multiplier", icon = icon("coins"),  color = "blue"),
+                                valueBox(textOutput("gdpmult"), width = 12, "Total Income Multiplier", icon = icon("money-bill-trend-up"),  color = "blue"),
                             ),
                             column(width = 4, 
                                 p("Which can be split into:"),
@@ -608,8 +614,8 @@ ui <- dashboardPage(
                             ),
                             column(width = 4,
                                 p("Or, alternatively, can be split into:"),
-                                valueBox(textOutput("poormult"), width = 12, "Accruing to Poor Households", icon = icon("money-bill"),  color = "aqua"), 
-                                valueBox(textOutput("nonpoormult"), width = 12, "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "aqua")
+                                valueBox(textOutput("poormult"), width = 12, "Accruing to Poor Households", icon = icon("coins"),  color = "aqua"), 
+                                valueBox(textOutput("nonpoormult"), width = 12, "Accruing to NonPoor Households", icon = icon("money-bill"),  color = "aqua")
                             ),  
                             p("Notes: The income multiplier and total production multiplier can NOT added together. 
                             Rather, the income multiplier captures a part of the production multiplier (like profits vs. revenue)"
@@ -1526,7 +1532,7 @@ server <- function(input, output) {
     #### Four boxes about tourists: Number, number multi-day, length of stay, spending
     output$valueBox_numtour <- renderValueBox({
         valueBox(value = format(input$tourists_popMultiDay + input$tourists_popSingleDay, big.mark = ","),
-            subtitle = "Total Number of Tourists", icon = icon("person"), color= "yellow")
+            subtitle = "Total Number of Tourists", icon = icon("person"), color= "green")
     })
     
     output$valueBox_numtourSingle <- renderValueBox({
@@ -1556,7 +1562,7 @@ server <- function(input, output) {
             (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
         out <-scales::dollar(round(tourists_avgSpending, digits = 2))
         valueBox(value = format(out, big.mark = ",", scientific = FALSE) ,
-                 subtitle = "Average Tourist Spending", icon = icon("wallet"), color = "green")
+                 subtitle = "Average Tourist Spending", icon = icon("wallet"), color = "orange")
     })
     
     
@@ -1564,11 +1570,11 @@ server <- function(input, output) {
     output$valueBox_entryFee <- renderValueBox({
         # valueBox(value = format(round(input$tourists_expParkEntry), big.mark=","),
         valueBox(value = format(scales::dollar(round(input$tourists_expParkEntry)), big.mark=","),      
-                 subtitle = "Park Entry Fee", icon = icon("coins"), color = "olive")
+                 subtitle = "Park Entry Fee", icon = icon("ticket"), color = "olive")
     })
     output$valueBox_totalEntryFees <- renderValueBox({
         valueBox(value = format(scales::dollar(round(input$natPark_entryFees)), big.mark=","),
-                 subtitle = "Total Entry Fees", icon = icon("money-bill-trend-up"), color = "orange")
+                 subtitle = "Total Entry Fees", icon = icon("money-bill-trend-up"), color = "yellow")
     })
     
     output$valueBox_budget <- renderValueBox({
