@@ -539,21 +539,24 @@ ui <- dashboardPage(
                             valueBoxOutput("valueBox_parkWageBill", width = 3), 
                             # valueBox(textOutput("tourist_avgDays"), width = 12, "Average Days", icon = icon("sun"),  color = "orange"),
                             # valueBox(textOutput("tourists_avgSpending"), width = 12, "Average Spending", icon = icon("sun"),  color = "orange"),
-                        ),
-                    ),
-                    fluidRow(
-                        box(width = 12,
+                        # ),
+                        
+                    # Removing this top part: it distracts from LEWIE too much. 
+                    # ),
+                    # fluidRow(
+                        # box(width = 12,
                             # p("Tourism scenarios:", style = "font-size:18px"), 
-                            p("Tourism scenario #1: increase total number of tourists", style = "font-size:18px"), 
-                            fluidRow(
-                                column(3, sliderInput("pct_increase_tourists", "Percent Increase in total tourists", min = -100, max = 100, value = 10)),
-                                column(9)
-                            ),
-                            p(textOutput("increased_tourist_number")),
-                            hr(),
+                            # p("Tourism scenario #1: increase total number of tourists", style = "font-size:18px"), 
+                            # fluidRow(
+                            #     column(3, sliderInput("pct_increase_tourists", "Percent Increase in total tourists", min = -100, max = 100, value = 10)),
+                            #     column(9)
+                            # ),
+                            # p(textOutput("increased_tourist_number")),
+                            # hr(),
                         # ),
                         # box(width = 12, 
-                            p("Tourism scenario #2: detailed increases in tourism stats", style = "font-size:18px"), 
+                            # p("Tourism scenario #2: detailed increases in tourism stats", style = "font-size:18px"), 
+                            p("Tourism scenarios:", style = "font-size:18px"),
                             fluidRow(
                                 column(4, numericInput("inc_touristsSingle_count", "Increase count of Single-day tourists:", value = 0, step = 1, min = -1000000, max = 1000000)),
                                 column(4, numericInput("inc_touristsMulti_count", "Increase count of Multi-day tourists:", value = 0, step = 1,  min = -1000000, max = 1000000)),
