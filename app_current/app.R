@@ -540,7 +540,9 @@ ui <- dashboardPage(
                             # valueBox(textOutput("tourist_avgDays"), width = 12, "Average Days", icon = icon("sun"),  color = "orange"),
                             # valueBox(textOutput("tourists_avgSpending"), width = 12, "Average Spending", icon = icon("sun"),  color = "orange"),
                         # ),
-                        
+                            # Only some parks have community revenue sharing, so make this small
+                            p("Community Revenue Sharing:", style = "font-size:18px"),
+                            p(textOutput("community_revenue_sharing")),
                     # Removing this top part: it distracts from LEWIE too much. 
                     # ),
                     # fluidRow(
@@ -1226,16 +1228,16 @@ server <- function(input, output) {
         
         # # ComRevSh Column - budget comes from a share of PA  
         # #------------------------------------
-        sam_comrevsh["Ag",] <- input$natPark_expComRevSh/100 * input$comRevSh_expLocalAg
-        sam_comrevsh["Nag",] <- input$natPark_expComRevSh/100 * (input$comRevSh_expServices + input$comRevSh_expLocalStores)
-        sam_comrevsh["Tourism",] <- input$natPark_expComRevSh/100 * input$comRevSh_expTourism
-        sam_comrevsh["Fish",] <- input$natPark_expComRevSh/100 * input$comRevSh_expLocalFish
-        sam_comrevsh["ROW",] <- input$natPark_expComRevSh/100 * input$comRevSh_expOutside
+        sam_comrevsh["Ag",] <- input$natPark_expComRevSh * input$comRevSh_expLocalAg/100
+        sam_comrevsh["Nag",] <- input$natPark_expComRevSh * (input$comRevSh_expServices + input$comRevSh_expLocalStores)/100
+        sam_comrevsh["Tourism",] <- input$natPark_expComRevSh * input$comRevSh_expTourism/100
+        sam_comrevsh["Fish",] <- input$natPark_expComRevSh * input$comRevSh_expLocalFish/100
+        sam_comrevsh["ROW",] <- input$natPark_expComRevSh * input$comRevSh_expOutside/100
         
-        sam_comrevsh["LMUSK", ] <-  input$natPark_expComRevSh/100 * input$comRevSh_MwagesUnskilled 
-        sam_comrevsh["LMSK", ] <-   input$natPark_expComRevSh/100 * input$comRevSh_MwagesSkilled
-        sam_comrevsh["LFUSK", ] <-  input$natPark_expComRevSh/100 * input$comRevSh_FwagesUnskilled
-        sam_comrevsh["LFSK", ] <-   input$natPark_expComRevSh/100 * input$comRevSh_FwagesSkilled
+        sam_comrevsh["LMUSK", ] <-  input$natPark_expComRevSh * input$comRevSh_MwagesUnskilled/100 
+        sam_comrevsh["LMSK", ] <-   input$natPark_expComRevSh * input$comRevSh_MwagesSkilled/100
+        sam_comrevsh["LFUSK", ] <-  input$natPark_expComRevSh * input$comRevSh_FwagesUnskilled/100
+        sam_comrevsh["LFSK", ] <-   input$natPark_expComRevSh * input$comRevSh_FwagesSkilled/100
 
         
         
@@ -1592,6 +1594,14 @@ server <- function(input, output) {
                                 big.mark = ",", scientific = FALSE) ,
                  subtitle = "Park Spending on Local Wages", icon = icon("person-digging"), color = "light-blue")
     })
+    
+    output$community_revenue_sharing <- renderText({
+        crshare <- round(input$natPark_expComRevSh/input$natPark_entryFees * 100)
+        crs_dollars <- format(round(crshare * input$natPark_entryFees, 2), big.mark = ",") 
+
+        HTML(paste("This park redistributes", crshare , "% of entry fees as a Community Revenue Sharing scheme.  
+                  This generates $", crs_dollars, "in funds for the scheme."))
+    })
 
     
     
@@ -1611,40 +1621,21 @@ server <- function(input, output) {
     
     
     output$detailed_tourist_increases <- renderText({
-        # inc_touristsSingle_count <- input$inc_touristsSingle_count
-        # inc_touristsMulti_count <- input$inc_touristsMulti_count
-        # inc_touristsLength_days <- input$inc_touristsLength_days
-        # inc_fee <- input$inc_fee
-        
         new_touristsSingle <- format(round(input$tourists_popSingleDay + input$inc_touristsSingle_count), big.mark = ",")
         new_touristsMulti <- format(round(input$tourists_popMultiDay + input$inc_touristsMulti_count), big.mark = ",") 
-        # new_avg
         new_fee <- format(round(input$tourists_expParkEntry + input$inc_fee, 2))
         
-        # new_total_fees <- format(round(new_fee*(new_touristsSingle + new_touristsMulti)), big.mark = ",")
-        # fees_increase <- format(round(new_fee*(new_touristsSingle + new_touristsMulti) - input$natPark_entryFees), big.mark = ",")
-        # nb_increase <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(input$pct_increase_tourists)/100, big.mark=",")
-        # new_total <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100, big.mark=",")
-        # nb_increase <- paste("<b>", result , "</b>")
         HTML(paste("With those changes you would have", new_touristsSingle , "single-day tourists,", new_touristsMulti, "multiday tourists, all paying $", new_fee, "entry fees."))
     })
     
     output$detailed_tourist_increases_result <- renderText({
-        # inc_touristsSingle_count <- input$inc_touristsSingle_count
-        # inc_touristsMulti_count <- input$inc_touristsMulti_count
-        # inc_touristsLength_days <- input$inc_touristsLength_days
-        # inc_fee <- input$inc_fee
         
         new_touristsSingle <- input$tourists_popSingleDay + input$inc_touristsSingle_count
         new_touristsMulti <- input$tourists_popMultiDay + input$inc_touristsMulti_count 
-        # new_avg
         new_fee <- input$tourists_expParkEntry + input$inc_fee 
         
         new_total_fees <- format(round(new_fee*(new_touristsSingle + new_touristsMulti)), big.mark = ",")
         fees_increase <- format(round(new_fee*(new_touristsSingle + new_touristsMulti) - input$natPark_entryFees), big.mark = ",")
-        # nb_increase <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(input$pct_increase_tourists)/100, big.mark=",")
-        # new_total <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100, big.mark=",")
-        # nb_increase <- paste("<b>", result , "</b>")
         HTML(paste("Under those conditions, you would get an increase of $", fees_increase , "in entry fees, for a total of $", new_total_fees, "entry fees."))
     })
     
