@@ -1,19 +1,47 @@
-<head> <style> h2 { color: rgb(63, 144, 210); } </style> </head>
+<head> 
+  <style> 
+    h2 { color: rgb(63, 144, 210); } 
+    p {
+      font-size: 18px; /* You can adjust the font size as needed */
+    }
+  </style> 
+</head>
 
-<h1>WELCOME to the LEWIE-Lite DASHBOARD</h1>
+<h1>Frequently Asked Questions</h1>
 
-<p>On this dashboard, you can run simple simulations to calculate multipliers of a tourism project using a LEWIE-Lite
+<!-- <p>On this dashboard, you can run simple simulations to calculate multipliers of a tourism project using a LEWIE-Lite
   model.</p>
 
-<p>A LEWIE-Lite model is a multiplier model based on a Social Accounting Matrix (SAM) of the target area.</p>
+<p>A LEWIE-Lite model is a multiplier model based on a Social Accounting Matrix (SAM) of the target area.</p> -->
 
+<details>
+  <summary><h2>+ What is LEWIE?</h2></summary>
+  <p>LEWIE stands for Local Economywide Impact Evaluation. 
+    It is a family of methods to evaluate the direct and indirect impacts of programs and policies (i.e. including spillovers)</p>
+  <p>LEWIE methods are all rooted in general equilibrium principles.  A full-blown LEWIE model is coded and solved with specialized software such as GAMS. 
+    In contrast, the model used for this dashboard is a LEWIE-Lite, which was designed to be easier to build and less data-intensive.</p>
+  <p>For more information about LEWIE, see <a href="http://www.beyondexperiments.org">www.beyondexperiments.org</a></p> 
+</details>
+
+<details>
+  <summary><h2>+ What is LEWIE-Lite?</h2></summary>
+  <p>LEWIE-Lite is a simpler, easier to build, less data-intensive version of LEWIE (Local Economy-wide Impact Evaluation).</p>
+  <p>The model has a Social Accounting Matrix (SAM) at its core, which represents flows of value in the area of interest 
+    (usually a natural Park and surrounding area).  This SAM is used to calculate SAM multipliers. </p>
+  <p>The LEWIE-Lite can be built with information that is relatively easy to obtain: information about the Park (fees, budget, etc), 
+    about businesses around the park (restaurants, lodges), about households living in the area (activities, expenditures), and about tourists (spending)
+  </p>
+</details>
 
 <details>
   <summary><h2>+ What does the Dashboard display?</h2></summary>
   <p>The dashboard is divided into two main panels:</p>
 
-  <h3>The HEADER (top panel)</h3>
-  <p>It shows multipliers of tourism activities in the project area. They represent dollar increases <strong>per dollar
+  <h3>The HOME tab </h3>
+  <p>It shows basic information about the park, along with tourism multipliers.</p>
+  <p>The top part presents some of the park information gathered in the process of constructing the LEWIE-lite model.</p>
+  <p>It also allows you to run quick calcualtions of park revenues if tourism were to increase or decrease.</p>
+  <p>The bottom part shows multipliers of tourism activities in the project area. These are the key outputs of the LEWIE-lite model. They represent dollar increases <strong>per dollar
       of
       tourist spending</strong>.</p>
 
@@ -42,8 +70,8 @@
     </li>
   </ul>
 
-  <h3>The SIMULATION Panels</h3>
-  <p>Below the header is a menu list followed by a series of panels showing plots that can be used in simulations. There are 9 panels, each showing what happens
+  <h3>The SIMULATIONS Tab</h3>
+  <p>It containc a menu list at the top, followed by a series of panels showing plots that can be used in simulations. There are 9 panels, each showing what happens
     if a given monetary value ($) is injected into the economy. The menu at the top of each section enable quick navigation between the 
     simulation panels.  These are based on the multipliers, but can be scaled by
     changing tourist spending.</p>
@@ -64,14 +92,19 @@
   <p>All panels have similar elements. All plots are based on the same multipliers as those displayed in the headboard.</p>
   <p>Simulations are performed by changing the value in the input box. These are separate for each simulation panel.</p>
 
+  <h3>Other Tabs</h3>
+  <p>The Data and SAMs tabs are meant for advanced users.  They present, respectively, all the data inputs that went into the calculations, 
+    and the matrices used to build the SAM-multiplier model at the root of the results we display.  </p>
+  <p>The Data tab also allows some simple data manipulations, but those do not get saved to the server. 
+    They are mostly for exploratory purposese for more advanced users. </p>
+
 </details>
 
 <details>
-  <summary><h2>+ Can I download these results?</h2></summary>
-  <p>There is a "Generate Report" button at the bottom of the page.</p>
-  <p>This process is slow.  Please allow the server some time to generate the report. </p>
+  <summary><h2>+ What is a multiplier?</h2></summary>
+  <p> A multiplier captures the fact that money circulates through the economy.  The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, including all higher-order impacts, or ripple effects (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those earnings buying food from a farmer, etc.) </p>
+  <p>The income multiplier is the same concept, but only counts household incomes. It is always smaller than the production multiplier, because only a fraction of the production value turns into income (i.e. you have to net out the costs)</p>
 </details>
-
 
 <details>
   <summary><h2>+ How to use the Dashboard?</h2></summary>
@@ -103,10 +136,22 @@
 </details>
 
 <details>
-  <summary><h2>+ Can I see the SAM?</h2></summary>
-  <p>All multipliers are based on the SAM displayed in the <strong>DATA</strong> panel, in the "SAM_RASed" tab.</p>
+  <summary><h2>+ Can I download these results?</h2></summary>
+  <p>There is a "Generate Report" button at the bottom of the Home page.</p>
+  <p>This process is slow.  Please allow the server some time to generate the report. </p>
+</details>
 
-  <p>The <strong>DATA</strong> tab also shows all the data that went into constructing the SAM (see below)</p>
+<details>
+  <summary><h2>+ Can I see the SAM?</h2></summary>
+  <p>All multipliers are based on the SAM displayed in the <strong>SAMs</strong> panel.  The stages of constructing that SAM are also shown: 
+  
+  "SAM_preRAS" refers to the the closest we could get to a balanced matrix using the raw data inputs. 
+  
+  "SAM_RASed" refers to the the output of a "RAS" balancing procedure (bi-proportional balancing) that was performed with the pre-RAS matrix as the input.  
+  
+  "Shares" refers to the column shares of the RASed matrix.  </p>
+
+  <p>The <strong>DATA</strong> tab shows all the data that went into constructing the SAM (see below)</p>
 </details>
 
 <details>

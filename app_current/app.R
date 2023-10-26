@@ -38,7 +38,7 @@ library(emojifont)
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 # sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v12.xlsx"
+sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v13.xlsx"
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 
@@ -395,8 +395,8 @@ ui <- dashboardPage(
                      tabName = "sams",
                      icon = icon("table")
             ),
-            menuItem("Instructions",
-                     tabName = "instructions",
+            menuItem("FAQ",
+                     tabName = "faq",
                      icon = icon("book")
             )
         )
@@ -405,7 +405,7 @@ ui <- dashboardPage(
     dashboardBody(
         tabItems(
             # ============================ Instructions Tab ======================================
-            tabItem("instructions", 
+            tabItem("faq", 
                 fluidPage(
                   uiOutput("doc_to_display")
                 )
@@ -509,30 +509,30 @@ ui <- dashboardPage(
             tabItem("home",
                 fluidPage(
                     # p("Protected area:", style = "font-size:25px"), 
-                    h2(textOutput("park_name")),
-                    p("Welcome to the LEWIE-Lite dashboard. This tool allows you to explore the impacts of Protected Areas on the local economy surrounding them.", style = "font-size:16px"),
+                    h1(textOutput("park_name")),
+                    p("Welcome to the LEWIE-Lite dashboard. This tool allows you to explore the impacts of Protected Areas on the local economy surrounding them.", style = "font-size:18px"),
                     p("On this page, you can see some general information about tourism in the Protected Area being studied. At the top, some basic stats regarding the numbers of tourists and park revenues, 
                     along with some simple scenario calculations. 
-                      Scrolling down, you will find some see the local-economy multipliers calculated using the LEWIE-Lite model.", style = "font-size:16px"),
-                    p("If you open the side-bar menu, you will find a number of useful tabs.  Most importantly, the Simulations tab offers a range of options to simulate the local-economy impacts of tourism spending.", style = "font-size:16px"),
-                    p("Overview of tourism in the park:", style = "font-size:25px"),
+                      Scrolling down, you will find some see the local-economy multipliers calculated using the LEWIE-Lite model.", style = "font-size:18px"),
+                    p("If you open the side-bar menu, you will find a number of useful tabs.  Most importantly, the Simulations tab offers a range of options to simulate the local-economy impacts of tourism spending.", style = "font-size:18px"),
+                    p("Overview of tourism in the park:", style = "font-size:27px"),
                     fluidRow(
                         box(width = 12, 
                             # p(textOutput("park_stats")),
-                            p("Total tourists coming to the park (annually):", style = "font-size:18px"),
+                            p("Total tourists coming to the park (annually):", style = "font-size:22px"),
                             # Tourists, multi-day tourists, length of stay, avg spending
                             fluidRow( 
                                 column(3, valueBoxOutput("valueBox_numtour", width = 12)),
                                 column(9)
                             ),
-                            p("Details on tourists in the park:", style = "font-size:18px"),
+                            p("Details on tourists in the park:", style = "font-size:22px"),
                             # Single-day, multi-day tourists, length of stay, avg spending
                             valueBoxOutput("valueBox_numtourSingle", width = 3),
                             valueBoxOutput("valueBox_numtourMulti", width = 3),
                             valueBoxOutput("valueBox_avgTouristLength", width = 3),
                             valueBoxOutput("valueBox_avgTouristSpending", width = 3),
                             # Overview of 
-                            p("Park finances:", style = "font-size:18px"),
+                            p("Park finances:", style = "font-size:22px"),
                             valueBoxOutput("valueBox_entryFee", width = 3),
                             valueBoxOutput("valueBox_totalEntryFees", width = 3),
                             valueBoxOutput("valueBox_budget", width = 3), 
@@ -541,8 +541,8 @@ ui <- dashboardPage(
                             # valueBox(textOutput("tourists_avgSpending"), width = 12, "Average Spending", icon = icon("sun"),  color = "orange"),
                         # ),
                             # Only some parks have community revenue sharing, so make this small
-                            p("Community Revenue Sharing:", style = "font-size:18px"),
-                            p(textOutput("community_revenue_sharing")),
+                            p("Community Revenue Sharing:", style = "font-size:22px"),
+                            span(textOutput("community_revenue_sharing"), style = "font-size:18px"),
                     # Removing this top part: it distracts from LEWIE too much. 
                     # ),
                     # fluidRow(
@@ -558,15 +558,18 @@ ui <- dashboardPage(
                         # ),
                         # box(width = 12, 
                             # p("Tourism scenario #2: detailed increases in tourism stats", style = "font-size:18px"), 
-                            p("Tourism scenarios:", style = "font-size:18px"),
+                            hr(),
+                            p("Entry fee calculator:", style = "font-size:22px"),
+                            p("(The two input boxes below are not for simulations. They are just useful to calculate total entry fees.)" , style = "font-size:16px"),
+                            span("Enter the number of additional tourists you expect (single or multi-day, because they all pay the same fee):", style = "font-size:18px"),
                             fluidRow(
-                                column(4, numericInput("inc_touristsSingle_count", "Increase count of Single-day tourists:", value = 0, step = 1, min = -1000000, max = 1000000)),
-                                column(4, numericInput("inc_touristsMulti_count", "Increase count of Multi-day tourists:", value = 0, step = 1,  min = -1000000, max = 1000000)),
+                                column(4, numericInput("inc_touristsTotal_count", "Increase in total tourists (count):", value = 0, step = 1, min = -1000000, max = 1000000)),
+                                # column(4, numericInput("inc_touristsMulti_count", "Increase in Multi-day tourists (count):", value = 0, step = 1,  min = -1000000, max = 1000000)),
                                 # column(3, numericInput("inc_touristsLength_days", "Increase avg length of stay (days):", value = 0.00, step = 0.01,  min = -100, max = 100)),
                                 column(4, numericInput("inc_fee", "Increase in park entry fee ($):", value = 0.00, step = 0.01, min = -100000, max = 100000))
                             ),
-                            p(textOutput("detailed_tourist_increases")),
-                            p(textOutput("detailed_tourist_increases_result"))
+                            span(textOutput("detailed_tourist_increases"), style = "font-size:18px"),
+                            span(textOutput("detailed_tourist_increases_result"), style = "font-size:18px")
                         ),
                     ),
                     # fluidRow(
@@ -579,15 +582,16 @@ ui <- dashboardPage(
                     #         )
                     #     )
                     # ),
-                    p("Local-economy impacts of tourist spending (US$):", style = "font-size:25px"),
+                    p("Local-economy impacts of tourist spending (US$):", style = "font-size:27px"),
                     fluidRow(
-                        box(width = 12, 
-                            p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
-                                including all higher-order impacts, or ripple effects 
-                                (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
-                            , width = 10)
-                        ),
-                        box(width = 12, title = "For every dollar of tourist spending, the total production multiplier is:",
+                        # box(width = 12, 
+                        #     p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
+                        #         including all higher-order impacts, or ripple effects 
+                        #         (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
+                        #     , width = 10, style = "font-size:18px")
+                        # ),
+                        box(width = 12,
+                            p("For every dollar of tourist spending, the total production multiplier is:",  style = "font-size:20px"),
                             column(width = 4,
                                 valueBox(textOutput("totalmult"), width = 12, "Total Production Multiplier", icon = icon("gears"),  color = "maroon"),
                             ),
@@ -595,7 +599,12 @@ ui <- dashboardPage(
                                 p("Which can be split into:"),
                                 valueBox(textOutput("touractmult"), width = 12, "Tourism activities", icon = icon("sun"),  color = "orange"),
                                 valueBox(textOutput("nontouractmult"), width = 12, "Non-Tourism activities", icon = icon("briefcase"),  color = "orange")
-                            )
+                            ),
+                            hr(),
+                            p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
+                                including all higher-order impacts, or ripple effects
+                                (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
+                            , width = 10, style = "font-size:18px")
                             # column(width = 4, 
                             #        p(" okay do i need to write something?  ", width = 12),
                             #        
@@ -604,10 +613,15 @@ ui <- dashboardPage(
                                 
                                 # )
                             # )
+                            
                         )
                     ),
                     fluidRow(
-                        box(width = 12, title = "For every dollar of tourist spending, the total income multiplier is:",
+                        box(width = 12, 
+                        # ),
+                        # box(width = 12, title = "For every dollar of tourist spending, the total income multiplier is:",
+                            p("For every dollar of tourist spending, the total income multiplier is:", style = "font-size:22px"),
+                        
                             column(width = 4, 
                                 # p("total mult")
                                 valueBox(textOutput("gdpmult"), width = 12, "Total Income Multiplier", icon = icon("money-bill-trend-up"),  color = "blue"),
@@ -621,9 +635,16 @@ ui <- dashboardPage(
                                 p("Or, alternatively, can be split into:"),
                                 valueBox(textOutput("poormult"), width = 12, "Accruing to Poor Households", icon = icon("coins"),  color = "aqua"), 
                                 valueBox(textOutput("nonpoormult"), width = 12, "Accruing to NonPoor Households", icon = icon("money-bill"),  color = "aqua")
-                            ),  
-                            p("Notes: The income multiplier and total production multiplier can NOT added together. 
-                            Rather, the income multiplier captures a part of the production multiplier (like profits vs. revenue)"
+                            ),
+                            hr(),
+                            p("The income multiplier represents the total value of incomes that are generated in the economy for every dollar spent by a tourist, 
+                                    including all ripple effects ( income of the cook, and of the shopkeeper, and of the farmer, etc)."
+                              , width = 10, style = "font-size:18px"), 
+                            p("The income multiplier is always smaller than the production multiplier, because it is a subset of it (like profits are a subset of revenue)."
+                              , width = 10, style = "font-size:18px"),
+                            p("Note: Only boxes of the same color should be added together. The two teal boxes add up to the dark blue box. The two light-blue boxes also. 
+                            The two orange boxes above sum up to the dark red Total Production Multiplier box.  
+                            However, total production multiplier (dark red) and the income multiplier (dark blue) and can NOT be added together, because the former already contains the latter", style = "font-size:18px"
                             )
                             
                             # fluidRow(
@@ -647,6 +668,8 @@ ui <- dashboardPage(
             ),
             # ============================ SIMULATIONS DASHBOARD ======================================
             tabItem("simulations",
+                h1("Simulations"),
+                p("On this tab you can run simulations using the LEWIE-Lite model. Scroll to the relevant section to run your simulations.", style = "font-size:18px"),
                 fluidRow(
                   box(width = 12, title = "Explore the local economy impacts of…",
                       p(HTML("1. <a href='#sim_TouristSpending'>Tourist Spending</a>"), style = "margin-left: 20px"),
@@ -672,11 +695,24 @@ ui <- dashboardPage(
                             column(width = 4, plotOutput("simTourists_incomes")),
                             column(width=4, plotOutput("simTourists_labor"))
                         ),
+                        hr(), 
+                        
+                            p("Calculation helpers:", style = "font-size:18px"),
+                            fluidRow(
+                                column(3, sliderInput("pct_increase_tourists", "Percent Increase in total tourists", min = -100, max = 100, value = 10), 
+                                          sliderInput("pct_increase_avg_spending", "Percent Increase in average spending / tourist", min = -100, max = 100, value = 10)
+                                ),
+                                column(9, p(textOutput("tourists_baseline")), 
+                                       p(textOutput("increased_tourist_number"))
+                                )
+                            ),
                         p(),
                         useShinyjs(),
                         actionButton("toTop1", "Back to top",
                                      class="btn btn-light",
-                                     style="padding:4px; font-size:80%; float:right")
+                                     style="padding:4px; font-size:80%; float:right"),
+                        
+                        
                     )
                 ),
                 fluidRow(
@@ -1575,7 +1611,7 @@ server <- function(input, output) {
     output$valueBox_entryFee <- renderValueBox({
         # valueBox(value = format(round(input$tourists_expParkEntry), big.mark=","),
         valueBox(value = format(scales::dollar(round(input$tourists_expParkEntry)), big.mark=","),      
-                 subtitle = "Park Entry Fee", icon = icon("ticket"), color = "olive")
+                 subtitle = "Park Entry Fee (average)", icon = icon("ticket"), color = "olive")
     })
     output$valueBox_totalEntryFees <- renderValueBox({
         valueBox(value = format(scales::dollar(round(input$natPark_entryFees)), big.mark=","),
@@ -1597,47 +1633,76 @@ server <- function(input, output) {
     
     output$community_revenue_sharing <- renderText({
         crshare <- round(input$natPark_expComRevSh/input$natPark_entryFees * 100)
-        crs_dollars <- format(round(crshare * input$natPark_entryFees, 2), big.mark = ",") 
+        crs_dollars <- format(round(crshare/100 * input$natPark_entryFees, 2), big.mark = ",") 
 
         HTML(paste("This park redistributes", crshare , "% of entry fees as a Community Revenue Sharing scheme.  
-                  This generates $", crs_dollars, "in funds for the scheme."))
+                  This generates $", crs_dollars, "in funds for the surrounding communities. (Note that not all parks have this kind of explicit redistribution scheme.)"))
     })
 
     
     
     ##### Compute some stuff for the tourism scenarios
     ################################################################################
-    output$increased_tourist_number <- renderText({
-        pct_change = format(input$pct_increase_tourists, nsmall = 2)
-        nb_increase <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(input$pct_increase_tourists)/100, big.mark=",")
-        new_total <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100, big.mark=",")
-        fees_increase <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(input$pct_increase_tourists)/100 * input$tourists_expParkEntry, big.mark =",")
-        new_total_fees <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100 * input$tourists_expParkEntry, big.mark=",")
-        # nb_increase <- paste("<b>", result , "</b>")
-        HTML(paste("If you increase (decrease) tourism by", pct_change , "%, that is a change of ",  nb_increase, "tourists and $", fees_increase,"change in entry fees.", 
-                   "This yields", new_total, "total number of tourists and $",new_total_fees,"total fees." ))
-    })
-    
-    
-    
     output$detailed_tourist_increases <- renderText({
-        new_touristsSingle <- format(round(input$tourists_popSingleDay + input$inc_touristsSingle_count), big.mark = ",")
-        new_touristsMulti <- format(round(input$tourists_popMultiDay + input$inc_touristsMulti_count), big.mark = ",") 
+        # new_touristsSingle <- format(round(input$tourists_popSingleDay + input$inc_touristsSingle_count), big.mark = ",")
+        # new_touristsMulti <- format(round(input$tourists_popMultiDay + input$inc_touristsMulti_count), big.mark = ",") 
+        new_touristsTotal <- format(round(input$tourists_popSingleDay + input$tourists_popMultiDay + input$inc_touristsTotal_count), big.mark = ",")
         new_fee <- format(round(input$tourists_expParkEntry + input$inc_fee, 2))
         
-        HTML(paste("With those changes you would have", new_touristsSingle , "single-day tourists,", new_touristsMulti, "multiday tourists, all paying $", new_fee, "entry fees."))
+        paste("With those changes you would have", new_touristsTotal , "tourists, paying on average $", new_fee, "in entry fees.")
     })
     
     output$detailed_tourist_increases_result <- renderText({
         
-        new_touristsSingle <- input$tourists_popSingleDay + input$inc_touristsSingle_count
-        new_touristsMulti <- input$tourists_popMultiDay + input$inc_touristsMulti_count 
+        # new_touristsSingle <- input$tourists_popSingleDay + input$inc_touristsSingle_count
+        # new_touristsMulti <- input$tourists_popMultiDay + input$inc_touristsMulti_count 
+        new_touristsTotal <- input$tourists_popSingleDay + input$tourists_popMultiDay + input$inc_touristsTotal_count 
         new_fee <- input$tourists_expParkEntry + input$inc_fee 
         
-        new_total_fees <- format(round(new_fee*(new_touristsSingle + new_touristsMulti)), big.mark = ",")
-        fees_increase <- format(round(new_fee*(new_touristsSingle + new_touristsMulti) - input$natPark_entryFees), big.mark = ",")
-        HTML(paste("Under those conditions, you would get an increase of $", fees_increase , "in entry fees, for a total of $", new_total_fees, "entry fees."))
+        new_total_fees <- format(round(new_fee*(new_touristsTotal)), big.mark = ",")
+        fees_increase <- format(round(new_fee*(new_touristsTotal) - input$natPark_entryFees), big.mark = ",")
+        HTML(paste("Under those conditions, you would get an increase of $", fees_increase , "in entry fees, for a total of $", new_total_fees, "total revenue from entry fees."))
     })
+    
+    #### These ones are for the "Calculation helpers" on the Simulations tab:
+    output$tourists_baseline <- renderText({
+        old_total <- input$tourists_popMultiDay + input$tourists_popSingleDay
+        old_spending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+            input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
+            # note: single day tourists spend 0 on lodging, but they are still in the denominator:
+            (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+        
+        # pct_change <- format(input$pct_increase_tourists, nsmall = 2)
+        # nb_increase <- (input$tourists_popMultiDay + input$tourists_popSingleDay)*(input$pct_increase_tourists)/100
+        # spending_increase <- format(old_spending*nb_increase, big.mark = ",") 
+        # # new_total <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100, big.mark=",")
+        # fees_increase <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(input$pct_increase_tourists)/100 * input$tourists_expParkEntry, big.mark =",")
+        # new_total_fees <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100 * input$tourists_expParkEntry, big.mark=",")
+        paste("There are currently", format(old_total, big.mark = ","), "tourists, spending on average $", format(round(old_spending), big_mark = ",") , ".")
+    })
+    
+    output$increased_tourist_number <- renderText({
+        old_total <- input$tourists_popMultiDay + input$tourists_popSingleDay
+        old_spending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+            input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
+            # note: single day tourists spend 0 on lodging, but they are still in the denominator:
+            (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+        
+        pct_increase_tourists <- format(input$pct_increase_tourists, nsmall = 2)
+        pct_increase_avg_spending <- format(input$pct_increase_avg_spending, nsmall = 2)
+        # nb_increase <- (input$tourists_popMultiDay + input$tourists_popSingleDay)*(input$pct_increase_tourists)/100
+        new_total <- old_total * (1+input$pct_increase_tourists/100)
+        new_spending <- old_spending * (1+input$pct_increase_avg_spending/100)
+        spending_increase <- format( new_total*new_spending - old_total*old_spending, big.mark = ",") 
+        # new_total <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100, big.mark=",")
+        # fees_increase <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(input$pct_increase_tourists)/100 * input$tourists_expParkEntry, big.mark =",")
+        # new_total_fees <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100 * input$tourists_expParkEntry, big.mark=",")
+        paste("Changing the number of tourists by", pct_increase_tourists , "% and the average spending per tourists by", pct_increase_avg_spending, "% would result in $",  
+               spending_increase,"increase in spending.")
+    })
+    
+    
+    
     
     
     
@@ -1805,6 +1870,7 @@ server <- function(input, output) {
             geom_text(aes(label = total_prod), vjust = -0.2) +
             ggtitle(" ... ON PRODUCTION") +
             facet_wrap(~activity_type, strip.position = "bottom", scales = "free_x") +
+            theme_bw() +
             theme(plot.title = element_text(hjust=0.5, size=14, face="bold", margin=margin(5, 0, 5, 0)),
                   axis.text.x = element_text(size=10),
                   axis.text.y = element_text(size=10),
@@ -1829,6 +1895,7 @@ server <- function(input, output) {
             xlab("Households") + ylab("Additional Income ($)") + 
             geom_text(aes(label = total_inc), vjust = -0.2) +
             ggtitle("... ON INCOMES ") +
+            theme_bw() +
             theme(plot.title = element_text(hjust=0.5, size=14, face="bold", margin=margin(5, 0, 5, 0)),
                   axis.text.x = element_text(size=10),
                   axis.text.y = element_text(size=10),
@@ -1862,6 +1929,7 @@ server <- function(input, output) {
             xlab("Labor Categories") + ylab("Additional Labor Income ($)") + 
             geom_text(aes(label = total_lab), vjust = -0.2) +
             ggtitle("... ON LABOR INCOME ") +
+            theme_bw() +
             theme(plot.title = element_text(hjust=0.5, size=14, face="bold", margin=margin(5, 0, 5, 0)),
                   axis.text.x = element_text(size=10),
                   axis.text.y = element_text(size=10),

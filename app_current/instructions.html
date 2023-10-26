@@ -1,12 +1,37 @@
-<head> <style> h2 { color: rgb(63, 144, 210); } </style> </head>
+<head> 
+  <style> 
+    h2 { color: rgb(63, 144, 210); } 
+    p {
+      font-size: 18px; /* You can adjust the font size as needed */
+    }
+  </style> 
+</head>
 
-<h1>WELCOME to the LEWIE-Lite DASHBOARD</h1>
+<h1>Frequently Asked Questions</h1>
 
-<p>On this dashboard, you can run simple simulations to calculate multipliers of a tourism project using a LEWIE-Lite
+<!-- <p>On this dashboard, you can run simple simulations to calculate multipliers of a tourism project using a LEWIE-Lite
   model.</p>
 
-<p>A LEWIE-Lite model is a multiplier model based on a Social Accounting Matrix (SAM) of the target area.</p>
+<p>A LEWIE-Lite model is a multiplier model based on a Social Accounting Matrix (SAM) of the target area.</p> -->
 
+<details>
+  <summary><h2>+ What is LEWIE?</h2></summary>
+  <p>LEWIE stands for Local Economywide Impact Evaluation. 
+    It is a family of methods to evaluate the direct and indirect impacts of programs and policies (i.e. including spillovers)</p>
+  <p>LEWIE methods are all rooted in general equilibrium principles.  A full-blown LEWIE model is coded and solved with specialized software such as GAMS. 
+    In contrast, the model used for this dashboard is a LEWIE-Lite, which was designed to be easier to build and less data-intensive.</p>
+  <p>For more information about LEWIE, see <a href="http://www.beyondexperiments.org">www.beyondexperiments.org</a></p> 
+</details>
+
+<details>
+  <summary><h2>+ What is LEWIE-Lite?</h2></summary>
+  <p>LEWIE-Lite is a simpler, easier to build, less data-intensive version of LEWIE (Local Economy-wide Impact Evaluation).</p>
+  <p>The model has a Social Accounting Matrix (SAM) at its core, which represents flows of value in the area of interest 
+    (usually a natural Park and surrounding area).  This SAM is used to calculate SAM multipliers. </p>
+  <p>The LEWIE-Lite can be built with information that is relatively easy to obtain: information about the Park (fees, budget, etc), 
+    about businesses around the park (restaurants, lodges), about households living in the area (activities, expenditures), and about tourists (spending)
+  </p>
+</details>
 
 <details>
   <summary><h2>+ What does the Dashboard display?</h2></summary>
@@ -76,13 +101,6 @@
 </details>
 
 <details>
-  <summary><h2>+ Can I download these results?</h2></summary>
-  <p>There is a "Generate Report" button at the bottom of the Home page.</p>
-  <p>This process is slow.  Please allow the server some time to generate the report. </p>
-</details>
-
-
-<details>
   <summary><h2>+ What is a multiplier?</h2></summary>
   <p> A multiplier captures the fact that money circulates through the economy.  The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, including all higher-order impacts, or ripple effects (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those earnings buying food from a farmer, etc.) </p>
   <p>The income multiplier is the same concept, but only counts household incomes. It is always smaller than the production multiplier, because only a fraction of the production value turns into income (i.e. you have to net out the costs)</p>
@@ -115,6 +133,12 @@
     <li>The fourth plot shows park and community revenues.  These values depend heavily on local arrangements and rules about how 
       park fees get spent. </li>
   </ul>
+</details>
+
+<details>
+  <summary><h2>+ Can I download these results?</h2></summary>
+  <p>There is a "Generate Report" button at the bottom of the Home page.</p>
+  <p>This process is slow.  Please allow the server some time to generate the report. </p>
 </details>
 
 <details>
