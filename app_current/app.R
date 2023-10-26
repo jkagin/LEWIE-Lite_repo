@@ -515,9 +515,13 @@ ui <- dashboardPage(
                     along with some simple scenario calculations. 
                       Scrolling down, you will find some see the local-economy multipliers calculated using the LEWIE-Lite model.", style = "font-size:18px"),
                     p("If you open the side-bar menu, you will find a number of useful tabs.  Most importantly, the Simulations tab offers a range of options to simulate the local-economy impacts of tourism spending.", style = "font-size:18px"),
-                    p("Overview of tourism in the park:", style = "font-size:27px"),
+                    # fluidRow(
+                    #     box(width = 12,
+                    #         p("Overview of tourism in the park:", style = 'font-size:27px;color:rgb(63, 144, 210);'),
+                    #     ),
+                    # ),
                     fluidRow(
-                        box(width = 12, 
+                        box(width = 12, title = span("Overview of tourism in the park:", style = 'font-size:27px;color:rgb(63, 144, 210);'),
                             # p(textOutput("park_stats")),
                             p("Total tourists coming to the park (annually):", style = "font-size:22px"),
                             # Tourists, multi-day tourists, length of stay, avg spending
@@ -582,7 +586,7 @@ ui <- dashboardPage(
                     #         )
                     #     )
                     # ),
-                    p("Local-economy impacts of tourist spending (US$):", style = "font-size:27px"),
+                    # p("Local-economy impacts of tourist spending (US$):", style = 'font-size:27px;color:rgb(63, 144, 210);'),
                     fluidRow(
                         # box(width = 12, 
                         #     p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
@@ -590,21 +594,28 @@ ui <- dashboardPage(
                         #         (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
                         #     , width = 10, style = "font-size:18px")
                         # ),
-                        box(width = 12,
-                            p("For every dollar of tourist spending, the total production multiplier is:",  style = "font-size:20px"),
-                            column(width = 4,
-                                valueBox(textOutput("totalmult"), width = 12, "Total Production Multiplier", icon = icon("gears"),  color = "maroon"),
+                        box(width = 12, title = span("Local-economy impacts of tourist spending (US$):", style = 'font-size:27px;color:rgb(63, 144, 210);'),
+                            p("For every dollar of tourist spending, the total production multiplier is:",  style = "font-size:22px"),
+                            fluidRow( 
+                                column(width = 4,
+                                    valueBox(textOutput("totalmult"), width = 12, "Total Production Multiplier", icon = icon("gears"),  color = "maroon"),
+                                ),
+                                column(width = 4,
+                                    p("Which can be split into:"),
+                                    valueBox(textOutput("touractmult"), width = 12, "Tourism activities", icon = icon("sun"),  color = "orange"),
+                                    valueBox(textOutput("nontouractmult"), width = 12, "Non-Tourism activities", icon = icon("briefcase"),  color = "orange")
+                                ),
+                                hr(),
+                                column(width = 4, 
+                                    p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
+                                    including all higher-order impacts, or ripple effects
+                                    (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
+                                    , style = "font-size:18px"),
+                                ),
                             ),
-                            column(width = 4,
-                                p("Which can be split into:"),
-                                valueBox(textOutput("touractmult"), width = 12, "Tourism activities", icon = icon("sun"),  color = "orange"),
-                                valueBox(textOutput("nontouractmult"), width = 12, "Non-Tourism activities", icon = icon("briefcase"),  color = "orange")
+                            fluidRow(
+                                hr()
                             ),
-                            hr(),
-                            p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
-                                including all higher-order impacts, or ripple effects
-                                (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
-                            , width = 10, style = "font-size:18px")
                             # column(width = 4, 
                             #        p(" okay do i need to write something?  ", width = 12),
                             #        
@@ -614,13 +625,13 @@ ui <- dashboardPage(
                                 # )
                             # )
                             
-                        )
-                    ),
-                    fluidRow(
-                        box(width = 12, 
+                        # )
+                    # ),
+                    # fluidRow(
+                        # box(width = 12, 
                         # ),
                         # box(width = 12, title = "For every dollar of tourist spending, the total income multiplier is:",
-                            p("For every dollar of tourist spending, the total income multiplier is:", style = "font-size:22px"),
+                            p("For every dollar of tourist spending, the total income multiplier is:", style = "font-size:22px; color"),
                         
                             column(width = 4, 
                                 # p("total mult")
@@ -684,7 +695,8 @@ ui <- dashboardPage(
                   )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local Economy-wide Impacts of Tourist Spending",
+                    
+                    box(width = 12, title = span("Local Economy-wide Impacts of Tourist Spending (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
                         p('You may wish to evaluate different values of tourist spending: total tourist spending, tourist spending attributable to the PA, change in tourist spending you expect from this project, etc.'),
                         fluidRow(
                             column(4, inp_sim_TouristSpending)
@@ -716,7 +728,7 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local Economy-wide Impacts of Park Spending (US$)",
+                    box(width = 12, title = span("Local Economy-wide Impacts of Park Spending (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
                         p('Park spending is policy-determined, even though there are visitor fees in most places.'),
                         fluidRow(
                             column(4, inp_sim_PASpending)
@@ -735,7 +747,7 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local Economy-wide Impacts of Community Spending (US$)",
+                    box(width = 12, title = span("Local Economy-wide Impacts of Community Spending (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
                         p('Our simulations assume that part of PA visitor fees are shared with communities. We can also use this model to see the effects of giving additional money to communities near the park. For example, some NGOs support communities near PAs that may or may not happen if the PA did not exist.'),
                         fluidRow(
                             column(4, inp_sim_ComRevShSpending)
@@ -754,7 +766,7 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local Economy-wide Impacts of Increased Agricultural Production (US$)",
+                    box(width = 12, title = span("Local Economy-wide Impacts of Increased Agricultural Production (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
                         p('Tourist activities create demand for local agricultural products.  We can also use this model to see the effects of complementary
                           interventions to increase the demand for local agricultural products, for example, 
                           by enabling restaurants and lodges to source more food locally.'),
@@ -776,7 +788,7 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local Economy-wide Impacts of Increased Non-Agricultural Production (US$)",
+                    box(width = 12, title = span("Local Economy-wide Impacts of Increased Non-Agricultural Production (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
                         p('Tourist activities create demand for local non-agricultural products. We can also use this model to see the effects of complementary
                           interventions to increase the demand for local non-agricultural products, for example, 
                           by enabling restaurants and lodges to source local artifacts or processed goods.'),
@@ -798,7 +810,7 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local Economy-wide Impacts of Low-skilled Female Earnings (US$)",
+                    box(width = 12, title = span("Local Economy-wide Impacts of Low-skilled Female Earnings (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
                         p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
                           interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
@@ -819,7 +831,7 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local Economy-wide Impacts of Low-skilled Male Earnings (US$)",
+                    box(width = 12, title = span("Local Economy-wide Impacts of Low-skilled Male Earnings (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
                         p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
                           interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
@@ -840,7 +852,7 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local Economy-wide Impacts of Skilled Female Earnings (US$)",
+                    box(width = 12, title = span("Local Economy-wide Impacts of Skilled Female Earnings (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
                         p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
                           interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
@@ -861,7 +873,7 @@ ui <- dashboardPage(
                     )
                 ),
                 fluidRow(
-                    box(width = 12, title = "Local Economy-wide Impacts of Skilled Male Earnings (US$)",
+                    box(width = 12, title = span("Local Economy-wide Impacts of Skilled Male Earnings (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
                         p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
                           interventions to increase the employment of local workers, for example, through job training programs.'),
                         fluidRow(
