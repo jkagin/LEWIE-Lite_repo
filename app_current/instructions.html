@@ -2,7 +2,10 @@
   <style> 
     h2 { color: rgb(63, 144, 210); } 
     p {
-      font-size: 18px; /* You can adjust the font size as needed */
+      font-size: 20px; /* You can adjust the font size as needed */
+    }
+    ul li{
+      font-size:18px;
     }
   </style> 
 </head>
@@ -27,10 +30,31 @@
   <summary><h2>+ What is LEWIE-Lite?</h2></summary>
   <p>LEWIE-Lite is a simpler, easier to build, less data-intensive version of LEWIE (Local Economy-wide Impact Evaluation).</p>
   <p>The model has a Social Accounting Matrix (SAM) at its core, which represents flows of value in the area of interest 
-    (usually a natural Park and surrounding area).  This SAM is used to calculate SAM multipliers. </p>
+    (usually a natural park and surrounding area).  This SAM is used to calculate SAM multipliers. </p>
   <p>The LEWIE-Lite can be built with information that is relatively easy to obtain: information about the Park (fees, budget, etc), 
-    about businesses around the park (restaurants, lodges), about households living in the area (activities, expenditures), and about tourists (spending)
+    about businesses around the park (restaurants, lodges), about households living in the area (activities, expenditures), and about tourists (spending).
   </p>
+</details>
+
+<details>
+  <summary><h2>+ What can LEWIE-Lite do?</h2></summary>
+  <p>LEWIE-Lite captures the economic spillovers of spending in different activities, with a primary (but not exclusive) focus on tourist spending.</p>
+  <p>With LEWIE-Lite, one can simulate increases/decreases in tourist spending, and see how these would translate into increased activity, production, incomes, in the local economy.</p>
+  <p>One can simulate similar increases/decreases in local activities, or in incomes for specific groups of workers. E.g. When earnings of poor female workers increase, which local activities get stimulated by their additional spending?</p>
+</details>
+
+<details>
+  <summary><h2>+ What can LEWIE-Lite NOT do?</h2></summary>
+  <p>LEWIE-Lite is a model of the local economy that captures flows of values (incomes, expenditures, profits, etc) during one year of activity at and around the park. </p>
+  <p>To avoid confusion, here is a list of things that this model does and doesn't do: </p> 
+  <ul>
+    <li>The spillover impacts LEWIE-Lite captures are tangible economic impacts.  It cannot capture non-economic spillovers (biodiversity, pollution, animal welfare, etc.)</li>
+    <li>LEWIE-Lite captures values in one year of activity. It does not attempt to predict long-term dynamic evolutions.</li>
+    <li>Expenditure shares remain fixed in LEWIE-Lite.  This means one can simulate "What if tourists increase their overall spending?" (this increase will be distributed following the tourist spending patterns in the data). 
+      However, one cannot simulate "What if tourists increase spending on restaurants only, but nothing else?" </li>
+    <li>LEWIE-Lite can only model economic activity types that aleady exist in the studied area.  For example, if we know from the data that tourists eat at local restaurants, LEWIE-Lite can model increases/decreases in restaurant activity.  
+      However, if there exists no restaurant at all in the area of interest, and tourists in our data do not spend anything in restaurants, then LEWIE-Lite cannot simulate the existance of restaurants.</li>
+  </ul>
 </details>
 
 <details>
