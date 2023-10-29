@@ -671,9 +671,9 @@ ui <- dashboardPage(
                         )
                     ),
                     fluidRow(
-                        downloadButton("report", "Generate PDF Report"),
+                        downloadButton("report1", "Generate PDF Report", style = "margin-left: 20px"),
                         # downloadButton("download1.Excel", "Generate Excel File (with data)"),
-                        p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.')
+                        p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.', style = "margin-left: 20px")
                     )
                 )
             ),
@@ -892,6 +892,10 @@ ui <- dashboardPage(
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
+                ),
+                fluidRow(
+                  downloadButton("report2", "Generate PDF Report", style = "margin-left: 20px"),
+                  p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.', style = "margin-left: 20px")
                 )
             )
         )
@@ -2204,14 +2208,37 @@ server <- function(input, output) {
     }
     
     
-    output$report <- downloadHandler(
-      filename = "report.pdf",
+    output$report1 <- downloadHandler(
+      filename = "report1.pdf",
       content = function(file) {
         # Copy the report file to a temporary directory before processing it, in
         # case we don't have write permissions to the current working dir (which
         # can happen when deployed).
-        tempReport <- file.path(tempdir(), "report.Rmd")
-        file.copy("report.Rmd", tempReport, overwrite = TRUE)
+        tempReport <- file.path(tempdir(), "report1.Rmd")
+        file.copy("report1.Rmd", tempReport, overwrite = TRUE)
+        
+        # Set up parameters to pass to Rmd document
+        params <- list(totalmult = totalmult, gdpmult = gdpmult, labmult = labmult,
+                       capmult = capmult, poormult = poormult, nonpoormult = nonpoormult)
+        
+        # Knit the document, passing in the `params` list, and eval it in a
+        # child of the global environment (this isolates the code in the document
+        # from the code in this app).
+        rmarkdown::render(tempReport, output_file = file,
+                          params = params,
+                          envir = new.env(parent = globalenv())
+        )
+      }
+    )
+    
+    output$report2 <- downloadHandler(
+      filename = "report2.pdf",
+      content = function(file) {
+        # Copy the report file to a temporary directory before processing it, in
+        # case we don't have write permissions to the current working dir (which
+        # can happen when deployed).
+        tempReport <- file.path(tempdir(), "report2.Rmd")
+        file.copy("report2.Rmd", tempReport, overwrite = TRUE)
         
         # Set up parameters to pass to Rmd document
         params <- list(prod1 = reportplot_prod1, prod2 = reportplot_prod2, prod3 = reportplot_prod3,
@@ -2223,10 +2250,7 @@ server <- function(input, output) {
                        linc1 = reportplot_linc1, linc2 = reportplot_linc2, linc3 = reportplot_linc3,
                        linc4 = reportplot_linc4, linc5 = reportplot_linc5, linc6 = reportplot_linc6,
                        linc7 = reportplot_linc7, linc8 = reportplot_linc8, linc9 = reportplot_linc9,
-                       earn1 = reportplot_earn1,
-                       totalmult = totalmult, gdpmult = gdpmult, labmult = labmult,
-                       capmult = capmult, poormult = poormult, nonpoormult = nonpoormult,
-                       sim_TouristSpending = input$sim_TouristSpending,
+                       earn1 = reportplot_earn1, sim_TouristSpending = input$sim_TouristSpending,
                        sim_PASpending = input$sim_PASpending,
                        sim_ComRevShSpending = input$sim_ComRevShSpending,
                        sim_AgSpending = input$sim_AgSpending,
