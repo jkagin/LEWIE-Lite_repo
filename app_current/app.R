@@ -649,7 +649,7 @@ ui <- dashboardPage(
                             ),
                             hr(),
                             p("The income multiplier represents the total value of incomes that are generated in the economy for every dollar spent by a tourist, 
-                                    including all ripple effects ( income of the cook, and of the shopkeeper, and of the farmer, etc)."
+                                    including all ripple effects (income of the cook, and of the shopkeeper, and of the farmer, etc)."
                               , width = 10, style = "font-size:18px"), 
                             p("The income multiplier is always smaller than the production multiplier, because it is a subset of it (like profits are a subset of revenue)."
                               , width = 10, style = "font-size:18px"),
@@ -2303,127 +2303,127 @@ server <- function(input, output) {
     })
 
     
-    output$download1.Excel <- downloadHandler(
-    
-      filename = function() { paste("data.xlsx")},
-      
-      content = function(file){
-        Results_Workbook <- createWorkbook(type='xlsx')
-
-        mults <- multout()
-        sheet.1 <- createSheet(Results_Workbook, sheetName = "Multipliers")
-        addDataFrame(mults, sheet=sheet.1, startRow=1, startColumn=1,row.names=TRUE)
-        
-        sam <- sam_RASed()
-        sheet.2 <- createSheet(Results_Workbook, sheetName = "SAM (RASed)")
-        addDataFrame(sam, sheet=sheet.2, startRow=1, startColumn=1,row.names=TRUE)
-        
-        prod1 = reportplot_prod1()
-        inc1 = reportplot_inc1()
-        linc1 = reportplot_linc1()
-        earn1 = reportplot_earn1()
-        sheet.3 <- createSheet(Results_Workbook, sheetName = "Tourism Spending")
-        ggsave("prod1.jpeg", prod1, device="jpeg", dpi = 80)
-        ggsave("inc1.jpeg", inc1, device="jpeg", dpi = 80)
-        ggsave("linc1.jpeg", linc1, device="jpeg", dpi = 80)
-        ggsave("earn1.jpeg", earn1, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=22)
-        # addPicture(file = paste0(getwd(),"/earn1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=32)
-        
-        prod2 = reportplot_prod2()
-        inc2 = reportplot_inc2()
-        linc2 = reportplot_linc2()
-        sheet.4 <- createSheet(Results_Workbook, sheetName = "Park Spending")
-        ggsave("prod2.jpeg", prod2, device="jpeg", dpi = 80)
-        ggsave("inc2.jpeg", inc2, device="jpeg", dpi = 80)
-        ggsave("linc2.jpeg", linc2, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=22)
-        
-        prod3 = reportplot_prod3()
-        inc3 = reportplot_inc3()
-        linc3 = reportplot_linc3()
-        sheet.5 <- createSheet(Results_Workbook, sheetName = "Community Spending")
-        ggsave("prod3.jpeg", prod3, device="jpeg", dpi = 80)
-        ggsave("inc3.jpeg", inc3, device="jpeg", dpi = 80)
-        ggsave("linc3.jpeg", linc3, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=22)
-        
-        prod4 = reportplot_prod4()
-        inc4 = reportplot_inc4()
-        linc4 = reportplot_linc4()
-        sheet.6 <- createSheet(Results_Workbook, sheetName = "Increased Agricultural Production")
-        ggsave("prod4.jpeg", prod4, device="jpeg", dpi = 80)
-        ggsave("inc4.jpeg", inc4, device="jpeg", dpi = 80)
-        ggsave("linc4.jpeg", linc4, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=22)
-        
-        prod5 = reportplot_prod5()
-        inc5 = reportplot_inc5()
-        linc5 = reportplot_linc5()
-        sheet.7 <- createSheet(Results_Workbook, sheetName = "Increased Non-Agricultural Production")
-        ggsave("prod5.jpeg", prod5, device="jpeg", dpi = 80)
-        ggsave("inc5.jpeg", inc5, device="jpeg", dpi = 80)
-        ggsave("linc5.jpeg", linc5, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=22)
-        
-        prod6 = reportplot_prod6()
-        inc6 = reportplot_inc6()
-        linc6 = reportplot_linc6()
-        sheet.8 <- createSheet(Results_Workbook, sheetName = "Low-Skilled Female Earnings")
-        ggsave("prod6.jpeg", prod6, device="jpeg", dpi = 80)
-        ggsave("inc6.jpeg", inc6, device="jpeg", dpi = 80)
-        ggsave("linc6.jpeg", linc6, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=22)
-        
-        prod7 = reportplot_prod7()
-        inc7 = reportplot_inc7()
-        linc7 = reportplot_linc7()
-        sheet.9 <- createSheet(Results_Workbook, sheetName = "Low-Skilled Male Earnings")
-        ggsave("prod7.jpeg", prod7, device="jpeg", dpi = 80)
-        ggsave("inc7.jpeg", inc7, device="jpeg", dpi = 80)
-        ggsave("linc7.jpeg", linc7, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=22)
-        
-        prod8 = reportplot_prod8()
-        inc8 = reportplot_inc8()
-        linc8 = reportplot_linc8()
-        sheet.10 <- createSheet(Results_Workbook, sheetName = "Skilled Female Earnings")
-        ggsave("prod8.jpeg", prod8, device="jpeg", dpi = 80)
-        ggsave("inc8.jpeg", inc8, device="jpeg", dpi = 80)
-        ggsave("linc8.jpeg", linc8, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=22)
-        
-        prod9 = reportplot_prod9()
-        inc9 = reportplot_inc9()
-        linc9 = reportplot_linc9()
-        sheet.11 <- createSheet(Results_Workbook, sheetName = "Skilled Male Earnings")
-        ggsave("prod9.jpeg", prod9, device="jpeg", dpi = 80)
-        ggsave("inc9.jpeg", inc9, device="jpeg", dpi = 80)
-        ggsave("linc9.jpeg", linc9, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=22)
-        
-        saveWorkbook(Results_Workbook,file)
-      } 
-    
-    )
+    # output$download1.Excel <- downloadHandler(
+    # 
+    #   filename = function() { paste("data.xlsx")},
+    #   
+    #   content = function(file){
+    #     Results_Workbook <- createWorkbook(type='xlsx')
+    # 
+    #     mults <- multout()
+    #     sheet.1 <- createSheet(Results_Workbook, sheetName = "Multipliers")
+    #     addDataFrame(mults, sheet=sheet.1, startRow=1, startColumn=1,row.names=TRUE)
+    #     
+    #     sam <- sam_RASed()
+    #     sheet.2 <- createSheet(Results_Workbook, sheetName = "SAM (RASed)")
+    #     addDataFrame(sam, sheet=sheet.2, startRow=1, startColumn=1,row.names=TRUE)
+    #     
+    #     prod1 = reportplot_prod1()
+    #     inc1 = reportplot_inc1()
+    #     linc1 = reportplot_linc1()
+    #     earn1 = reportplot_earn1()
+    #     sheet.3 <- createSheet(Results_Workbook, sheetName = "Tourism Spending")
+    #     ggsave("prod1.jpeg", prod1, device="jpeg", dpi = 80)
+    #     ggsave("inc1.jpeg", inc1, device="jpeg", dpi = 80)
+    #     ggsave("linc1.jpeg", linc1, device="jpeg", dpi = 80)
+    #     ggsave("earn1.jpeg", earn1, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=22)
+    #     # addPicture(file = paste0(getwd(),"/earn1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=32)
+    #     
+    #     prod2 = reportplot_prod2()
+    #     inc2 = reportplot_inc2()
+    #     linc2 = reportplot_linc2()
+    #     sheet.4 <- createSheet(Results_Workbook, sheetName = "Park Spending")
+    #     ggsave("prod2.jpeg", prod2, device="jpeg", dpi = 80)
+    #     ggsave("inc2.jpeg", inc2, device="jpeg", dpi = 80)
+    #     ggsave("linc2.jpeg", linc2, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod3 = reportplot_prod3()
+    #     inc3 = reportplot_inc3()
+    #     linc3 = reportplot_linc3()
+    #     sheet.5 <- createSheet(Results_Workbook, sheetName = "Community Spending")
+    #     ggsave("prod3.jpeg", prod3, device="jpeg", dpi = 80)
+    #     ggsave("inc3.jpeg", inc3, device="jpeg", dpi = 80)
+    #     ggsave("linc3.jpeg", linc3, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod4 = reportplot_prod4()
+    #     inc4 = reportplot_inc4()
+    #     linc4 = reportplot_linc4()
+    #     sheet.6 <- createSheet(Results_Workbook, sheetName = "Increased Agricultural Production")
+    #     ggsave("prod4.jpeg", prod4, device="jpeg", dpi = 80)
+    #     ggsave("inc4.jpeg", inc4, device="jpeg", dpi = 80)
+    #     ggsave("linc4.jpeg", linc4, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod5 = reportplot_prod5()
+    #     inc5 = reportplot_inc5()
+    #     linc5 = reportplot_linc5()
+    #     sheet.7 <- createSheet(Results_Workbook, sheetName = "Increased Non-Agricultural Production")
+    #     ggsave("prod5.jpeg", prod5, device="jpeg", dpi = 80)
+    #     ggsave("inc5.jpeg", inc5, device="jpeg", dpi = 80)
+    #     ggsave("linc5.jpeg", linc5, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod6 = reportplot_prod6()
+    #     inc6 = reportplot_inc6()
+    #     linc6 = reportplot_linc6()
+    #     sheet.8 <- createSheet(Results_Workbook, sheetName = "Low-Skilled Female Earnings")
+    #     ggsave("prod6.jpeg", prod6, device="jpeg", dpi = 80)
+    #     ggsave("inc6.jpeg", inc6, device="jpeg", dpi = 80)
+    #     ggsave("linc6.jpeg", linc6, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod7 = reportplot_prod7()
+    #     inc7 = reportplot_inc7()
+    #     linc7 = reportplot_linc7()
+    #     sheet.9 <- createSheet(Results_Workbook, sheetName = "Low-Skilled Male Earnings")
+    #     ggsave("prod7.jpeg", prod7, device="jpeg", dpi = 80)
+    #     ggsave("inc7.jpeg", inc7, device="jpeg", dpi = 80)
+    #     ggsave("linc7.jpeg", linc7, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod8 = reportplot_prod8()
+    #     inc8 = reportplot_inc8()
+    #     linc8 = reportplot_linc8()
+    #     sheet.10 <- createSheet(Results_Workbook, sheetName = "Skilled Female Earnings")
+    #     ggsave("prod8.jpeg", prod8, device="jpeg", dpi = 80)
+    #     ggsave("inc8.jpeg", inc8, device="jpeg", dpi = 80)
+    #     ggsave("linc8.jpeg", linc8, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod9 = reportplot_prod9()
+    #     inc9 = reportplot_inc9()
+    #     linc9 = reportplot_linc9()
+    #     sheet.11 <- createSheet(Results_Workbook, sheetName = "Skilled Male Earnings")
+    #     ggsave("prod9.jpeg", prod9, device="jpeg", dpi = 80)
+    #     ggsave("inc9.jpeg", inc9, device="jpeg", dpi = 80)
+    #     ggsave("linc9.jpeg", linc9, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=22)
+    #     
+    #     saveWorkbook(Results_Workbook,file)
+    #   } 
+    # 
+    # )
 
   }
     
