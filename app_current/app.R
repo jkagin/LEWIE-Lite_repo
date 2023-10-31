@@ -1577,8 +1577,11 @@ server <- function(input, output) {
     
     # %%%%%%%%%%%%%%%%% Compute some outputs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    # Outputs for the top of the page: 
-    output$park_name <- renderText(gdata_NPName$label)
+    # Outputs for the top of the page:
+    park_name <- function() {
+      return(gdata_NPName$label)
+    }
+    output$park_name <- renderText(park_name())
     
     # Park stats: number of visitors, revenue, budget 
     output$park_stats <- renderText(paste("The park receives", input$tourists_popMultiDay, "and has a budget of", round(input$natPark_totalBudget), "."))
@@ -1587,63 +1590,91 @@ server <- function(input, output) {
     # Note: you can define the whole valuebox here instead of up in the UI section.  It seems to make nicer boxes. 
     
     #### Four boxes about tourists: Number, number multi-day, length of stay, spending
+    numtour <- function() {
+        return(input$tourists_popMultiDay + input$tourists_popSingleDay)
+    }
     output$valueBox_numtour <- renderValueBox({
-        valueBox(value = format(input$tourists_popMultiDay + input$tourists_popSingleDay, big.mark = ","),
-            subtitle = "Total Number of Tourists", icon = icon("person"), color= "green")
+      valueBox(value = format(numtour(), big.mark = ","),
+               subtitle = "Total Number of Tourists", icon = icon("person"), color= "green")
     })
     
+    numtourSingle <- function() {
+      return(input$tourists_popSingleDay)
+    }
     output$valueBox_numtourSingle <- renderValueBox({
-        valueBox(value = format(input$tourists_popSingleDay, big.mark = ","),
+        valueBox(value = format(numtourSingle(), big.mark = ","),
                  subtitle = "Single-day Tourists", icon = icon("sun"))
     })
     
+    numtourMulti <- function() {
+      return(input$tourists_popMultiDay)
+    }
     output$valueBox_numtourMulti <- renderValueBox({
-        valueBox(value = format(input$tourists_popMultiDay, big.mark = ","),
+        valueBox(value = format(numtourMulti(), big.mark = ","),
                  subtitle = "Multi-day Tourists", icon = icon("bed"), color = "blue")
     })
     
     # Average length of stay
+    avgTouristLength <- function() {
+      # Assuming single-day tourists spend 1 day (though technically it could be just a few hours)
+      tourists_avgLength <-  (input$tourists_nbNights*input$tourists_popMultiDay + input$tourists_popSingleDay) / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+      out <-round(tourists_avgLength, digits = 2)
+      return(out)
+    }
     output$valueBox_avgTouristLength <- renderValueBox({
-        # Assuming single-day tourists spend 1 day (though technically it could be just a few hours)
-        tourists_avgLength <-  (input$tourists_nbNights*input$tourists_popMultiDay + input$tourists_popSingleDay) / (input$tourists_popMultiDay + input$tourists_popSingleDay)
-        out <-round(tourists_avgLength, digits = 2)
-        valueBox(value = format(out, big.mark = ",", scientific = FALSE) ,
+        valueBox(value = format(avgTouristLength(), big.mark = ",", scientific = FALSE) ,
                  subtitle = "Average Length of Stay", icon = icon("calendar"), color = "maroon")
     })
         
-    # Average tourist spending (calculating average lodging per night including those without nights): 
+    # Average tourist spending (calculating average lodging per night including those without nights):
+    avgTouristSpending <- function() {
+      tourists_avgSpending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+        input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
+        # note: single day tourists spend 0 on lodging, but they are still in the denominator:
+        (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+      out <-scales::dollar(round(tourists_avgSpending, digits = 2))
+      return(out)
+    }
     output$valueBox_avgTouristSpending <- renderValueBox({
-        tourists_avgSpending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
-            input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
-            # note: single day tourists spend 0 on lodging, but they are still in the denominator:
-            (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
-        out <-scales::dollar(round(tourists_avgSpending, digits = 2))
-        valueBox(value = format(out, big.mark = ",", scientific = FALSE) ,
+        valueBox(value = format(avgTouristSpending(), big.mark = ",", scientific = FALSE) ,
                  subtitle = "Average Tourist Spending", icon = icon("wallet"), color = "orange")
     })
     
     
     ##### Four boxes about park finances: entry fee, total entry fees, total park budget, total wage spending
+    
+    entryFee <- function() {
+      return(scales::dollar(round(input$tourists_expParkEntry)))
+    }
     output$valueBox_entryFee <- renderValueBox({
         # valueBox(value = format(round(input$tourists_expParkEntry), big.mark=","),
-        valueBox(value = format(scales::dollar(round(input$tourists_expParkEntry)), big.mark=","),      
+        valueBox(value = format(entryFee(), big.mark=","),      
                  subtitle = "Park Entry Fee (average)", icon = icon("ticket"), color = "olive")
     })
+
+    totalEntryFees <- function() {
+      return(scales::dollar(round(input$natPark_entryFees)))
+    }
     output$valueBox_totalEntryFees <- renderValueBox({
-        valueBox(value = format(scales::dollar(round(input$natPark_entryFees)), big.mark=","),
+        valueBox(value = format(totalEntryFees(), big.mark=","),
                  subtitle = "Total Entry Fees", icon = icon("money-bill-trend-up"), color = "yellow")
     })
     
+    budget <- function() {
+      return(scales::dollar(round(input$natPark_totalBudget)))
+    }
     output$valueBox_budget <- renderValueBox({
-        valueBox(value = format(scales::dollar(round(input$natPark_totalBudget)), big.mark = ",", scientific = FALSE) ,
+        valueBox(value = format(budget(), big.mark = ",", scientific = FALSE) ,
                  subtitle = "Total Park Budget", icon = icon("file-invoice-dollar"), color = "teal")
     })
     
-    output$valueBox_parkWageBill <- renderValueBox({
-        valueBox(value = format(scales::dollar(round(input$natPark_totalBudget * 
+    parkWageBill <- function() {
+      return(scales::dollar(round(input$natPark_totalBudget * 
                                     (input$natPark_MwagesUnskilled + input$natPark_MwagesSkilled + input$natPark_FwagesUnskilled + input$natPark_FwagesSkilled)/100 * 
-                                        input$natPark_shareWorkersLocal/100)), 
-                                big.mark = ",", scientific = FALSE) ,
+                                    input$natPark_shareWorkersLocal/100)))
+    }
+    output$valueBox_parkWageBill <- renderValueBox({
+        valueBox(value = format(parkWageBill(), big.mark = ",", scientific = FALSE) ,
                  subtitle = "Park Spending on Local Wages", icon = icon("person-digging"), color = "light-blue")
     })
     
@@ -2219,7 +2250,12 @@ server <- function(input, output) {
         
         # Set up parameters to pass to Rmd document
         params <- list(totalmult = totalmult, gdpmult = gdpmult, labmult = labmult,
-                       capmult = capmult, poormult = poormult, nonpoormult = nonpoormult)
+                       capmult = capmult, poormult = poormult, nonpoormult = nonpoormult,
+                       touractmult=touractmult, nontouractmult=nontouractmult,
+                       park_name=park_name, numtour=numtour, numtourSingle=numtourSingle,
+                       numtourMulti=numtourMulti, avgTouristLength=avgTouristLength,
+                       avgTouristSpending=avgTouristSpending, entryFee=entryFee,
+                       totalEntryFees=totalEntryFees, budget=budget, parkWageBill=parkWageBill)
         
         # Knit the document, passing in the `params` list, and eval it in a
         # child of the global environment (this isolates the code in the document
