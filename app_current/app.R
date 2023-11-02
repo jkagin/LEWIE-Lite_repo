@@ -649,7 +649,7 @@ ui <- dashboardPage(
                             ),
                             hr(),
                             p("The income multiplier represents the total value of incomes that are generated in the economy for every dollar spent by a tourist, 
-                                    including all ripple effects ( income of the cook, and of the shopkeeper, and of the farmer, etc)."
+                                    including all ripple effects (income of the cook, and of the shopkeeper, and of the farmer, etc)."
                               , width = 10, style = "font-size:18px"), 
                             p("The income multiplier is always smaller than the production multiplier, because it is a subset of it (like profits are a subset of revenue)."
                               , width = 10, style = "font-size:18px"),
@@ -671,9 +671,9 @@ ui <- dashboardPage(
                         )
                     ),
                     fluidRow(
-                        downloadButton("report", "Generate PDF Report"),
+                        downloadButton("report1", "Generate PDF Report", style = "margin-left: 20px"),
                         # downloadButton("download1.Excel", "Generate Excel File (with data)"),
-                        p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.')
+                        p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.', style = "margin-left: 20px")
                     )
                 )
             ),
@@ -892,6 +892,10 @@ ui <- dashboardPage(
                                      class="btn btn-light",
                                      style="padding:4px; font-size:80%; float:right")
                     )
+                ),
+                fluidRow(
+                  downloadButton("report2", "Generate PDF Report", style = "margin-left: 20px"),
+                  p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.', style = "margin-left: 20px")
                 )
             )
         )
@@ -1573,8 +1577,11 @@ server <- function(input, output) {
     
     # %%%%%%%%%%%%%%%%% Compute some outputs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    # Outputs for the top of the page: 
-    output$park_name <- renderText(gdata_NPName$label)
+    # Outputs for the top of the page:
+    park_name <- function() {
+      return(gdata_NPName$label)
+    }
+    output$park_name <- renderText(park_name())
     
     # Park stats: number of visitors, revenue, budget 
     output$park_stats <- renderText(paste("The park receives", input$tourists_popMultiDay, "and has a budget of", round(input$natPark_totalBudget), "."))
@@ -1583,63 +1590,91 @@ server <- function(input, output) {
     # Note: you can define the whole valuebox here instead of up in the UI section.  It seems to make nicer boxes. 
     
     #### Four boxes about tourists: Number, number multi-day, length of stay, spending
+    numtour <- function() {
+        return(input$tourists_popMultiDay + input$tourists_popSingleDay)
+    }
     output$valueBox_numtour <- renderValueBox({
-        valueBox(value = format(input$tourists_popMultiDay + input$tourists_popSingleDay, big.mark = ","),
-            subtitle = "Total Number of Tourists", icon = icon("person"), color= "green")
+      valueBox(value = format(numtour(), big.mark = ","),
+               subtitle = "Total Number of Tourists", icon = icon("person"), color= "green")
     })
     
+    numtourSingle <- function() {
+      return(input$tourists_popSingleDay)
+    }
     output$valueBox_numtourSingle <- renderValueBox({
-        valueBox(value = format(input$tourists_popSingleDay, big.mark = ","),
+        valueBox(value = format(numtourSingle(), big.mark = ","),
                  subtitle = "Single-day Tourists", icon = icon("sun"))
     })
     
+    numtourMulti <- function() {
+      return(input$tourists_popMultiDay)
+    }
     output$valueBox_numtourMulti <- renderValueBox({
-        valueBox(value = format(input$tourists_popMultiDay, big.mark = ","),
+        valueBox(value = format(numtourMulti(), big.mark = ","),
                  subtitle = "Multi-day Tourists", icon = icon("bed"), color = "blue")
     })
     
     # Average length of stay
+    avgTouristLength <- function() {
+      # Assuming single-day tourists spend 1 day (though technically it could be just a few hours)
+      tourists_avgLength <-  (input$tourists_nbNights*input$tourists_popMultiDay + input$tourists_popSingleDay) / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+      out <-round(tourists_avgLength, digits = 2)
+      return(out)
+    }
     output$valueBox_avgTouristLength <- renderValueBox({
-        # Assuming single-day tourists spend 1 day (though technically it could be just a few hours)
-        tourists_avgLength <-  (input$tourists_nbNights*input$tourists_popMultiDay + input$tourists_popSingleDay) / (input$tourists_popMultiDay + input$tourists_popSingleDay)
-        out <-round(tourists_avgLength, digits = 2)
-        valueBox(value = format(out, big.mark = ",", scientific = FALSE) ,
+        valueBox(value = format(avgTouristLength(), big.mark = ",", scientific = FALSE) ,
                  subtitle = "Average Length of Stay", icon = icon("calendar"), color = "maroon")
     })
         
-    # Average tourist spending (calculating average lodging per night including those without nights): 
+    # Average tourist spending (calculating average lodging per night including those without nights):
+    avgTouristSpending <- function() {
+      tourists_avgSpending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+        input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
+        # note: single day tourists spend 0 on lodging, but they are still in the denominator:
+        (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+      out <-scales::dollar(round(tourists_avgSpending, digits = 2))
+      return(out)
+    }
     output$valueBox_avgTouristSpending <- renderValueBox({
-        tourists_avgSpending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
-            input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
-            # note: single day tourists spend 0 on lodging, but they are still in the denominator:
-            (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
-        out <-scales::dollar(round(tourists_avgSpending, digits = 2))
-        valueBox(value = format(out, big.mark = ",", scientific = FALSE) ,
+        valueBox(value = format(avgTouristSpending(), big.mark = ",", scientific = FALSE) ,
                  subtitle = "Average Tourist Spending", icon = icon("wallet"), color = "orange")
     })
     
     
     ##### Four boxes about park finances: entry fee, total entry fees, total park budget, total wage spending
+    
+    entryFee <- function() {
+      return(scales::dollar(round(input$tourists_expParkEntry)))
+    }
     output$valueBox_entryFee <- renderValueBox({
         # valueBox(value = format(round(input$tourists_expParkEntry), big.mark=","),
-        valueBox(value = format(scales::dollar(round(input$tourists_expParkEntry)), big.mark=","),      
+        valueBox(value = format(entryFee(), big.mark=","),      
                  subtitle = "Park Entry Fee (average)", icon = icon("ticket"), color = "olive")
     })
+
+    totalEntryFees <- function() {
+      return(scales::dollar(round(input$natPark_entryFees)))
+    }
     output$valueBox_totalEntryFees <- renderValueBox({
-        valueBox(value = format(scales::dollar(round(input$natPark_entryFees)), big.mark=","),
+        valueBox(value = format(totalEntryFees(), big.mark=","),
                  subtitle = "Total Entry Fees", icon = icon("money-bill-trend-up"), color = "yellow")
     })
     
+    budget <- function() {
+      return(scales::dollar(round(input$natPark_totalBudget)))
+    }
     output$valueBox_budget <- renderValueBox({
-        valueBox(value = format(scales::dollar(round(input$natPark_totalBudget)), big.mark = ",", scientific = FALSE) ,
+        valueBox(value = format(budget(), big.mark = ",", scientific = FALSE) ,
                  subtitle = "Total Park Budget", icon = icon("file-invoice-dollar"), color = "teal")
     })
     
-    output$valueBox_parkWageBill <- renderValueBox({
-        valueBox(value = format(scales::dollar(round(input$natPark_totalBudget * 
+    parkWageBill <- function() {
+      return(scales::dollar(round(input$natPark_totalBudget * 
                                     (input$natPark_MwagesUnskilled + input$natPark_MwagesSkilled + input$natPark_FwagesUnskilled + input$natPark_FwagesSkilled)/100 * 
-                                        input$natPark_shareWorkersLocal/100)), 
-                                big.mark = ",", scientific = FALSE) ,
+                                    input$natPark_shareWorkersLocal/100)))
+    }
+    output$valueBox_parkWageBill <- renderValueBox({
+        valueBox(value = format(parkWageBill(), big.mark = ",", scientific = FALSE) ,
                  subtitle = "Park Spending on Local Wages", icon = icon("person-digging"), color = "light-blue")
     })
     
@@ -2204,14 +2239,42 @@ server <- function(input, output) {
     }
     
     
-    output$report <- downloadHandler(
-      filename = "report.pdf",
+    output$report1 <- downloadHandler(
+      filename = "report1.pdf",
       content = function(file) {
         # Copy the report file to a temporary directory before processing it, in
         # case we don't have write permissions to the current working dir (which
         # can happen when deployed).
-        tempReport <- file.path(tempdir(), "report.Rmd")
-        file.copy("report.Rmd", tempReport, overwrite = TRUE)
+        tempReport <- file.path(tempdir(), "report1.Rmd")
+        file.copy("report1.Rmd", tempReport, overwrite = TRUE)
+        
+        # Set up parameters to pass to Rmd document
+        params <- list(totalmult = totalmult, gdpmult = gdpmult, labmult = labmult,
+                       capmult = capmult, poormult = poormult, nonpoormult = nonpoormult,
+                       touractmult=touractmult, nontouractmult=nontouractmult,
+                       park_name=park_name, numtour=numtour, numtourSingle=numtourSingle,
+                       numtourMulti=numtourMulti, avgTouristLength=avgTouristLength,
+                       avgTouristSpending=avgTouristSpending, entryFee=entryFee,
+                       totalEntryFees=totalEntryFees, budget=budget, parkWageBill=parkWageBill)
+        
+        # Knit the document, passing in the `params` list, and eval it in a
+        # child of the global environment (this isolates the code in the document
+        # from the code in this app).
+        rmarkdown::render(tempReport, output_file = file,
+                          params = params,
+                          envir = new.env(parent = globalenv())
+        )
+      }
+    )
+    
+    output$report2 <- downloadHandler(
+      filename = "report2.pdf",
+      content = function(file) {
+        # Copy the report file to a temporary directory before processing it, in
+        # case we don't have write permissions to the current working dir (which
+        # can happen when deployed).
+        tempReport <- file.path(tempdir(), "report2.Rmd")
+        file.copy("report2.Rmd", tempReport, overwrite = TRUE)
         
         # Set up parameters to pass to Rmd document
         params <- list(prod1 = reportplot_prod1, prod2 = reportplot_prod2, prod3 = reportplot_prod3,
@@ -2223,10 +2286,7 @@ server <- function(input, output) {
                        linc1 = reportplot_linc1, linc2 = reportplot_linc2, linc3 = reportplot_linc3,
                        linc4 = reportplot_linc4, linc5 = reportplot_linc5, linc6 = reportplot_linc6,
                        linc7 = reportplot_linc7, linc8 = reportplot_linc8, linc9 = reportplot_linc9,
-                       earn1 = reportplot_earn1,
-                       totalmult = totalmult, gdpmult = gdpmult, labmult = labmult,
-                       capmult = capmult, poormult = poormult, nonpoormult = nonpoormult,
-                       sim_TouristSpending = input$sim_TouristSpending,
+                       earn1 = reportplot_earn1, sim_TouristSpending = input$sim_TouristSpending,
                        sim_PASpending = input$sim_PASpending,
                        sim_ComRevShSpending = input$sim_ComRevShSpending,
                        sim_AgSpending = input$sim_AgSpending,
@@ -2279,127 +2339,127 @@ server <- function(input, output) {
     })
 
     
-    output$download1.Excel <- downloadHandler(
-    
-      filename = function() { paste("data.xlsx")},
-      
-      content = function(file){
-        Results_Workbook <- createWorkbook(type='xlsx')
-
-        mults <- multout()
-        sheet.1 <- createSheet(Results_Workbook, sheetName = "Multipliers")
-        addDataFrame(mults, sheet=sheet.1, startRow=1, startColumn=1,row.names=TRUE)
-        
-        sam <- sam_RASed()
-        sheet.2 <- createSheet(Results_Workbook, sheetName = "SAM (RASed)")
-        addDataFrame(sam, sheet=sheet.2, startRow=1, startColumn=1,row.names=TRUE)
-        
-        prod1 = reportplot_prod1()
-        inc1 = reportplot_inc1()
-        linc1 = reportplot_linc1()
-        earn1 = reportplot_earn1()
-        sheet.3 <- createSheet(Results_Workbook, sheetName = "Tourism Spending")
-        ggsave("prod1.jpeg", prod1, device="jpeg", dpi = 80)
-        ggsave("inc1.jpeg", inc1, device="jpeg", dpi = 80)
-        ggsave("linc1.jpeg", linc1, device="jpeg", dpi = 80)
-        ggsave("earn1.jpeg", earn1, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=22)
-        # addPicture(file = paste0(getwd(),"/earn1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=32)
-        
-        prod2 = reportplot_prod2()
-        inc2 = reportplot_inc2()
-        linc2 = reportplot_linc2()
-        sheet.4 <- createSheet(Results_Workbook, sheetName = "Park Spending")
-        ggsave("prod2.jpeg", prod2, device="jpeg", dpi = 80)
-        ggsave("inc2.jpeg", inc2, device="jpeg", dpi = 80)
-        ggsave("linc2.jpeg", linc2, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=22)
-        
-        prod3 = reportplot_prod3()
-        inc3 = reportplot_inc3()
-        linc3 = reportplot_linc3()
-        sheet.5 <- createSheet(Results_Workbook, sheetName = "Community Spending")
-        ggsave("prod3.jpeg", prod3, device="jpeg", dpi = 80)
-        ggsave("inc3.jpeg", inc3, device="jpeg", dpi = 80)
-        ggsave("linc3.jpeg", linc3, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=22)
-        
-        prod4 = reportplot_prod4()
-        inc4 = reportplot_inc4()
-        linc4 = reportplot_linc4()
-        sheet.6 <- createSheet(Results_Workbook, sheetName = "Increased Agricultural Production")
-        ggsave("prod4.jpeg", prod4, device="jpeg", dpi = 80)
-        ggsave("inc4.jpeg", inc4, device="jpeg", dpi = 80)
-        ggsave("linc4.jpeg", linc4, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=22)
-        
-        prod5 = reportplot_prod5()
-        inc5 = reportplot_inc5()
-        linc5 = reportplot_linc5()
-        sheet.7 <- createSheet(Results_Workbook, sheetName = "Increased Non-Agricultural Production")
-        ggsave("prod5.jpeg", prod5, device="jpeg", dpi = 80)
-        ggsave("inc5.jpeg", inc5, device="jpeg", dpi = 80)
-        ggsave("linc5.jpeg", linc5, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=22)
-        
-        prod6 = reportplot_prod6()
-        inc6 = reportplot_inc6()
-        linc6 = reportplot_linc6()
-        sheet.8 <- createSheet(Results_Workbook, sheetName = "Low-Skilled Female Earnings")
-        ggsave("prod6.jpeg", prod6, device="jpeg", dpi = 80)
-        ggsave("inc6.jpeg", inc6, device="jpeg", dpi = 80)
-        ggsave("linc6.jpeg", linc6, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=22)
-        
-        prod7 = reportplot_prod7()
-        inc7 = reportplot_inc7()
-        linc7 = reportplot_linc7()
-        sheet.9 <- createSheet(Results_Workbook, sheetName = "Low-Skilled Male Earnings")
-        ggsave("prod7.jpeg", prod7, device="jpeg", dpi = 80)
-        ggsave("inc7.jpeg", inc7, device="jpeg", dpi = 80)
-        ggsave("linc7.jpeg", linc7, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=22)
-        
-        prod8 = reportplot_prod8()
-        inc8 = reportplot_inc8()
-        linc8 = reportplot_linc8()
-        sheet.10 <- createSheet(Results_Workbook, sheetName = "Skilled Female Earnings")
-        ggsave("prod8.jpeg", prod8, device="jpeg", dpi = 80)
-        ggsave("inc8.jpeg", inc8, device="jpeg", dpi = 80)
-        ggsave("linc8.jpeg", linc8, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=22)
-        
-        prod9 = reportplot_prod9()
-        inc9 = reportplot_inc9()
-        linc9 = reportplot_linc9()
-        sheet.11 <- createSheet(Results_Workbook, sheetName = "Skilled Male Earnings")
-        ggsave("prod9.jpeg", prod9, device="jpeg", dpi = 80)
-        ggsave("inc9.jpeg", inc9, device="jpeg", dpi = 80)
-        ggsave("linc9.jpeg", linc9, device="jpeg", dpi = 80)
-        addPicture(file = paste0(getwd(),"/prod9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=2)
-        addPicture(file = paste0(getwd(),"/inc9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=12)
-        addPicture(file = paste0(getwd(),"/linc9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=22)
-        
-        saveWorkbook(Results_Workbook,file)
-      } 
-    
-    )
+    # output$download1.Excel <- downloadHandler(
+    # 
+    #   filename = function() { paste("data.xlsx")},
+    #   
+    #   content = function(file){
+    #     Results_Workbook <- createWorkbook(type='xlsx')
+    # 
+    #     mults <- multout()
+    #     sheet.1 <- createSheet(Results_Workbook, sheetName = "Multipliers")
+    #     addDataFrame(mults, sheet=sheet.1, startRow=1, startColumn=1,row.names=TRUE)
+    #     
+    #     sam <- sam_RASed()
+    #     sheet.2 <- createSheet(Results_Workbook, sheetName = "SAM (RASed)")
+    #     addDataFrame(sam, sheet=sheet.2, startRow=1, startColumn=1,row.names=TRUE)
+    #     
+    #     prod1 = reportplot_prod1()
+    #     inc1 = reportplot_inc1()
+    #     linc1 = reportplot_linc1()
+    #     earn1 = reportplot_earn1()
+    #     sheet.3 <- createSheet(Results_Workbook, sheetName = "Tourism Spending")
+    #     ggsave("prod1.jpeg", prod1, device="jpeg", dpi = 80)
+    #     ggsave("inc1.jpeg", inc1, device="jpeg", dpi = 80)
+    #     ggsave("linc1.jpeg", linc1, device="jpeg", dpi = 80)
+    #     ggsave("earn1.jpeg", earn1, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=22)
+    #     # addPicture(file = paste0(getwd(),"/earn1.jpeg"),sheet=sheet.3,scale=1,startRow=2,startColumn=32)
+    #     
+    #     prod2 = reportplot_prod2()
+    #     inc2 = reportplot_inc2()
+    #     linc2 = reportplot_linc2()
+    #     sheet.4 <- createSheet(Results_Workbook, sheetName = "Park Spending")
+    #     ggsave("prod2.jpeg", prod2, device="jpeg", dpi = 80)
+    #     ggsave("inc2.jpeg", inc2, device="jpeg", dpi = 80)
+    #     ggsave("linc2.jpeg", linc2, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc2.jpeg"),sheet=sheet.4,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod3 = reportplot_prod3()
+    #     inc3 = reportplot_inc3()
+    #     linc3 = reportplot_linc3()
+    #     sheet.5 <- createSheet(Results_Workbook, sheetName = "Community Spending")
+    #     ggsave("prod3.jpeg", prod3, device="jpeg", dpi = 80)
+    #     ggsave("inc3.jpeg", inc3, device="jpeg", dpi = 80)
+    #     ggsave("linc3.jpeg", linc3, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc3.jpeg"),sheet=sheet.5,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod4 = reportplot_prod4()
+    #     inc4 = reportplot_inc4()
+    #     linc4 = reportplot_linc4()
+    #     sheet.6 <- createSheet(Results_Workbook, sheetName = "Increased Agricultural Production")
+    #     ggsave("prod4.jpeg", prod4, device="jpeg", dpi = 80)
+    #     ggsave("inc4.jpeg", inc4, device="jpeg", dpi = 80)
+    #     ggsave("linc4.jpeg", linc4, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc4.jpeg"),sheet=sheet.6,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod5 = reportplot_prod5()
+    #     inc5 = reportplot_inc5()
+    #     linc5 = reportplot_linc5()
+    #     sheet.7 <- createSheet(Results_Workbook, sheetName = "Increased Non-Agricultural Production")
+    #     ggsave("prod5.jpeg", prod5, device="jpeg", dpi = 80)
+    #     ggsave("inc5.jpeg", inc5, device="jpeg", dpi = 80)
+    #     ggsave("linc5.jpeg", linc5, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc5.jpeg"),sheet=sheet.7,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod6 = reportplot_prod6()
+    #     inc6 = reportplot_inc6()
+    #     linc6 = reportplot_linc6()
+    #     sheet.8 <- createSheet(Results_Workbook, sheetName = "Low-Skilled Female Earnings")
+    #     ggsave("prod6.jpeg", prod6, device="jpeg", dpi = 80)
+    #     ggsave("inc6.jpeg", inc6, device="jpeg", dpi = 80)
+    #     ggsave("linc6.jpeg", linc6, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc6.jpeg"),sheet=sheet.8,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod7 = reportplot_prod7()
+    #     inc7 = reportplot_inc7()
+    #     linc7 = reportplot_linc7()
+    #     sheet.9 <- createSheet(Results_Workbook, sheetName = "Low-Skilled Male Earnings")
+    #     ggsave("prod7.jpeg", prod7, device="jpeg", dpi = 80)
+    #     ggsave("inc7.jpeg", inc7, device="jpeg", dpi = 80)
+    #     ggsave("linc7.jpeg", linc7, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc7.jpeg"),sheet=sheet.9,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod8 = reportplot_prod8()
+    #     inc8 = reportplot_inc8()
+    #     linc8 = reportplot_linc8()
+    #     sheet.10 <- createSheet(Results_Workbook, sheetName = "Skilled Female Earnings")
+    #     ggsave("prod8.jpeg", prod8, device="jpeg", dpi = 80)
+    #     ggsave("inc8.jpeg", inc8, device="jpeg", dpi = 80)
+    #     ggsave("linc8.jpeg", linc8, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc8.jpeg"),sheet=sheet.10,scale=1,startRow=2,startColumn=22)
+    #     
+    #     prod9 = reportplot_prod9()
+    #     inc9 = reportplot_inc9()
+    #     linc9 = reportplot_linc9()
+    #     sheet.11 <- createSheet(Results_Workbook, sheetName = "Skilled Male Earnings")
+    #     ggsave("prod9.jpeg", prod9, device="jpeg", dpi = 80)
+    #     ggsave("inc9.jpeg", inc9, device="jpeg", dpi = 80)
+    #     ggsave("linc9.jpeg", linc9, device="jpeg", dpi = 80)
+    #     addPicture(file = paste0(getwd(),"/prod9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=2)
+    #     addPicture(file = paste0(getwd(),"/inc9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=12)
+    #     addPicture(file = paste0(getwd(),"/linc9.jpeg"),sheet=sheet.11,scale=1,startRow=2,startColumn=22)
+    #     
+    #     saveWorkbook(Results_Workbook,file)
+    #   } 
+    # 
+    # )
 
   }
     

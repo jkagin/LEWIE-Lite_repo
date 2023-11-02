@@ -29,12 +29,6 @@ params:
   linc8: NULL
   linc9: NULL
   earn1: NULL
-  totalmult: NULL
-  gdpmult: NULL
-  labmult: NULL
-  capmult: NULL
-  poormult: NULL
-  nonpoormult: NULL
   sim_TouristSpending: NULL
   sim_PASpending: NULL
   sim_ComRevShSpending: NULL
@@ -47,64 +41,11 @@ params:
 ---
 
 \begin{center}
-\section{PA LEWIE-Lite: Local-Economy Impacts of Tourist Spending}
+\section{LEWIE-lite Dashboard Report}
 \end{center}
 
 &nbsp;
 
-\subsection{For \textbf{every dollar} of tourist spending (multipliers):}
-
-&nbsp;
-
-```{r echo=FALSE, comment=NA, fig.align="center", message = FALSE}
-library(ggplot2)
-library(emojifont)
-library(fontawesome)
-
-rows <- 3
-cols <- 2
-boxes <- 6
-padding <- 1
-h <- 8
-w <- 16
-icons<-c("fa-gears", "fa-money", "fa-user", "fa-line-chart", "fa-money", "fa-building")
-
-df <- data.frame(
-    x = rep(seq(0, (w+padding)*cols-1, w+padding), times=rows),
-    y = rep(seq(0, (h+padding)*rows-1, h+padding), each=cols),
-    h = rep(h, boxes),
-    w = rep(w, boxes),
-    value = c(params$totalmult(),params$poormult(),params$labmult(),params$gdpmult(),params$nonpoormult(),params$capmult()),
-    info = c("Total Production Multiplier",
-             "Accruing to Poor Households",
-             "Accruing to Labor",
-             "Total Income Multiplier",
-             "Accruing to NonPoor Households",
-             "Accruing to Capital"),
-    icon = fontawesome(icons),
-    font_family = c(rep("fontawesome-webfont", boxes)),
-    color = factor(1:boxes)
-)
-
-ggplot(df, aes(x, y, height = h, width = w, label = info)) +
-    ## Create the tiles using the `color` column
-    geom_tile(aes(fill = color)) +
-    ## Add the numeric values as text in `value` column
-    geom_text(color = "white", fontface = "bold", size = 10,
-              aes(label = value, x = x - w/2.2, y = y + h/4), hjust = 0) +
-    ## Add the labels for each box stored in the `info` column
-    geom_text(color = "white", fontface = "bold", size = 3,
-              aes(label = info, x = x - w/2.2, y = y-h/4), hjust = 0) +
-    coord_fixed() +
-    scale_fill_brewer(type = "qual",palette = "Dark2") +
-    ## Use `geom_text()` to add the icons by specifying the unicode symbol.
-    geom_text(size = 20, aes(label = icon, family = font_family,
-                             x = x + w/4, y = y + h/8), alpha = 0.25) +
-    theme_void() +
-    guides(fill = FALSE)
-```
-
-\newpage
 \subsection{Local-Economy Impacts of Tourist Spending (US\$)}
 
 You may wish to evaluate different values of tourist spending: total tourist spending, tourist spending attributable to the PA, change in tourist spending you expect from this project, etc.
@@ -118,12 +59,11 @@ How much tourist spending ($) do you expect?
 
 ### EFFECTS OF THIS TOURISM SPENDING ON...
 ```{r echo=FALSE, out.width="50%", fig.align="default"}
-  params$prod1()
   params$inc1()
-```
-```{r echo=FALSE, out.width="50%", fig.align="default"}
   params$linc1()
-  # params$earn1() leaving this one out because it is confusing. 
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$prod1()
 ```
 
 \newpage
@@ -140,11 +80,11 @@ How much park spending ($) do you expect?
 
 ### EFFECTS OF THIS PARK BUDGET ON...
 ```{r echo=FALSE, out.width="50%", fig.align="default"}
-  params$prod2()
   params$inc2()
+  params$linc2()
 ```
 ```{r echo=FALSE, out.width="50%", fig.align="center"}
-  params$linc2()
+  params$prod2()
 ```
 
 \newpage
@@ -161,11 +101,11 @@ How much community spending ($) do you expect?
 
 ### EFFECTS OF THIS COMMUNITY SPENDING ON...
 ```{r echo=FALSE, out.width="50%", fig.align="default"}
-  params$prod3()
   params$inc3()
+  params$linc3()
 ```
 ```{r echo=FALSE, out.width="50%", fig.align="center"}
-  params$linc3()
+  params$prod3()
 ```
 
 \newpage
@@ -182,11 +122,11 @@ How much increase in local agricultural production ($) do you expect?
 
 ### EFFECTS OF THIS INCREASE IN LOCAL AGRICULTURAL PRODUCTION ON...
 ```{r echo=FALSE, out.width="50%", fig.align="default"}
-  params$prod4()
   params$inc4()
+  params$linc4()
 ```
 ```{r echo=FALSE, out.width="50%", fig.align="center"}
-  params$linc4()
+  params$prod4()
 ```
 
 \newpage
@@ -203,11 +143,11 @@ How much increase in local Non-Agricultural production ($) do you expect?
 
 ### EFFECTS OF THIS INCREASE IN LOCAL NON-AGRICULTURAL PRODUCTION ON...
 ```{r echo=FALSE, out.width="50%", fig.align="default"}
-  params$prod5()
   params$inc5()
+  params$linc5()
 ```
 ```{r echo=FALSE, out.width="50%", fig.align="center"}
-  params$linc5()
+  params$prod5()
 ```
 
 \newpage
@@ -224,11 +164,11 @@ How much increase in earnings of low-skilled female workers ($) do you expect?
 
 ### EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED FEMALE WORKERS ON...
 ```{r echo=FALSE, out.width="50%", fig.align="default"}
-  params$prod6()
   params$inc6()
+  params$linc6()
 ```
 ```{r echo=FALSE, out.width="50%", fig.align="center"}
-  params$linc6()
+  params$prod6()
 ```
 
 \newpage
@@ -245,11 +185,11 @@ How much increase in earnings of low-skilled male workers ($) do you expect?
 
 ### EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED MALE WORKERS ON...
 ```{r echo=FALSE, out.width="50%", fig.align="default"}
-  params$prod7()
   params$inc7()
+  params$linc7()
 ```
 ```{r echo=FALSE, out.width="50%", fig.align="center"}
-  params$linc7()
+  params$prod7()
 ```
 
 \newpage
@@ -266,11 +206,11 @@ How much increase in earnings of skilled female workers ($) do you expect?
 
 ### EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED FEMALE WORKERS ON...
 ```{r echo=FALSE, out.width="50%", fig.align="default"}
-  params$prod8()
   params$inc8()
+  params$linc8()
 ```
 ```{r echo=FALSE, out.width="50%", fig.align="center"}
-  params$linc8()
+  params$prod8()
 ```
 
 \newpage
@@ -287,9 +227,9 @@ How much increase in earnings of skilled male workers ($) do you expect?
 
 ### EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED MALE WORKERS ON...
 ```{r echo=FALSE, out.width="50%", fig.align="default"}
-  params$prod9()
   params$inc9()
+  params$linc9()
 ```
 ```{r echo=FALSE, out.width="50%", fig.align="center"}
-  params$linc9()
+  params$prod9()
 ```
