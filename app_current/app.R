@@ -413,6 +413,8 @@ ui <- dashboardPage(
             # ============================ Data Tab: (Where you can change the SAM) ======================================
             tabItem("data",
                 p("This page is where you see the data inputs", style = "font-size:25px"),
+                p("Data on this page is read directly from an input spreadsheet (Excel or Google Sheets).  If you were granted access to that spreadsheet, use it to guide your exploration of the data. 
+                  If you were not given access to that spreadsheet, you probably do not have much use for this tab.", style = "font-size:16px"),
                 p("You can even change these inputs and explore what happens to the multipliers - but those changes cannot be saved.", style = "font-size:16px"),
                 tabBox(
                     title = "Data Inputs", width = 12,
