@@ -1,0 +1,235 @@
+---
+output: pdf_document
+params:
+  prod1: NULL
+  prod2: NULL
+  prod3: NULL
+  prod4: NULL
+  prod5: NULL
+  prod6: NULL
+  prod7: NULL
+  prod8: NULL
+  prod9: NULL
+  inc1: NULL
+  inc2: NULL
+  inc3: NULL
+  inc4: NULL
+  inc5: NULL
+  inc6: NULL
+  inc7: NULL
+  inc8: NULL
+  inc9: NULL
+  linc1: NULL
+  linc2: NULL
+  linc3: NULL
+  linc4: NULL
+  linc5: NULL
+  linc6: NULL
+  linc7: NULL
+  linc8: NULL
+  linc9: NULL
+  earn1: NULL
+  sim_TouristSpending: NULL
+  sim_PASpending: NULL
+  sim_ComRevShSpending: NULL
+  sim_AgSpending: NULL
+  sim_NagSpending: NULL
+  sim_LFUSKSpending: NULL
+  sim_LMUSKSpending: NULL
+  sim_LFSKSpending: NULL
+  sim_LMSKSpending: NULL
+---
+
+\begin{center}
+\section{LEWIE-lite Dashboard Report}
+\end{center}
+
+&nbsp;
+
+\subsection{Local-Economy Impacts of Tourist Spending (US\$)}
+
+You may wish to evaluate different values of tourist spending: total tourist spending, tourist spending attributable to the PA, change in tourist spending you expect from this project, etc.
+
+How much tourist spending ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_TouristSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS TOURISM SPENDING ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$inc1()
+  params$linc1()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$prod1()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Park Spending (US\$)}
+
+Park spending is policy-determined, even though there are visitor fees in most places.
+
+How much park spending ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_PASpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS PARK BUDGET ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$inc2()
+  params$linc2()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$prod2()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Community Spending (US\$)}
+
+Our simulations assume that part of PA visitor fees are shared with communities. We can also use this model to see the effects of giving additional money to communities near the park. For example, some NGOs support communities near PAs that may or may not happen if the PA did not exist.
+
+How much community spending ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_ComRevShSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS COMMUNITY SPENDING ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$inc3()
+  params$linc3()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$prod3()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Increased Agricultural Production (US\$)}
+
+Tourist activities create demand for local agricultural products. We can also use this model to see the effects of complementary interventions to increase the demand for local agricultural products, for example, by enabling restaurants and lodges to source more food locally.
+
+How much increase in local agricultural production ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_AgSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS INCREASE IN LOCAL AGRICULTURAL PRODUCTION ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$inc4()
+  params$linc4()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$prod4()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Increased Non-Agricultural Production (US\$)}
+
+Tourist activities create demand for local non-agricultural products. We can also use this model to see the effects of complementary interventions to increase the demand for local non-agricultural products, for example, by enabling restaurants and lodges to source local artifacts or processed goods.
+
+How much increase in local Non-Agricultural production ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_NagSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS INCREASE IN LOCAL NON-AGRICULTURAL PRODUCTION ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$inc5()
+  params$linc5()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$prod5()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Low-Skilled Female Earnings (US\$)}
+
+Tourist activities create demand for local labor. We can also use this model to see the effects of complementary interventions to increase the employment of local workers, for example, through job training programs.
+
+How much increase in earnings of low-skilled female workers ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_LFUSKSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED FEMALE WORKERS ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$inc6()
+  params$linc6()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$prod6()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Low-Skilled Male Earnings (US\$)}
+
+Tourist activities create demand for local labor. We can also use this model to see the effects of complementary interventions to increase the employment of local workers, for example, through job training programs.
+
+How much increase in earnings of low-skilled male workers ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_LMUSKSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED MALE WORKERS ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$inc7()
+  params$linc7()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$prod7()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Skilled Female Earnings (US\$)}
+
+Tourist activities create demand for local labor. We can also use this model to see the effects of complementary interventions to increase the employment of local workers, for example, through job training programs.
+
+How much increase in earnings of skilled female workers ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_LFSKSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED FEMALE WORKERS ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$inc8()
+  params$linc8()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$prod8()
+```
+
+\newpage
+\subsection{Local-Economy Impacts of Skilled Male Earnings (US\$)}
+
+Tourist activities create demand for local labor. We can also use this model to see the effects of complementary interventions to increase the employment of local workers, for example, through job training programs.
+
+How much increase in earnings of skilled male workers ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_LMSKSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED MALE WORKERS ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$inc9()
+  params$linc9()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$prod9()
+```
