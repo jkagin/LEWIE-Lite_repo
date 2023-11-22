@@ -42,7 +42,7 @@ library(emojifont)
 # If your sheet is stored locally, put the name in the second line (usually no need for full path because shiny apps use relative path) (leave "local" as the location)
 
 # sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v18.xlsx"
+sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v18_Ranomafana.xlsx"
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 
@@ -175,7 +175,7 @@ make_labshares_poor = function(pop_poor, inc_poor, musk_poor, msk_poor, fusk_poo
     suminc_divshares_nonpoor = pop_nonpoor * inc_nonpoor / (musk_nonpoor + msk_nonpoor + fusk_nonpoor + fsk_nonpoor + incprof_nonpoor + increm_nonpoor)
     
     share_musk_poor = musk_poor * suminc_divshares_poor / 
-        (musk_poor * suminc_divshares_poor + musk_nonpoor * suminc_divshares_nonpoor)
+                    (musk_poor * suminc_divshares_poor + musk_nonpoor * suminc_divshares_nonpoor)
     
     share_msk_poor = msk_poor * suminc_divshares_poor / 
         (msk_poor * suminc_divshares_poor + msk_nonpoor * suminc_divshares_nonpoor)
@@ -188,7 +188,7 @@ make_labshares_poor = function(pop_poor, inc_poor, musk_poor, msk_poor, fusk_poo
     outvect = c(share_musk_poor, share_msk_poor, share_fusk_poor, share_fsk_poor)
     outvect
 }
-
+    
 
 # Make all the columns for the sam (blank for now, get filled below)
 sam_ag <- make_samcol(Ag, sam_row_names)
@@ -395,526 +395,526 @@ ui <- dashboardPage(
         tabItems(
             # ============================ Instructions Page ======================================
             tabItem("faq", 
-                    fluidPage(
-                        uiOutput("doc_to_display")
-                    )
+                fluidPage(
+                  uiOutput("doc_to_display")
+                )
             ),
             # ============================ Data Page: (Where you can change the SAM) ======================================
             tabItem("data",
-                    p("This page is where you see the data inputs", style = "font-size:25px"),
-                    p("Data on this page is read directly from an input spreadsheet (Excel or Google Sheets).  If you were granted access to that spreadsheet, use it to guide your exploration of the data. 
+                p("This page is where you see the data inputs", style = "font-size:25px"),
+                p("Data on this page is read directly from an input spreadsheet (Excel or Google Sheets).  If you were granted access to that spreadsheet, use it to guide your exploration of the data. 
                   If you were not given access to that spreadsheet, you probably do not have much use for this tab.", style = "font-size:16px"),
-                    p("You can even change these inputs and explore what happens to the multipliers - but those changes cannot be saved.", style = "font-size:16px"),
-                    tabBox(
-                        title = "Data Inputs", width = 12,
-                        tabPanel("Tourists",
-                                 fluidRow(
-                                     column(4, inp_touristsStats), 
-                                     column(4, inp_touristsShares)
-                                 )
-                        ),
-                        tabPanel("Ag",
-                                 fluidRow(
-                                     column(8, inp_agShares)
-                                 )
-                        ),
-                        tabPanel("NonAg",
-                                 fluidRow(
-                                     column(8, inp_NagShares)
-                                 )
-                        ),
-                        tabPanel("Tourism",
-                                 fluidRow(
-                                     column(8, inp_TourismShares)
-                                 )
-                        ),
-                        tabPanel("Fishing",
-                                 fluidRow(
-                                     column(8, inp_FishShares)
-                                 )
-                        ),
-                        tabPanel("Restaurant",
-                                 fluidRow(
-                                     column(8, inp_RestShares)
-                                 )
-                        ),
-                        tabPanel("Lodges",
-                                 fluidRow(
-                                     column(8, inp_LodgesShares)
-                                 )
-                        ),
-                        tabPanel("NatParkPA",
-                                 fluidRow(
-                                     column(4, inp_NPBudget),
-                                     column(4, inp_NPSpending)
-                                 )
-                        ), 
-                        tabPanel("ComRevSh",
-                                 fluidRow(
-                                     column(8, inp_ComRevShShares)
-                                 )
-                        ), 
-                        tabPanel("LocalGov",
-                                 fluidRow(
-                                     column(4, inp_LocalGBudget),
-                                     column(4, inp_LocalG)
-                                 )
-                        ), 
-                        tabPanel("Poor HH",
-                                 fluidRow(
-                                     column(4, inp_HHPc1),
-                                     column(4, inp_HHPc2),
-                                     column(4, inp_HHPc3)
-                                 )
-                        ),
-                        tabPanel("Non-Poor HH",
-                                 fluidRow(
-                                     column(4, inp_HHNPc1),
-                                     column(4, inp_HHNPc2),
-                                     column(4, inp_HHNPc3)
-                                 )
+                p("You can even change these inputs and explore what happens to the multipliers - but those changes cannot be saved.", style = "font-size:16px"),
+                tabBox(
+                    title = "Data Inputs", width = 12,
+                    tabPanel("Tourists",
+                        fluidRow(
+                            column(4, inp_touristsStats), 
+                            column(4, inp_touristsShares)
                         )
+                    ),
+                    tabPanel("Ag",
+                        fluidRow(
+                            column(8, inp_agShares)
+                        )
+                    ),
+                    tabPanel("NonAg",
+                         fluidRow(
+                             column(8, inp_NagShares)
+                         )
+                    ),
+                    tabPanel("Tourism",
+                             fluidRow(
+                                 column(8, inp_TourismShares)
+                             )
+                    ),
+                    tabPanel("Fishing",
+                         fluidRow(
+                             column(8, inp_FishShares)
+                         )
+                    ),
+                    tabPanel("Restaurant",
+                         fluidRow(
+                             column(8, inp_RestShares)
+                         )
+                    ),
+                    tabPanel("Lodges",
+                         fluidRow(
+                             column(8, inp_LodgesShares)
+                         )
+                    ),
+                    tabPanel("NatParkPA",
+                         fluidRow(
+                             column(4, inp_NPBudget),
+                             column(4, inp_NPSpending)
+                         )
+                    ), 
+                    tabPanel("ComRevSh",
+                             fluidRow(
+                                 column(8, inp_ComRevShShares)
+                             )
+                    ), 
+                    tabPanel("LocalGov",
+                             fluidRow(
+                                 column(4, inp_LocalGBudget),
+                                 column(4, inp_LocalG)
+                             )
+                    ), 
+                    tabPanel("Poor HH",
+                       fluidRow(
+                           column(4, inp_HHPc1),
+                           column(4, inp_HHPc2),
+                           column(4, inp_HHPc3)
+                        )
+                    ),
+                    tabPanel("Non-Poor HH",
+                       fluidRow(
+                           column(4, inp_HHNPc1),
+                           column(4, inp_HHNPc2),
+                           column(4, inp_HHNPc3)
+                       )
                     )
-                    # , 
-                    # fluidRow(
-                    #     tabBox(width = 12,
-                    #        title = ("SAM"),
-                    #        tabPanel("Multipliers", tableOutput("mult")),
-                    #        tabPanel("SAM_RASed", tableOutput("sam_RASed")),
-                    #        tabPanel("SAM_preRAS", tableOutput("sam_preRAS")),
-                    #        tabPanel("Hide the tables")
-                    #     )
-                    # )
+                )
+                # , 
+                # fluidRow(
+                #     tabBox(width = 12,
+                #        title = ("SAM"),
+                #        tabPanel("Multipliers", tableOutput("mult")),
+                #        tabPanel("SAM_RASed", tableOutput("sam_RASed")),
+                #        tabPanel("SAM_preRAS", tableOutput("sam_preRAS")),
+                #        tabPanel("Hide the tables")
+                #     )
+                # )
             ),
             
             
             # ============================ SAMS Page ======================================
             tabItem("sams", 
-                    p("All the relevant matrices are here:", style = "font-size:25px"), 
-                    fluidRow(
-                        tabBox(width = 12,
-                               title = ("SAMs etc."),
-                               tabPanel("Multipliers", tableOutput("mult")),
-                               tabPanel("Shares", tableOutput("matA")),
-                               tabPanel("SAM_RASed", tableOutput("sam_RASed")),
-                               tabPanel("SAM_preRAS", tableOutput("sam_preRAS")),
-                               tabPanel("Hide the tables")
-                        )
+                p("All the relevant matrices are here:", style = "font-size:25px"), 
+                fluidRow(
+                    tabBox(width = 12,
+                           title = ("SAMs etc."),
+                           tabPanel("Multipliers", tableOutput("mult")),
+                           tabPanel("Shares", tableOutput("matA")),
+                           tabPanel("SAM_RASed", tableOutput("sam_RASed")),
+                           tabPanel("SAM_preRAS", tableOutput("sam_preRAS")),
+                           tabPanel("Hide the tables")
                     )
+                )
             ),
             # ============================ HOME Page with some key information  ======================================
             tabItem("home",
-                    fluidPage(
-                        # p("Protected area:", style = "font-size:25px"), 
-                        h1(textOutput("park_name")),
-                        p("Welcome to the LEWIE-Lite dashboard. This tool allows you to explore the impacts of Protected Areas on the local economy surrounding them.", style = "font-size:18px"),
-                        p("On this page, you can see some general information about tourism in the Protected Area being studied. At the top, some basic stats regarding the numbers of tourists and park revenues, 
+                fluidPage(
+                    # p("Protected area:", style = "font-size:25px"), 
+                    h1(textOutput("park_name")),
+                    p("Welcome to the LEWIE-Lite dashboard. This tool allows you to explore the impacts of Protected Areas on the local economy surrounding them.", style = "font-size:18px"),
+                    p("On this page, you can see some general information about tourism in the Protected Area being studied. At the top, some basic stats regarding the numbers of tourists and park revenues, 
                     along with some simple scenario calculations. 
                       Scrolling down, you will find some see the local-economy multipliers calculated using the LEWIE-Lite model.", style = "font-size:18px"),
-                        p("If you open the side-bar menu, you will find a number of useful tabs.  Most importantly, the Simulations tab offers a range of options to simulate the local-economy impacts of tourism spending.", style = "font-size:18px"),
-                        # fluidRow(
-                        #     box(width = 12,
-                        #         p("Overview of tourism in the park:", style = 'font-size:27px;color:rgb(63, 144, 210);'),
-                        #     ),
-                        # ),
-                        fluidRow(
-                            box(width = 12, title = span("Overview of tourism in the park:", style = 'font-size:27px;color:rgb(63, 144, 210);'),
-                                # p(textOutput("park_stats")),
-                                p("Total tourists coming to the park (annually):", style = "font-size:22px"),
-                                # Tourists, multi-day tourists, length of stay, avg spending
-                                fluidRow( 
-                                    column(3, valueBoxOutput("valueBox_numtour", width = 12)),
-                                    column(9)
-                                ),
-                                p("Details on tourists in the park:", style = "font-size:22px"),
-                                # Single-day, multi-day tourists, length of stay, avg spending
-                                valueBoxOutput("valueBox_numtourSingle", width = 3),
-                                valueBoxOutput("valueBox_numtourMulti", width = 3),
-                                valueBoxOutput("valueBox_avgTouristLength", width = 3),
-                                valueBoxOutput("valueBox_avgTouristSpending", width = 3),
-                                # Overview of 
-                                p("Park finances:", style = "font-size:22px"),
-                                valueBoxOutput("valueBox_entryFee", width = 3),
-                                valueBoxOutput("valueBox_totalEntryFees", width = 3),
-                                valueBoxOutput("valueBox_budget", width = 3), 
-                                valueBoxOutput("valueBox_parkWageBill", width = 3), 
-                                # valueBox(textOutput("tourist_avgDays"), width = 12, "Average Days", icon = icon("sun"),  color = "orange"),
-                                # valueBox(textOutput("tourists_avgSpending"), width = 12, "Average Spending", icon = icon("sun"),  color = "orange"),
-                                # ),
-                                # Only some parks have community revenue sharing, so make this small
-                                p("Community Revenue Sharing:", style = "font-size:22px"),
-                                span(textOutput("community_revenue_sharing"), style = "font-size:18px"),
-                                # Removing this top part: it distracts from LEWIE too much. 
-                                # ),
-                                # fluidRow(
-                                # box(width = 12,
-                                # p("Tourism scenarios:", style = "font-size:18px"), 
-                                # p("Tourism scenario #1: increase total number of tourists", style = "font-size:18px"), 
-                                # fluidRow(
-                                #     column(3, sliderInput("pct_increase_tourists", "Percent Increase in total tourists", min = -100, max = 100, value = 10)),
-                                #     column(9)
-                                # ),
-                                # p(textOutput("increased_tourist_number")),
-                                # hr(),
-                                # ),
-                                # box(width = 12, 
-                                # p("Tourism scenario #2: detailed increases in tourism stats", style = "font-size:18px"), 
-                                hr(),
-                                p("Entry fee calculator:", style = "font-size:22px"),
-                                p("(The two input boxes below are not for simulations. They are just useful to calculate total entry fees.)" , style = "font-size:16px"),
-                                span("Enter the number of additional tourists you expect (single or multi-day, because they all pay the same fee):", style = "font-size:18px"),
-                                fluidRow(
-                                    column(4, numericInput("inc_touristsTotal_count", "Increase in total tourists (count):", value = 0, step = 1, min = -1000000, max = 1000000)),
-                                    # column(4, numericInput("inc_touristsMulti_count", "Increase in Multi-day tourists (count):", value = 0, step = 1,  min = -1000000, max = 1000000)),
-                                    # column(3, numericInput("inc_touristsLength_days", "Increase avg length of stay (days):", value = 0.00, step = 0.01,  min = -100, max = 100)),
-                                    column(4, numericInput("inc_fee", "Increase in park entry fee ($):", value = 0.00, step = 0.01, min = -100000, max = 100000))
-                                ),
-                                span(textOutput("detailed_tourist_increases"), style = "font-size:18px"),
-                                span(textOutput("detailed_tourist_increases_result"), style = "font-size:18px")
+                    p("If you open the side-bar menu, you will find a number of useful tabs.  Most importantly, the Simulations tab offers a range of options to simulate the local-economy impacts of tourism spending.", style = "font-size:18px"),
+                    # fluidRow(
+                    #     box(width = 12,
+                    #         p("Overview of tourism in the park:", style = 'font-size:27px;color:rgb(63, 144, 210);'),
+                    #     ),
+                    # ),
+                    fluidRow(
+                        box(width = 12, title = span("Overview of tourism in the park:", style = 'font-size:27px;color:rgb(63, 144, 210);'),
+                            # p(textOutput("park_stats")),
+                            p("Total tourists coming to the park (annually):", style = "font-size:22px"),
+                            # Tourists, multi-day tourists, length of stay, avg spending
+                            fluidRow( 
+                                column(3, valueBoxOutput("valueBox_numtour", width = 12)),
+                                column(9)
                             ),
-                        ),
-                        # fluidRow(
-                        #     infoBox("Some output", textOutput("Output"), icon = icon("dollar-sign"))
+                            p("Details on tourists in the park:", style = "font-size:22px"),
+                            # Single-day, multi-day tourists, length of stay, avg spending
+                            valueBoxOutput("valueBox_numtourSingle", width = 3),
+                            valueBoxOutput("valueBox_numtourMulti", width = 3),
+                            valueBoxOutput("valueBox_avgTouristLength", width = 3),
+                            valueBoxOutput("valueBox_avgTouristSpending", width = 3),
+                            # Overview of 
+                            p("Park finances:", style = "font-size:22px"),
+                            valueBoxOutput("valueBox_entryFee", width = 3),
+                            valueBoxOutput("valueBox_totalEntryFees", width = 3),
+                            valueBoxOutput("valueBox_budget", width = 3), 
+                            valueBoxOutput("valueBox_parkWageBill", width = 3), 
+                            # valueBox(textOutput("tourist_avgDays"), width = 12, "Average Days", icon = icon("sun"),  color = "orange"),
+                            # valueBox(textOutput("tourists_avgSpending"), width = 12, "Average Spending", icon = icon("sun"),  color = "orange"),
                         # ),
-                        # fluidRow(
-                        #     box(width = 12, title = "For each dollar of tourist spending:",
-                        #         fluidRow(
-                        #             valueBox(textOutput("nothing"), "Total GDP multiplier", icon = icon("gears"),  color = "aqua"),
-                        #         )
-                        #     )
-                        # ),
-                        # p("Local-economy impacts of tourist spending (US$):", style = 'font-size:27px;color:rgb(63, 144, 210);'),
-                        fluidRow(
-                            # box(width = 12, 
-                            #     p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
-                            #         including all higher-order impacts, or ripple effects 
-                            #         (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
-                            #     , width = 10, style = "font-size:18px")
+                            # Only some parks have community revenue sharing, so make this small
+                            p("Community Revenue Sharing:", style = "font-size:22px"),
+                            span(textOutput("community_revenue_sharing"), style = "font-size:18px"),
+                    # Removing this top part: it distracts from LEWIE too much. 
+                    # ),
+                    # fluidRow(
+                        # box(width = 12,
+                            # p("Tourism scenarios:", style = "font-size:18px"), 
+                            # p("Tourism scenario #1: increase total number of tourists", style = "font-size:18px"), 
+                            # fluidRow(
+                            #     column(3, sliderInput("pct_increase_tourists", "Percent Increase in total tourists", min = -100, max = 100, value = 10)),
+                            #     column(9)
                             # ),
-                            box(width = 12, title = span("Local-economy impacts of tourist spending (US$):", style = 'font-size:27px;color:rgb(63, 144, 210);'),
-                                p("For every dollar of tourist spending, the total production multiplier is:",  style = "font-size:22px"),
-                                fluidRow( 
-                                    column(width = 4,
-                                           valueBox(textOutput("totalmult"), width = 12, "Total Production Multiplier", icon = icon("gears"),  color = "maroon"),
-                                    ),
-                                    column(width = 4,
-                                           p("Which can be split into:"),
-                                           valueBox(textOutput("touractmult"), width = 12, "Tourism activities", icon = icon("sun"),  color = "orange"),
-                                           valueBox(textOutput("nontouractmult"), width = 12, "Non-Tourism activities", icon = icon("briefcase"),  color = "orange")
-                                    ),
-                                    hr(),
-                                    column(width = 4, 
-                                           p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
-                                    including all higher-order impacts, or ripple effects
-                                    (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
-                                             , style = "font-size:18px"),
-                                    ),
-                                ),
-                                fluidRow(
-                                    hr()
-                                ),
-                                # column(width = 4, 
-                                #        p(" okay do i need to write something?  ", width = 12),
-                                #        
-                                # ),
-                                # fluidRow(
-                                
-                                # )
-                                # )
-                                
-                                # )
-                                # ),
-                                # fluidRow(
-                                # box(width = 12, 
-                                # ),
-                                # box(width = 12, title = "For every dollar of tourist spending, the total income multiplier is:",
-                                p("For every dollar of tourist spending, the total income multiplier is:", style = "font-size:22px; color"),
-                                
-                                column(width = 4, 
-                                       # p("total mult")
-                                       valueBox(textOutput("gdpmult"), width = 12, "Total Income Multiplier", icon = icon("money-bill-trend-up"),  color = "blue"),
-                                ),
-                                column(width = 4, 
-                                       p("Which can be split into:"),
-                                       valueBox(textOutput("labmult"),  width = 12, "Accruing to Labor", icon = icon("user"),  color = "teal"),
-                                       valueBox(textOutput("capmult"),  width = 12, "Accruing to Capital", icon = icon("building"),  color = "teal")
+                            # p(textOutput("increased_tourist_number")),
+                            # hr(),
+                        # ),
+                        # box(width = 12, 
+                            # p("Tourism scenario #2: detailed increases in tourism stats", style = "font-size:18px"), 
+                            hr(),
+                            p("Entry fee calculator:", style = "font-size:22px"),
+                            p("(The two input boxes below are not for simulations. They are just useful to calculate total entry fees.)" , style = "font-size:16px"),
+                            span("Enter the number of additional tourists you expect (single or multi-day, because they all pay the same fee):", style = "font-size:18px"),
+                            fluidRow(
+                                column(4, numericInput("inc_touristsTotal_count", "Increase in total tourists (count):", value = 0, step = 1, min = -1000000, max = 1000000)),
+                                # column(4, numericInput("inc_touristsMulti_count", "Increase in Multi-day tourists (count):", value = 0, step = 1,  min = -1000000, max = 1000000)),
+                                # column(3, numericInput("inc_touristsLength_days", "Increase avg length of stay (days):", value = 0.00, step = 0.01,  min = -100, max = 100)),
+                                column(4, numericInput("inc_fee", "Increase in park entry fee ($):", value = 0.00, step = 0.01, min = -100000, max = 100000))
+                            ),
+                            span(textOutput("detailed_tourist_increases"), style = "font-size:18px"),
+                            span(textOutput("detailed_tourist_increases_result"), style = "font-size:18px")
+                        ),
+                    ),
+                    # fluidRow(
+                    #     infoBox("Some output", textOutput("Output"), icon = icon("dollar-sign"))
+                    # ),
+                    # fluidRow(
+                    #     box(width = 12, title = "For each dollar of tourist spending:",
+                    #         fluidRow(
+                    #             valueBox(textOutput("nothing"), "Total GDP multiplier", icon = icon("gears"),  color = "aqua"),
+                    #         )
+                    #     )
+                    # ),
+                    # p("Local-economy impacts of tourist spending (US$):", style = 'font-size:27px;color:rgb(63, 144, 210);'),
+                    fluidRow(
+                        # box(width = 12, 
+                        #     p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
+                        #         including all higher-order impacts, or ripple effects 
+                        #         (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
+                        #     , width = 10, style = "font-size:18px")
+                        # ),
+                        box(width = 12, title = span("Local-economy impacts of tourist spending (US$):", style = 'font-size:27px;color:rgb(63, 144, 210);'),
+                            p("For every dollar of tourist spending, the total production multiplier is:",  style = "font-size:22px"),
+                            fluidRow( 
+                                column(width = 4,
+                                    valueBox(textOutput("totalmult"), width = 12, "Total Production Multiplier", icon = icon("gears"),  color = "maroon"),
                                 ),
                                 column(width = 4,
-                                       p("Or, alternatively, can be split into:"),
-                                       valueBox(textOutput("poormult"), width = 12, "Accruing to Poor Households", icon = icon("coins"),  color = "aqua"), 
-                                       valueBox(textOutput("nonpoormult"), width = 12, "Accruing to NonPoor Households", icon = icon("money-bill"),  color = "aqua")
+                                    p("Which can be split into:"),
+                                    valueBox(textOutput("touractmult"), width = 12, "Tourism activities", icon = icon("sun"),  color = "orange"),
+                                    valueBox(textOutput("nontouractmult"), width = 12, "Non-Tourism activities", icon = icon("briefcase"),  color = "orange")
                                 ),
                                 hr(),
-                                p("The income multiplier represents the total value of incomes that are generated in the economy for every dollar spent by a tourist, 
+                                column(width = 4, 
+                                    p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
+                                    including all higher-order impacts, or ripple effects
+                                    (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
+                                    , style = "font-size:18px"),
+                                ),
+                            ),
+                            fluidRow(
+                                hr()
+                            ),
+                            # column(width = 4, 
+                            #        p(" okay do i need to write something?  ", width = 12),
+                            #        
+                            # ),
+                            # fluidRow(
+                                
+                                # )
+                            # )
+                            
+                        # )
+                    # ),
+                    # fluidRow(
+                        # box(width = 12, 
+                        # ),
+                        # box(width = 12, title = "For every dollar of tourist spending, the total income multiplier is:",
+                            p("For every dollar of tourist spending, the total income multiplier is:", style = "font-size:22px; color"),
+                        
+                            column(width = 4, 
+                                # p("total mult")
+                                valueBox(textOutput("gdpmult"), width = 12, "Total Income Multiplier", icon = icon("money-bill-trend-up"),  color = "blue"),
+                            ),
+                            column(width = 4, 
+                                p("Which can be split into:"),
+                                valueBox(textOutput("labmult"),  width = 12, "Accruing to Labor", icon = icon("user"),  color = "teal"),
+                                valueBox(textOutput("capmult"),  width = 12, "Accruing to Capital", icon = icon("building"),  color = "teal")
+                            ),
+                            column(width = 4,
+                                p("Or, alternatively, can be split into:"),
+                                valueBox(textOutput("poormult"), width = 12, "Accruing to Poor Households", icon = icon("coins"),  color = "aqua"), 
+                                valueBox(textOutput("nonpoormult"), width = 12, "Accruing to NonPoor Households", icon = icon("money-bill"),  color = "aqua")
+                            ),
+                            hr(),
+                            p("The income multiplier represents the total value of incomes that are generated in the economy for every dollar spent by a tourist, 
                                     including all ripple effects (income of the cook, and of the shopkeeper, and of the farmer, etc)."
-                                  , width = 10, style = "font-size:18px"), 
-                                p("The income multiplier is always smaller than the production multiplier, because it is a subset of it (like profits are a subset of revenue)."
-                                  , width = 10, style = "font-size:18px"),
-                                p("Note: Only boxes of the same color should be added together. The two teal boxes add up to the dark blue box. The two light-blue boxes also. 
+                              , width = 10, style = "font-size:18px"), 
+                            p("The income multiplier is always smaller than the production multiplier, because it is a subset of it (like profits are a subset of revenue)."
+                              , width = 10, style = "font-size:18px"),
+                            p("Note: Only boxes of the same color should be added together. The two teal boxes add up to the dark blue box. The two light-blue boxes also. 
                             The two orange boxes above sum up to the dark red Total Production Multiplier box.  
                             However, total production multiplier (dark red) and the income multiplier (dark blue) and can NOT be added together, because the former already contains the latter", style = "font-size:18px"
-                                )
-                                
-                                # fluidRow(
-                                #     valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
-                                #     valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("wallet"),  color = "red"),
-                                #     valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
-                                # ),
-                                # fluidRow(
-                                #     valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("coins"),  color = "green"),
-                                #     valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "red"),
-                                #     valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
-                                # )
                             )
-                        ),
-                        fluidRow(
-                            downloadButton("report1", "Generate PDF Report", style = "margin-left: 20px"),
-                            # downloadButton("download1.Excel", "Generate Excel File (with data)"),
-                            p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.', style = "margin-left: 20px")
-                        )
-                    )
-            ),
-            # ============================ SIMULATIONS DASHBOARD ======================================
-            tabItem("simulations",
-                    h1("Simulations"),
-                    p("On this tab you can run simulations using the LEWIE-Lite model. Scroll to the relevant section to run your simulations.", style = "font-size:18px"),
-                    fluidRow(
-                        box(width = 12, title = "Explore the local economy impacts of…",
-                            p(HTML("1. <a href='#sim_TouristSpending'>Tourist Spending</a>"), style = "margin-left: 20px"),
-                            p(HTML("2. <a href='#sim_PASpending'>Park Spending</a>"), style = "margin-left: 20px"),
-                            p(HTML("3. <a href='#sim_ComRevShSpending'>Community Spending</a>"), style = "margin-left: 20px"),
-                            p(HTML("4. <a href='#sim_AgSpending'>Agricultural Production</a>"), style = "margin-left: 20px"),
-                            p(HTML("5. <a href='#sim_NagSpending'>Non-Agricultural Production</a>"), style = "margin-left: 20px"),
-                            p(HTML("6. <a href='#sim_LFUSKSpending'>Low-Skilled Female Earnings</a>"), style = "margin-left: 20px"),
-                            p(HTML("7. <a href='#sim_LMUSKSpending'>Low-Skilled Male Earnings</a>"), style = "margin-left: 20px"),
-                            p(HTML("8. <a href='#sim_LFSKSpending'>Skilled Female Earnings</a>"), style = "margin-left: 20px"),
-                            p(HTML("9. <a href='#sim_LMSKSpending'>Skilled Male Earnings</a>"), style = "margin-left: 20px"),
-                            p(HTML("10. <a href='#sim_LocalGSpending'>Local Government Spending</a>"), style = "margin-left: 20px")
+                            
+                            # fluidRow(
+                            #     valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
+                            #     valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("wallet"),  color = "red"),
+                            #     valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
+                            # ),
+                            # fluidRow(
+                            #     valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("coins"),  color = "green"),
+                            #     valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "red"),
+                            #     valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
+                            # )
                         )
                     ),
                     fluidRow(
+                        downloadButton("report1", "Generate PDF Report", style = "margin-left: 20px"),
+                        # downloadButton("download1.Excel", "Generate Excel File (with data)"),
+                        p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.', style = "margin-left: 20px")
+                    )
+                )
+            ),
+            # ============================ SIMULATIONS DASHBOARD ======================================
+            tabItem("simulations",
+                h1("Simulations"),
+                p("On this tab you can run simulations using the LEWIE-Lite model. Scroll to the relevant section to run your simulations.", style = "font-size:18px"),
+                fluidRow(
+                  box(width = 12, title = "Explore the local economy impacts of…",
+                      p(HTML("1. <a href='#sim_TouristSpending'>Tourist Spending</a>"), style = "margin-left: 20px"),
+                      p(HTML("2. <a href='#sim_PASpending'>Park Spending</a>"), style = "margin-left: 20px"),
+                      p(HTML("3. <a href='#sim_ComRevShSpending'>Community Spending</a>"), style = "margin-left: 20px"),
+                      p(HTML("4. <a href='#sim_AgSpending'>Agricultural Production</a>"), style = "margin-left: 20px"),
+                      p(HTML("5. <a href='#sim_NagSpending'>Non-Agricultural Production</a>"), style = "margin-left: 20px"),
+                      p(HTML("6. <a href='#sim_LFUSKSpending'>Low-Skilled Female Earnings</a>"), style = "margin-left: 20px"),
+                      p(HTML("7. <a href='#sim_LMUSKSpending'>Low-Skilled Male Earnings</a>"), style = "margin-left: 20px"),
+                      p(HTML("8. <a href='#sim_LFSKSpending'>Skilled Female Earnings</a>"), style = "margin-left: 20px"),
+                      p(HTML("9. <a href='#sim_LMSKSpending'>Skilled Male Earnings</a>"), style = "margin-left: 20px"),
+                      p(HTML("10. <a href='#sim_LocalGSpending'>Local Government Spending</a>"), style = "margin-left: 20px")
+                  )
+                ),
+                fluidRow(
+                    
+                    box(width = 12, title = span("Local Economy-wide Impacts of Tourist Spending (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
+                        p('You may wish to evaluate different values of tourist spending: total tourist spending, tourist spending attributable to the PA, change in tourist spending you expect from this project, etc.'),
+                        fluidRow(
+                            column(4, inp_sim_TouristSpending)
+                        ),
+                        p("EFFECTS OF THIS TOURISM SPENDING ON...", style = "font-size: 12pt"),
+                        fluidRow(
+                            column(width=4, plotOutput("simTourists_totalprod")),
+                            column(width = 4, plotOutput("simTourists_incomes")),
+                            column(width=4, plotOutput("simTourists_labor"))
+                        ),
+                        hr(), 
                         
-                        box(width = 12, title = span("Local Economy-wide Impacts of Tourist Spending (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
-                            p('You may wish to evaluate different values of tourist spending: total tourist spending, tourist spending attributable to the PA, change in tourist spending you expect from this project, etc.'),
-                            fluidRow(
-                                column(4, inp_sim_TouristSpending)
-                            ),
-                            p("EFFECTS OF THIS TOURISM SPENDING ON...", style = "font-size: 12pt"),
-                            fluidRow(
-                                column(width=4, plotOutput("simTourists_totalprod")),
-                                column(width = 4, plotOutput("simTourists_incomes")),
-                                column(width=4, plotOutput("simTourists_labor"))
-                            ),
-                            hr(), 
-                            
                             p("Calculation helpers:", style = "font-size:18px"),
                             fluidRow(
                                 column(3, sliderInput("pct_increase_tourists", "Percent Increase in total tourists", min = -100, max = 100, value = 10), 
-                                       sliderInput("pct_increase_avg_spending", "Percent Increase in average spending / tourist", min = -100, max = 100, value = 10)
+                                          sliderInput("pct_increase_avg_spending", "Percent Increase in average spending / tourist", min = -100, max = 100, value = 10)
                                 ),
                                 column(9, p(textOutput("tourists_baseline")), 
                                        p(textOutput("increased_tourist_number"))
                                 )
                             ),
-                            p(),
-                            useShinyjs(),
-                            actionButton("toTop1", "Back to top",
-                                         class="btn btn-light",
-                                         style="padding:4px; font-size:80%; float:right"),
-                            
-                            
-                        )
-                    ),
-                    fluidRow(
-                        box(width = 12, title = span("Local Economy-wide Impacts of Park Spending (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
-                            p('Park spending is policy-determined, even though there are visitor fees in most places.'),
-                            fluidRow(
-                                column(4, inp_sim_PASpending)
-                            ),
-                            p("EFFECTS OF THIS PARK BUDGET ON...", style = "font-size: 12pt"),
-                            fluidRow(
-                                column(width=4, plotOutput("simPA_totalprod")),
-                                column(width=4, plotOutput("simPA_incomes")),
-                                column(width=4, plotOutput("simPA_labor"))
-                            ),
-                            p(),
-                            useShinyjs(),
-                            actionButton("toTop2", "Back to top",
-                                         class="btn btn-light",
-                                         style="padding:4px; font-size:80%; float:right")
-                        )
-                    ),
-                    fluidRow(
-                        box(width = 12, title = span("Local Economy-wide Impacts of Community Spending (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
-                            p('Our simulations assume that part of PA visitor fees are shared with communities. We can also use this model to see the effects of giving additional money to communities near the park. For example, some NGOs support communities near PAs that may or may not happen if the PA did not exist.'),
-                            fluidRow(
-                                column(4, inp_sim_ComRevShSpending)
-                            ),
-                            p("EFFECTS OF THIS COMMUNITY SPENDING ON...", style = "font-size: 12pt"),
-                            fluidRow(
-                                column(width=4, plotOutput("simComRevSh_totalprod")),
-                                column(width=4, plotOutput("simComRevSh_incomes")),
-                                column(width=4, plotOutput("simComRevSh_labor"))
-                            ),
-                            p(),
-                            useShinyjs(),
-                            actionButton("toTop3", "Back to top",
-                                         class="btn btn-light",
-                                         style="padding:4px; font-size:80%; float:right")
-                        )
-                    ),
-                    fluidRow(
-                        box(width = 12, title = span("Local Economy-wide Impacts of Increased Agricultural Production (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
-                            p('Tourist activities create demand for local agricultural products.  We can also use this model to see the effects of complementary
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop1", "Back to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right"),
+                        
+                        
+                    )
+                ),
+                fluidRow(
+                    box(width = 12, title = span("Local Economy-wide Impacts of Park Spending (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
+                        p('Park spending is policy-determined, even though there are visitor fees in most places.'),
+                        fluidRow(
+                            column(4, inp_sim_PASpending)
+                        ),
+                        p("EFFECTS OF THIS PARK BUDGET ON...", style = "font-size: 12pt"),
+                        fluidRow(
+                            column(width=4, plotOutput("simPA_totalprod")),
+                            column(width=4, plotOutput("simPA_incomes")),
+                            column(width=4, plotOutput("simPA_labor"))
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop2", "Back to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
+                    )
+                ),
+                fluidRow(
+                    box(width = 12, title = span("Local Economy-wide Impacts of Community Spending (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
+                        p('Our simulations assume that part of PA visitor fees are shared with communities. We can also use this model to see the effects of giving additional money to communities near the park. For example, some NGOs support communities near PAs that may or may not happen if the PA did not exist.'),
+                        fluidRow(
+                            column(4, inp_sim_ComRevShSpending)
+                        ),
+                        p("EFFECTS OF THIS COMMUNITY SPENDING ON...", style = "font-size: 12pt"),
+                        fluidRow(
+                            column(width=4, plotOutput("simComRevSh_totalprod")),
+                            column(width=4, plotOutput("simComRevSh_incomes")),
+                            column(width=4, plotOutput("simComRevSh_labor"))
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop3", "Back to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
+                    )
+                ),
+                fluidRow(
+                    box(width = 12, title = span("Local Economy-wide Impacts of Increased Agricultural Production (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
+                        p('Tourist activities create demand for local agricultural products.  We can also use this model to see the effects of complementary
                           interventions to increase the demand for local agricultural products, for example, 
                           by enabling restaurants and lodges to source more food locally.'),
-                            fluidRow(
-                                column(4, inp_sim_AgSpending)
-                            ),
-                            p("EFFECTS OF THIS INCREASE IN LOCAL AGRICULTURAL PRODUCTION ON...", style = "font-size: 12pt"),
-                            fluidRow(
-                                # p('blank'),
-                                column(width=4, plotOutput("simAg_totalprod")),
-                                column(width=4, plotOutput("simAg_incomes")),
-                                column(width=4, plotOutput("simAg_labor"))
-                            ),
-                            p(),
-                            useShinyjs(),
-                            actionButton("toTop4", "Back to top",
-                                         class="btn btn-light",
-                                         style="padding:4px; font-size:80%; float:right")
-                        )
-                    ),
-                    fluidRow(
-                        box(width = 12, title = span("Local Economy-wide Impacts of Increased Non-Agricultural Production (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
-                            p('Tourist activities create demand for local non-agricultural products. We can also use this model to see the effects of complementary
+                        fluidRow(
+                            column(4, inp_sim_AgSpending)
+                        ),
+                        p("EFFECTS OF THIS INCREASE IN LOCAL AGRICULTURAL PRODUCTION ON...", style = "font-size: 12pt"),
+                        fluidRow(
+                            # p('blank'),
+                            column(width=4, plotOutput("simAg_totalprod")),
+                            column(width=4, plotOutput("simAg_incomes")),
+                            column(width=4, plotOutput("simAg_labor"))
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop4", "Back to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
+                    )
+                ),
+                fluidRow(
+                    box(width = 12, title = span("Local Economy-wide Impacts of Increased Non-Agricultural Production (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
+                        p('Tourist activities create demand for local non-agricultural products. We can also use this model to see the effects of complementary
                           interventions to increase the demand for local non-agricultural products, for example, 
                           by enabling restaurants and lodges to source local artifacts or processed goods.'),
-                            fluidRow(
-                                column(4, inp_sim_NagSpending)
-                            ),
-                            p("EFFECTS OF THIS INCREASE IN LOCAL NON-AGRICULTURAL PRODUCTION ON...", style = "font-size: 12pt"),
-                            fluidRow(
-                                # p('blank')
-                                column(width=4, plotOutput("simNag_totalprod")),
-                                column(width=4, plotOutput("simNag_incomes")),
-                                column(width=4, plotOutput("simNag_labor"))
-                            ),
-                            p(),
-                            useShinyjs(),
-                            actionButton("toTop5", "Back to top",
-                                         class="btn btn-light",
-                                         style="padding:4px; font-size:80%; float:right")
-                        )
-                    ),
-                    fluidRow(
-                        box(width = 12, title = span("Local Economy-wide Impacts of Low-skilled Female Earnings (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
-                            p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
-                          interventions to increase the employment of local workers, for example, through job training programs.'),
-                            fluidRow(
-                                column(4, inp_sim_LFUSKSpending)
-                            ),
-                            p("EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED FEMALE WORKERS ON...", style = "font-size: 12pt"),
-                            fluidRow(
-                                # p('blank')
-                                column(width=4, plotOutput("simLFUSK_totalprod")),
-                                column(width=4, plotOutput("simLFUSK_incomes")),
-                                column(width=4, plotOutput("simLFUSK_labor"))
-                            ),
-                            p(),
-                            useShinyjs(),
-                            actionButton("toTop6", "Back to top",
-                                         class="btn btn-light",
-                                         style="padding:4px; font-size:80%; float:right")
-                        )
-                    ),
-                    fluidRow(
-                        box(width = 12, title = span("Local Economy-wide Impacts of Low-skilled Male Earnings (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
-                            p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
-                          interventions to increase the employment of local workers, for example, through job training programs.'),
-                            fluidRow(
-                                column(4, inp_sim_LMUSKSpending)
-                            ),
-                            p("EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED MALE WORKERS ON...", style = "font-size: 12pt"),
-                            fluidRow(
-                                # p('blank')
-                                column(width=4, plotOutput("simLMUSK_totalprod")),
-                                column(width=4, plotOutput("simLMUSK_incomes")),
-                                column(width=4, plotOutput("simLMUSK_labor"))
-                            ),
-                            p(),
-                            useShinyjs(),
-                            actionButton("toTop7", "Back to top",
-                                         class="btn btn-light",
-                                         style="padding:4px; font-size:80%; float:right")
-                        )
-                    ),
-                    fluidRow(
-                        box(width = 12, title = span("Local Economy-wide Impacts of Skilled Female Earnings (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
-                            p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
-                          interventions to increase the employment of local workers, for example, through job training programs.'),
-                            fluidRow(
-                                column(4, inp_sim_LFSKSpending)
-                            ),
-                            p("EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED FEMALE WORKERS ON...", style = "font-size: 12pt"),
-                            fluidRow(
-                                # p('blank')
-                                column(width=4, plotOutput("simLFSK_totalprod")),
-                                column(width=4, plotOutput("simLFSK_incomes")),
-                                column(width=4, plotOutput("simLFSK_labor"))
-                            ),
-                            p(),
-                            useShinyjs(),
-                            actionButton("toTop8", "Back to top",
-                                         class="btn btn-light",
-                                         style="padding:4px; font-size:80%; float:right")
-                        )
-                    ),
-                    fluidRow(
-                        box(width = 12, title = span("Local Economy-wide Impacts of Skilled Male Earnings (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
-                            p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
-                          interventions to increase the employment of local workers, for example, through job training programs.'),
-                            fluidRow(
-                                column(4, inp_sim_LMSKSpending)
-                            ),
-                            p("EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED MALE WORKERS ON...", style = "font-size: 12pt"),
-                            fluidRow(
-                                # p('blank')
-                                column(width=4, plotOutput("simLMSK_totalprod")),
-                                column(width=4, plotOutput("simLMSK_incomes")),
-                                column(width=4, plotOutput("simLMSK_labor"))
-                            ),
-                            p(),
-                            useShinyjs(),
-                            actionButton("toTop9", "Back to top",
-                                         class="btn btn-light",
-                                         style="padding:4px; font-size:80%; float:right")
-                        )
-                    ),
-                    fluidRow(
-                        box(width = 12, title = span("Local Economy-wide Impacts of Local Government Spending (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
-                            p('Local government spends taxes on local activities, which also creates multipliers.'),
-                            fluidRow(
-                                column(4, inp_sim_LocalGSpending)
-                            ),
-                            p("EFFECTS OF THIS INCREASE IN LOCAL GOVERNMENT SPENDING ON...", style = "font-size: 12pt"),
-                            fluidRow(
-                                # p('blank')
-                                column(width=4, plotOutput("simLocalG_totalprod")),
-                                column(width=4, plotOutput("simLocalG_incomes")),
-                                column(width=4, plotOutput("simLocalG_labor"))
-                            ),
-                            p(),
-                            useShinyjs(),
-                            actionButton("toTop10", "Back to top",
-                                         class="btn btn-light",
-                                         style="padding:4px; font-size:80%; float:right")
-                        )
-                    ),
-                    fluidRow(
-                        downloadButton("report2", "Generate PDF Report", style = "margin-left: 20px"),
-                        p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.', style = "margin-left: 20px")
+                        fluidRow(
+                            column(4, inp_sim_NagSpending)
+                        ),
+                        p("EFFECTS OF THIS INCREASE IN LOCAL NON-AGRICULTURAL PRODUCTION ON...", style = "font-size: 12pt"),
+                        fluidRow(
+                            # p('blank')
+                            column(width=4, plotOutput("simNag_totalprod")),
+                            column(width=4, plotOutput("simNag_incomes")),
+                            column(width=4, plotOutput("simNag_labor"))
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop5", "Back to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
                     )
+                ),
+                fluidRow(
+                    box(width = 12, title = span("Local Economy-wide Impacts of Low-skilled Female Earnings (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
+                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
+                          interventions to increase the employment of local workers, for example, through job training programs.'),
+                        fluidRow(
+                            column(4, inp_sim_LFUSKSpending)
+                        ),
+                        p("EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED FEMALE WORKERS ON...", style = "font-size: 12pt"),
+                        fluidRow(
+                            # p('blank')
+                            column(width=4, plotOutput("simLFUSK_totalprod")),
+                            column(width=4, plotOutput("simLFUSK_incomes")),
+                            column(width=4, plotOutput("simLFUSK_labor"))
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop6", "Back to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
+                    )
+                ),
+                fluidRow(
+                    box(width = 12, title = span("Local Economy-wide Impacts of Low-skilled Male Earnings (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
+                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
+                          interventions to increase the employment of local workers, for example, through job training programs.'),
+                        fluidRow(
+                            column(4, inp_sim_LMUSKSpending)
+                        ),
+                        p("EFFECTS OF THIS INCREASE IN EARNINGS TO LOW SKILLED MALE WORKERS ON...", style = "font-size: 12pt"),
+                        fluidRow(
+                            # p('blank')
+                            column(width=4, plotOutput("simLMUSK_totalprod")),
+                            column(width=4, plotOutput("simLMUSK_incomes")),
+                            column(width=4, plotOutput("simLMUSK_labor"))
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop7", "Back to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
+                    )
+                ),
+                fluidRow(
+                    box(width = 12, title = span("Local Economy-wide Impacts of Skilled Female Earnings (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
+                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
+                          interventions to increase the employment of local workers, for example, through job training programs.'),
+                        fluidRow(
+                            column(4, inp_sim_LFSKSpending)
+                        ),
+                        p("EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED FEMALE WORKERS ON...", style = "font-size: 12pt"),
+                        fluidRow(
+                            # p('blank')
+                            column(width=4, plotOutput("simLFSK_totalprod")),
+                            column(width=4, plotOutput("simLFSK_incomes")),
+                            column(width=4, plotOutput("simLFSK_labor"))
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop8", "Back to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
+                    )
+                ),
+                fluidRow(
+                    box(width = 12, title = span("Local Economy-wide Impacts of Skilled Male Earnings (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
+                        p('Tourist activities create demand for local labor. We can also use this model to see the effects of complementary 
+                          interventions to increase the employment of local workers, for example, through job training programs.'),
+                        fluidRow(
+                            column(4, inp_sim_LMSKSpending)
+                        ),
+                        p("EFFECTS OF THIS INCREASE IN EARNINGS TO SKILLED MALE WORKERS ON...", style = "font-size: 12pt"),
+                        fluidRow(
+                            # p('blank')
+                            column(width=4, plotOutput("simLMSK_totalprod")),
+                            column(width=4, plotOutput("simLMSK_incomes")),
+                            column(width=4, plotOutput("simLMSK_labor"))
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop9", "Back to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
+                    )
+                ),
+                fluidRow(
+                    box(width = 12, title = span("Local Economy-wide Impacts of Local Government Spending (US$)", style = 'font-size:22px;color:rgb(63, 144, 210);'),
+                        p('Local government spends taxes on local activities, which also creates multipliers.'),
+                        fluidRow(
+                            column(4, inp_sim_LocalGSpending)
+                        ),
+                        p("EFFECTS OF THIS INCREASE IN LOCAL GOVERNMENT SPENDING ON...", style = "font-size: 12pt"),
+                        fluidRow(
+                            # p('blank')
+                            column(width=4, plotOutput("simLocalG_totalprod")),
+                            column(width=4, plotOutput("simLocalG_incomes")),
+                            column(width=4, plotOutput("simLocalG_labor"))
+                        ),
+                        p(),
+                        useShinyjs(),
+                        actionButton("toTop10", "Back to top",
+                                     class="btn btn-light",
+                                     style="padding:4px; font-size:80%; float:right")
+                    )
+                ),
+                fluidRow(
+                  downloadButton("report2", "Generate PDF Report", style = "margin-left: 20px"),
+                  p('Generating the files can take up to 30 seconds. There is no need for multiple clicks.', style = "margin-left: 20px")
+                )
             )
         )
     )
@@ -948,7 +948,7 @@ ui <- dashboardPage(
 
 
 #########################################################
-
+            
 
 
 server <- function(input, output) { 
@@ -964,8 +964,8 @@ server <- function(input, output) {
         # &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
         # Rescale Ag
         ag_totalshares =  (input$ag_MwagesUnskilled_raw + input$ag_MwagesSkilled_raw + input$ag_FwagesUnskilled_raw + input$ag_FwagesSkilled_raw + 
-                               input$ag_expLocalAg_raw +   input$ag_expTourism_raw + input$ag_expLocalFish_raw + input$ag_expServices_raw + input$ag_expLocalStores_raw + 
-                               input$ag_expOutside_raw + input$ag_expLocalTaxes_raw + input$ag_expTaxes_raw)
+            input$ag_expLocalAg_raw +   input$ag_expTourism_raw + input$ag_expLocalFish_raw + input$ag_expServices_raw + input$ag_expLocalStores_raw + 
+            input$ag_expOutside_raw + input$ag_expLocalTaxes_raw + input$ag_expTaxes_raw)
         ag_scaleshares = (100 - input$ag_profitMargin)/ag_totalshares
         
         ag_MwagesUnskilled = input$ag_MwagesUnskilled_raw * ag_scaleshares
@@ -987,20 +987,20 @@ server <- function(input, output) {
         # Rescale Tourism
         tourism_totalshares = (
             input$tourism_MwagesUnskilled_raw +
-                input$tourism_MwagesSkilled_raw +
-                input$tourism_FwagesUnskilled_raw +
-                input$tourism_FwagesSkilled_raw +
-                input$tourism_expLocalAg_raw +
-                input$tourism_expTourism_raw +
-                input$tourism_expLocalFish_raw +
-                input$tourism_expServices_raw +
-                input$tourism_expLocalStores_raw +
-                input$tourism_expOutside_raw +
-                input$tourism_expLocalTaxes_raw +    
-                input$tourism_expTaxes_raw )
-        
+            input$tourism_MwagesSkilled_raw +
+            input$tourism_FwagesUnskilled_raw +
+            input$tourism_FwagesSkilled_raw +
+            input$tourism_expLocalAg_raw +
+            input$tourism_expTourism_raw +
+            input$tourism_expLocalFish_raw +
+            input$tourism_expServices_raw +
+            input$tourism_expLocalStores_raw +
+            input$tourism_expOutside_raw +
+            input$tourism_expLocalTaxes_raw +    
+            input$tourism_expTaxes_raw )
+
         tourism_scaleshares = (100 - input$tourism_profitMargin)/tourism_totalshares
-        
+
         tourism_MwagesUnskilled = input$tourism_MwagesUnskilled_raw * tourism_scaleshares
         tourism_MwagesSkilled = input$tourism_MwagesSkilled_raw * tourism_scaleshares
         tourism_FwagesUnskilled = input$tourism_FwagesUnskilled_raw * tourism_scaleshares
@@ -1014,7 +1014,7 @@ server <- function(input, output) {
         tourism_expLocalTaxes = input$tourism_expLocalTaxes_raw * tourism_scaleshares
         tourism_expTaxes = input$tourism_expTaxes_raw * tourism_scaleshares
         
-        
+
         # Rescale NonAg
         nag_totalshares = (
             input$nag_MwagesUnskilled_raw +
@@ -1029,9 +1029,9 @@ server <- function(input, output) {
                 input$nag_expOutside_raw +
                 input$nag_expLocalTaxes_raw + 
                 input$nag_expTaxes_raw )
-        
+
         nag_scaleshares = (100 - input$nag_profitMargin)/nag_totalshares
-        
+
         nag_MwagesUnskilled = input$nag_MwagesUnskilled_raw * nag_scaleshares
         nag_MwagesSkilled = input$nag_MwagesSkilled_raw * nag_scaleshares
         nag_FwagesUnskilled = input$nag_FwagesUnskilled_raw * nag_scaleshares
@@ -1044,7 +1044,7 @@ server <- function(input, output) {
         nag_expOutside = input$nag_expOutside_raw * nag_scaleshares
         nag_expLocalTaxes = input$nag_expLocalTaxes_raw * nag_scaleshares
         nag_expTaxes = input$nag_expTaxes_raw * nag_scaleshares
-        
+
         
         # Rescale NatResources
         fish_totalshares = (
@@ -1141,7 +1141,7 @@ server <- function(input, output) {
         
         # Rescale Community Revenue Sharing
         comRevSh_totalshares = (
-            input$comRevSh_MwagesUnskilled_raw +
+                input$comRevSh_MwagesUnskilled_raw +
                 input$comRevSh_MwagesSkilled_raw +
                 input$comRevSh_FwagesUnskilled_raw +
                 input$comRevSh_FwagesSkilled_raw +
@@ -1171,7 +1171,7 @@ server <- function(input, output) {
         
         # Rescale Local Government
         localG_totalshares = (
-            input$localG_MwagesUnskilled_raw +
+                input$localG_MwagesUnskilled_raw +
                 input$localG_MwagesSkilled_raw +
                 input$localG_FwagesUnskilled_raw +
                 input$localG_FwagesSkilled_raw +
@@ -1182,8 +1182,8 @@ server <- function(input, output) {
                 input$localG_expServices_raw +
                 input$localG_expLocalStores_raw +
                 input$localG_expOutside_raw ) 
-        # input$localG_expLocalTaxes_raw +  # taxes don't pay taxes.
-        # input$localG_expTaxes_raw 
+                # input$localG_expLocalTaxes_raw +  # taxes don't pay taxes.
+                # input$localG_expTaxes_raw 
         
         # LocalG has no profit margin, so the scaling is just inverse of total shares
         localG_scaleshares = 100/localG_totalshares
@@ -1205,7 +1205,7 @@ server <- function(input, output) {
         
         # Rescale household expenditure shares: that's already done below (within the amt calculations)
         
-        
+
         
         
         # &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -1219,9 +1219,9 @@ server <- function(input, output) {
         tourist_nights <- input$tourists_popMultiDay * input$tourists_nbNights
         tourexp_lodging <- tourist_nights * input$tourists_roomPrice
         tourexp_localRestaurants <- tourist_days * input$tourists_expRestaurants
-        
+
         sam_tourists["Nag",] <- tourist_days * (input$tourists_expRetShops +
-                                                    input$tourists_expOther)
+                                                      input$tourists_expOther)
         sam_tourists["Tourism",] <- tourist_days * (input$tourists_expGuidesTours +
                                                         input$tourists_expSouvenirs)
         sam_tourists["Restaurants",] <- tourist_days * input$tourists_expRestaurants
@@ -1230,7 +1230,7 @@ server <- function(input, output) {
         # Should not matter which calculation you use : natural park and tourist tabs need to agree
         # sam_tourists["PA",] <- (input$tourists_popMultiDay + input$tourists_popSingleDay) * input$tourists_expParkEntry
         sam_tourists["PA",] <- input$natPark_entryFees
-        
+    
         
         # Tourism Column not same as tourists column : it's the specialized tourism shops sam_tourists["Tourism",]
         # #------------------------------------
@@ -1259,8 +1259,8 @@ server <- function(input, output) {
         # sam_tourism_allbutK <- sum(sam_tourism)
         # sam_tourism["K",] <- sam_tourism_totalrev - sam_tourism_allbutK
         sam_tourism["K",] <- sam_tourism_totalrev * (input$tourism_profitMargin)/100 * input$tourism_shareLocallyOwned/100
-        
-        
+
+       
         # Lodges Column
         #------------------------------------
         rev_Lodging <- tourexp_lodging
@@ -1277,9 +1277,9 @@ server <- function(input, output) {
         sam_lodges["LocalG", ] <- rev_Lodging * lodges_expLocalTaxes/100
         sam_lodges["G", ] <- rev_Lodging * lodges_expTaxes/100
         sam_lodges["ROW", ] <- rev_Lodging * (lodges_expOutside/100 
-                                              +  input$lodges_profitMargin/100 * (1-input$lodges_shareLocallyOwned/100)
-                                              +  (lodges_MwagesUnskilled + lodges_MwagesSkilled + lodges_FwagesUnskilled + lodges_FwagesSkilled)/100 * (1 - input$lodges_shareWorkersLocal/100))
-        
+                            +  input$lodges_profitMargin/100 * (1-input$lodges_shareLocallyOwned/100)
+                            +  (lodges_MwagesUnskilled + lodges_MwagesSkilled + lodges_FwagesUnskilled + lodges_FwagesSkilled)/100 * (1 - input$lodges_shareWorkersLocal/100))
+    
         
         
         # K account used to be the residual, but now it is the PROFIT SHARE
@@ -1288,29 +1288,29 @@ server <- function(input, output) {
         sam_lodges["K",] <- rev_Lodging * input$lodges_profitMargin/100 * input$lodges_shareLocallyOwned/100
         
         
-        
+
         # Both household columns first (need it to fill out following columns)
         #======================================================================
         hhp_totalInc <- input$hhp_pcinc * input$hhp_pop
         hhnp_totalInc <- input$hhnp_pcinc * input$hhnp_pop
-        
+
         hhp_sumshares <- input$hhp_expGroceryFood + input$hhp_expGroceryOther + input$hhp_expMarkets + input$hhp_expLocalFarms +
-            input$hhp_expLocalFish + input$hhp_expTourism + input$hhp_expLocalProc + input$hhp_expRest + input$hhp_expOtherLocal + input$hhp_expOutside +
-            input$hhp_expRent + input$hhp_expLocalTaxes + input$hhp_expTaxes
+                input$hhp_expLocalFish + input$hhp_expTourism + input$hhp_expLocalProc + input$hhp_expRest + input$hhp_expOtherLocal + input$hhp_expOutside +
+                input$hhp_expRent + input$hhp_expLocalTaxes + input$hhp_expTaxes
         hhnp_sumshares <- input$hhnp_expGroceryFood + input$hhnp_expGroceryOther + input$hhnp_expMarkets + input$hhnp_expLocalFarms +
             input$hhnp_expLocalFish + input$hhnp_expTourism + input$hhnp_expLocalProc + input$hhnp_expRest + input$hhnp_expOtherLocal + input$hhnp_expOutside +
             input$hhnp_expRent + input$hhnp_expLocalTaxes + input$hhnp_expTaxes 
         
         
-        
+
         # SAM rows for Poor (using sumshares to rescale)
         sam_hhp["Ag",] <- hhp_totalInc*(input$hhp_expLocalFarms/hhp_sumshares)
         sam_hhp["Tourism",] <- hhp_totalInc*(input$hhp_expTourism/hhp_sumshares)
         sam_hhp["Nag",] <- hhp_totalInc*((input$hhp_expGroceryFood +
-                                              input$hhp_expGroceryOther +
-                                              input$hhp_expMarkets +
-                                              input$hhp_expLocalProc +
-                                              input$hhp_expOtherLocal)/hhp_sumshares)
+                                               input$hhp_expGroceryOther +
+                                               input$hhp_expMarkets +
+                                               input$hhp_expLocalProc +
+                                               input$hhp_expOtherLocal)/hhp_sumshares)
         sam_hhp["Fish",] <- hhp_totalInc*(input$hhp_expLocalFish/hhp_sumshares)
         sam_hhp["Restaurants", ] <- hhp_totalInc*(input$hhp_expRest/hhp_sumshares)
         # Rents and taxes calculation: 
@@ -1321,15 +1321,15 @@ server <- function(input, output) {
         sam_hhp_allbutrow <- sum(sam_hhp)
         sam_hhp["ROW", ] <- hhp_totalInc - sam_hhp_allbutrow
         
-        
+
         # SAM rows for Non-Poor
         sam_hhnp["Ag",] <- hhnp_totalInc*input$hhnp_expLocalFarms/hhnp_sumshares
         sam_hhnp["Tourism",] <- hhnp_totalInc*(input$hhnp_expTourism/hhnp_sumshares)
         sam_hhnp["Nag",] <- hhnp_totalInc*(input$hhnp_expGroceryFood +
-                                               input$hhnp_expGroceryOther +
-                                               input$hhnp_expMarkets +
-                                               input$hhnp_expLocalProc +
-                                               input$hhnp_expOtherLocal)/hhnp_sumshares
+                                                 input$hhnp_expGroceryOther +
+                                                 input$hhnp_expMarkets +
+                                                 input$hhnp_expLocalProc +
+                                                 input$hhnp_expOtherLocal)/hhnp_sumshares
         sam_hhnp["Fish",] <- hhnp_totalInc*input$hhnp_expLocalFish/hhnp_sumshares
         sam_hhnp["Restaurants", ] <- hhnp_totalInc*input$hhnp_expRest/hhnp_sumshares
         # Rents and taxes calculation: 
@@ -1339,8 +1339,8 @@ server <- function(input, output) {
         # ROW account is the RESIDUAL
         sam_hhnp_allbutrow <- sum(sam_hhnp)
         sam_hhnp["ROW", ] <- hhnp_totalInc - sam_hhnp_allbutrow
-        
-        
+
+
         # # Restaurants Column
         # #------------------------------------
         rev_Restaurants <- tourexp_localRestaurants + sam_hhp["Restaurants",] + sam_hhnp["Restaurants",]
@@ -1357,18 +1357,18 @@ server <- function(input, output) {
         sam_restaurants["LocalG", ] <- rev_Restaurants * restaurants_expLocalTaxes/100
         sam_restaurants["G", ] <- rev_Restaurants * restaurants_expTaxes/100
         sam_restaurants["ROW", ] <- rev_Restaurants * (restaurants_expOutside/100 
-                                                       +  input$restaurants_profitMargin/100 * (1-input$restaurants_shareLocallyOwned/100)
-                                                       +  (restaurants_MwagesUnskilled + restaurants_MwagesSkilled + restaurants_FwagesUnskilled + restaurants_FwagesSkilled)/100 * (1 - input$restaurants_shareWorkersLocal/100))
+                                                +  input$restaurants_profitMargin/100 * (1-input$restaurants_shareLocallyOwned/100)
+                                                +  (restaurants_MwagesUnskilled + restaurants_MwagesSkilled + restaurants_FwagesUnskilled + restaurants_FwagesSkilled)/100 * (1 - input$restaurants_shareWorkersLocal/100))
         
         # K account used to be RESIDUAL, now calculated directly 
         # sam_rest_allbutrow <- sum(sam_restaurants)
         # sam_restaurants["K", ] <- (rev_Restaurants - sam_rest_allbutrow) * input$restaurants_shareOwned / 100
         sam_restaurants["K", ] <- rev_Restaurants * input$restaurants_profitMargin/100 * input$restaurants_shareLocallyOwned/100
-        
+       
         # NOTE: Order matters here, because Non-Ag feeds into Ag totals 
         
         
-        
+         
         # # PA Column
         # #------------------------------------
         sam_pa["Ag",] <- input$natPark_totalBudget * input$natPark_expLocalAg/100
@@ -1400,7 +1400,7 @@ server <- function(input, output) {
         sam_comrevsh["LMSK", ] <-   input$natPark_expComRevSh * comRevSh_MwagesSkilled/100
         sam_comrevsh["LFUSK", ] <-  input$natPark_expComRevSh * comRevSh_FwagesUnskilled/100
         sam_comrevsh["LFSK", ] <-   input$natPark_expComRevSh * comRevSh_FwagesSkilled/100
-        
+
         
         
         # NonAg Column
@@ -1410,9 +1410,9 @@ server <- function(input, output) {
         # Revenue needs to be calculated as totel_rev = exog_rev / (1-share_endog_rev) 
         # Where the endogenous revenues are Ag, Nag, and NatRes (otherwise there would be circularity in the excel sheet)
         sam_nag_totalrev <-  (sam_tourists["Nag",] + sam_lodges["Nag",] + sam_restaurants["Nag",] +
-                                  sam_hhp["Nag",] + sam_hhnp["Nag",] + sam_pa["Nag",]  + sam_tourism["Nag",] + sam_comrevsh["Nag", ])/
-            (1- nag_expServices/100 - nag_expLocalStores/100 - nag_expLocalAg /100 - nag_expLocalFish/100)
-        
+            sam_hhp["Nag",] + sam_hhnp["Nag",] + sam_pa["Nag",]  + sam_tourism["Nag",] + sam_comrevsh["Nag", ])/
+                (1- nag_expServices/100 - nag_expLocalStores/100 - nag_expLocalAg /100 - nag_expLocalFish/100)
+
         sam_nag["Ag",] <- sam_nag_totalrev * nag_expLocalAg/100
         sam_nag["Nag",] <- sam_nag_totalrev * (nag_expServices + nag_expLocalStores)/100
         sam_nag["Tourism",] <- sam_nag_totalrev * nag_expTourism/100
@@ -1436,7 +1436,7 @@ server <- function(input, output) {
         # sam_nag_allbutK <- sum(sam_nag)
         # sam_nag["K",] <- sam_nag_totalrev - sam_nag_allbutK
         sam_nag["K",] <- sam_nag_totalrev * (input$nag_profitMargin)/100 * input$nag_shareLocallyOwned/100
-        
+
         
         # Ag Column 
         # #------------------------------------
@@ -1445,7 +1445,7 @@ server <- function(input, output) {
         # Where the endogenous revenues are Ag, Nag, and NatRes (otherwise there would be circularity in the excel sheet)
         sam_ag_totalrev <-  (sam_tourists["Ag",] + sam_lodges["Ag",] + sam_restaurants["Ag",]  +
                                  sam_hhp["Ag",] + sam_hhnp["Ag",] + sam_pa["Ag",]  + sam_tourism["Ag",] + sam_comrevsh["Ag", ])/
-            (1 - ag_expLocalAg/100 - ag_expLocalFish/100 - ag_expServices/100 - ag_expLocalStores/100)
+                    (1 - ag_expLocalAg/100 - ag_expLocalFish/100 - ag_expServices/100 - ag_expLocalStores/100)
         # 
         sam_ag["Ag",] <- sam_ag_totalrev * ag_expLocalAg/100
         sam_ag["Nag",] <- sam_ag_totalrev * (ag_expServices + ag_expLocalStores)/100
@@ -1459,9 +1459,9 @@ server <- function(input, output) {
         sam_ag["LocalG",] <- sam_ag_totalrev * (ag_expLocalTaxes)/100
         sam_ag["G",] <- sam_ag_totalrev * (ag_expTaxes)/100
         sam_ag["ROW",] <- sam_ag_totalrev * (ag_expOutside/100 
-                                             +  input$ag_profitMargin/100 * (1-input$ag_shareLocallyOwned/100)
-                                             + (ag_MwagesUnskilled + ag_MwagesSkilled + ag_FwagesUnskilled + ag_FwagesSkilled)/100 * (1 - input$ag_shareWorkersLocal/100))
-        
+                                        +  input$ag_profitMargin/100 * (1-input$ag_shareLocallyOwned/100)
+                                        + (ag_MwagesUnskilled + ag_MwagesSkilled + ag_FwagesUnskilled + ag_FwagesSkilled)/100 * (1 - input$ag_shareWorkersLocal/100))
+    
         # K account used to be the residual, but now computed directly 
         # sam_ag_allbutK <- sum(sam_ag)
         # sam_ag["K",] <- sam_ag_totalrev - sam_ag_allbutK
@@ -1476,9 +1476,9 @@ server <- function(input, output) {
         # Revenue needs to be calculated as totel_rev = exog_rev / (1-share_endog_rev) 
         # Where the endogenous revenues are Ag, Nag, and NatRes (otherwise there would be circularity in the excel sheet)
         sam_fish_totalrev <-  (sam_lodges["Fish",] + sam_restaurants["Fish",] +
-                                   sam_hhp["Fish",] + sam_hhnp["Fish",] + sam_pa["Fish",]  + sam_tourism["Fish",] + sam_comrevsh["Fish", ])/
+                                  sam_hhp["Fish",] + sam_hhnp["Fish",] + sam_pa["Fish",]  + sam_tourism["Fish",] + sam_comrevsh["Fish", ])/
             (1- fish_expLocalFish/100 - fish_expLocalAg/100 - fish_expServices/100 - fish_expLocalStores/100)
-        
+
         sam_fish["Ag",] <- sam_fish_totalrev * fish_expLocalAg/100
         sam_fish["Nag",] <- sam_fish_totalrev * (fish_expServices + fish_expLocalStores)/100
         sam_fish["Fish",] <- sam_fish_totalrev * (fish_expLocalFish)/100
@@ -1504,9 +1504,9 @@ server <- function(input, output) {
         # #---------------------------------------------------------------------
         # here all revenue is exogenous so we don't worry about circularity
         sam_localG_totalrev <-  (sam_ag["LocalG",] + sam_nag["LocalG",]  + sam_tourists["LocalG",] + sam_lodges["LocalG",] + sam_restaurants["LocalG",]  +
-                                     sam_hhp["LocalG",] + sam_hhnp["LocalG",] + sam_pa["LocalG",]  + sam_tourism["LocalG",] + sam_comrevsh["LocalG", ])
+                                 sam_hhp["LocalG",] + sam_hhnp["LocalG",] + sam_pa["LocalG",]  + sam_tourism["LocalG",] + sam_comrevsh["LocalG", ])
         
-        # (1 - localG_expLocalAg/100 - localG_expLocalFish/100 - localG_expServices/100 - localG_expLocalStores/100)
+            # (1 - localG_expLocalAg/100 - localG_expLocalFish/100 - localG_expServices/100 - localG_expLocalStores/100)
         # 
         sam_localG["Ag",] <- sam_localG_totalrev * localG_expLocalAg/100
         sam_localG["Nag",] <- sam_localG_totalrev * (localG_expServices + localG_expLocalStores)/100
@@ -1520,8 +1520,8 @@ server <- function(input, output) {
         # sam_localG["LocalG",] <- sam_localG_totalrev * (localG_expLocalTaxes)/100
         # sam_localG["G",] <- sam_localG_totalrev * (localG_expTaxes)/100
         sam_localG["ROW",] <- sam_localG_totalrev * (localG_expOutside/100 
-                                                     # +  input$localG_profitMargin/100 * (1-input$localG_shareLocallyOwned/100)
-                                                     + (localG_MwagesUnskilled + localG_MwagesSkilled + localG_FwagesUnskilled + localG_FwagesSkilled)/100 * (1 - input$localG_shareWorkersLocal/100))
+                                             # +  input$localG_profitMargin/100 * (1-input$localG_shareLocallyOwned/100)
+                                             + (localG_MwagesUnskilled + localG_MwagesSkilled + localG_FwagesUnskilled + localG_FwagesSkilled)/100 * (1 - input$localG_shareWorkersLocal/100))
         
         # No K for localG, because no profit margins
         # sam_localG["K",] <- sam_localG_totalrev * (input$localG_profitMargin)/100 * input$localG_shareLocallyOwned/100
@@ -1546,13 +1546,13 @@ server <- function(input, output) {
         sam_G["ROW", ] = max(0, sam_g_rowsum-sam_g_colsum)
         
         
-        
+
         # L Columns (4 of them)
         # ---------------------------------------------------------------------
         # l_rowsum = sam_ag["L",] + sam_nag["L",] + sam_fish["L",] + sam_hhp["L",] + sam_hhnp["L",] +
-        # sam_lodges["L",] + sam_restaurants["L",] + sam_tourists["L",] + sam_pa["L",]
+            # sam_lodges["L",] + sam_restaurants["L",] + sam_tourists["L",] + sam_pa["L",]
         lmusk_rowsum = sam_ag["LMUSK",] + sam_nag["LMUSK",] + sam_fish["LMUSK",] + sam_hhp["LMUSK",] + sam_hhnp["LMUSK",] +
-            sam_lodges["LMUSK",] + sam_restaurants["LMUSK",] + sam_tourists["LMUSK",] + sam_pa["LMUSK",] + sam_tourism["LMUSK",] + sam_comrevsh["LMUSK", ] + sam_localG["LMUSK", ]
+                    sam_lodges["LMUSK",] + sam_restaurants["LMUSK",] + sam_tourists["LMUSK",] + sam_pa["LMUSK",] + sam_tourism["LMUSK",] + sam_comrevsh["LMUSK", ] + sam_localG["LMUSK", ]
         
         lmsk_rowsum = sam_ag["LMSK",] + sam_nag["LMSK",] + sam_fish["LMSK",] + sam_hhp["LMSK",] + sam_hhnp["LMSK",] +
             sam_lodges["LMSK",] + sam_restaurants["LMSK",] + sam_tourists["LMSK",] + sam_pa["LMSK",] + sam_tourism["LMSK",] + sam_comrevsh["LMSK", ] + sam_localG["LMSK", ]
@@ -1585,7 +1585,7 @@ server <- function(input, output) {
         sam_LFUSK["NonPoor",] = lfusk_rowsum * (1-labshares_poor[3])
         sam_LFSK["NonPoor",] = lfsk_rowsum * (1-labshares_poor[4])
         
-        
+            
         # K Column 
         # ---------------------------------------------------------------------
         k_rowsum = sam_ag["K",] + sam_nag["K",] + sam_fish["K",] + sam_hhp["K",] + sam_hhnp["K",] +
@@ -1602,7 +1602,7 @@ server <- function(input, output) {
         # sam_K["NonPoor",] = rentshare_hhnp
         # sam_K["Restaurants",] = allrents_hhp
         # sam_K["Lodges",] = allrents_hhnp
-        
+
         
         # ROW Column 
         # ---------------------------------------------------------------------
@@ -1617,25 +1617,25 @@ server <- function(input, output) {
         # First merge all the columns together with the correct rownames
         sam_almost <- Reduce(function(x,y) merge(x = x, y = y, by = 'rowname', all.x=TRUE),
                              list(
-                                 rownames_to_column(sam_ag),
-                                 rownames_to_column(sam_tourism),
-                                 rownames_to_column(sam_nag),
-                                 rownames_to_column(sam_fish),
-                                 rownames_to_column(sam_LMUSK),
-                                 rownames_to_column(sam_LMSK),
-                                 rownames_to_column(sam_LFUSK),
-                                 rownames_to_column(sam_LFSK),
-                                 rownames_to_column(sam_K),
-                                 rownames_to_column(sam_hhp),
-                                 rownames_to_column(sam_hhnp),
-                                 rownames_to_column(sam_restaurants),
-                                 rownames_to_column(sam_lodges), 
-                                 rownames_to_column(sam_tourists), 
-                                 rownames_to_column(sam_pa),
-                                 rownames_to_column(sam_comrevsh),
-                                 rownames_to_column(sam_localG),
-                                 rownames_to_column(sam_G),
-                                 rownames_to_column(sam_ROW)
+                                  rownames_to_column(sam_ag),
+                                  rownames_to_column(sam_tourism),
+                                  rownames_to_column(sam_nag),
+                                  rownames_to_column(sam_fish),
+                                  rownames_to_column(sam_LMUSK),
+                                  rownames_to_column(sam_LMSK),
+                                  rownames_to_column(sam_LFUSK),
+                                  rownames_to_column(sam_LFSK),
+                                  rownames_to_column(sam_K),
+                                  rownames_to_column(sam_hhp),
+                                  rownames_to_column(sam_hhnp),
+                                  rownames_to_column(sam_restaurants),
+                                  rownames_to_column(sam_lodges), 
+                                  rownames_to_column(sam_tourists), 
+                                  rownames_to_column(sam_pa),
+                                  rownames_to_column(sam_comrevsh),
+                                  rownames_to_column(sam_localG),
+                                  rownames_to_column(sam_G),
+                                  rownames_to_column(sam_ROW)
                              ))
         # this re-orders the rows# Ordering the rows: 
         sam_almost_reordered <- reorder_sam_rows(sam_almost, sam_row_names)
@@ -1720,14 +1720,14 @@ server <- function(input, output) {
         A <- as.matrix(sam_shares_endog)
         A
     })
-    
+
     
     
     # %%%%%%%%%%%%%%%%% Compute some outputs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     # Outputs for the top of the page:
     park_name <- function() {
-        return(gdata_NPName$label)
+      return(gdata_NPName$label)
     }
     output$park_name <- renderText(park_name())
     
@@ -1742,12 +1742,12 @@ server <- function(input, output) {
         return(input$tourists_popMultiDay + input$tourists_popSingleDay)
     }
     output$valueBox_numtour <- renderValueBox({
-        valueBox(value = format(numtour(), big.mark = ","),
-                 subtitle = "Total Number of Tourists", icon = icon("person"), color= "green")
+      valueBox(value = format(numtour(), big.mark = ","),
+               subtitle = "Total Number of Tourists", icon = icon("person"), color= "green")
     })
     
     numtourSingle <- function() {
-        return(input$tourists_popSingleDay)
+      return(input$tourists_popSingleDay)
     }
     output$valueBox_numtourSingle <- renderValueBox({
         valueBox(value = format(numtourSingle(), big.mark = ","),
@@ -1755,7 +1755,7 @@ server <- function(input, output) {
     })
     
     numtourMulti <- function() {
-        return(input$tourists_popMultiDay)
+      return(input$tourists_popMultiDay)
     }
     output$valueBox_numtourMulti <- renderValueBox({
         valueBox(value = format(numtourMulti(), big.mark = ","),
@@ -1764,24 +1764,24 @@ server <- function(input, output) {
     
     # Average length of stay
     avgTouristLength <- function() {
-        # Assuming single-day tourists spend 1 day (though technically it could be just a few hours)
-        tourists_avgLength <-  (input$tourists_nbNights*input$tourists_popMultiDay + input$tourists_popSingleDay) / (input$tourists_popMultiDay + input$tourists_popSingleDay)
-        out <-round(tourists_avgLength, digits = 2)
-        return(out)
+      # Assuming single-day tourists spend 1 day (though technically it could be just a few hours)
+      tourists_avgLength <-  (input$tourists_nbNights*input$tourists_popMultiDay + input$tourists_popSingleDay) / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+      out <-round(tourists_avgLength, digits = 2)
+      return(out)
     }
     output$valueBox_avgTouristLength <- renderValueBox({
         valueBox(value = format(avgTouristLength(), big.mark = ",", scientific = FALSE) ,
                  subtitle = "Average Length of Stay", icon = icon("calendar"), color = "maroon")
     })
-    
+        
     # Average tourist spending (calculating average lodging per night including those without nights):
     avgTouristSpending <- function() {
-        tourists_avgSpending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
-            input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
-            # note: single day tourists spend 0 on lodging, but they are still in the denominator:
-            (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
-        out <-scales::dollar(round(tourists_avgSpending, digits = 2))
-        return(out)
+      tourists_avgSpending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+        input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
+        # note: single day tourists spend 0 on lodging, but they are still in the denominator:
+        (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+      out <-scales::dollar(round(tourists_avgSpending, digits = 2))
+      return(out)
     }
     output$valueBox_avgTouristSpending <- renderValueBox({
         valueBox(value = format(avgTouristSpending(), big.mark = ",", scientific = FALSE) ,
@@ -1792,16 +1792,16 @@ server <- function(input, output) {
     ##### Four boxes about park finances: entry fee, total entry fees, total park budget, total wage spending
     
     entryFee <- function() {
-        return(scales::dollar(round(input$tourists_expParkEntry)))
+      return(scales::dollar(round(input$tourists_expParkEntry)))
     }
     output$valueBox_entryFee <- renderValueBox({
         # valueBox(value = format(round(input$tourists_expParkEntry), big.mark=","),
         valueBox(value = format(entryFee(), big.mark=","),      
                  subtitle = "Park Entry Fee (average)", icon = icon("ticket"), color = "olive")
     })
-    
+
     totalEntryFees <- function() {
-        return(scales::dollar(round(input$natPark_entryFees)))
+      return(scales::dollar(round(input$natPark_entryFees)))
     }
     output$valueBox_totalEntryFees <- renderValueBox({
         valueBox(value = format(totalEntryFees(), big.mark=","),
@@ -1809,7 +1809,7 @@ server <- function(input, output) {
     })
     
     budget <- function() {
-        return(scales::dollar(round(input$natPark_totalBudget)))
+      return(scales::dollar(round(input$natPark_totalBudget)))
     }
     output$valueBox_budget <- renderValueBox({
         valueBox(value = format(budget(), big.mark = ",", scientific = FALSE) ,
@@ -1817,9 +1817,9 @@ server <- function(input, output) {
     })
     
     parkWageBill <- function() {
-        return(scales::dollar(round(input$natPark_totalBudget * 
-                                        (input$natPark_MwagesUnskilled + input$natPark_MwagesSkilled + input$natPark_FwagesUnskilled + input$natPark_FwagesSkilled)/100 * 
-                                        input$natPark_shareWorkersLocal/100)))
+      return(scales::dollar(round(input$natPark_totalBudget * 
+                                    (input$natPark_MwagesUnskilled + input$natPark_MwagesSkilled + input$natPark_FwagesUnskilled + input$natPark_FwagesSkilled)/100 * 
+                                    input$natPark_shareWorkersLocal/100)))
     }
     output$valueBox_parkWageBill <- renderValueBox({
         valueBox(value = format(parkWageBill(), big.mark = ",", scientific = FALSE) ,
@@ -1829,11 +1829,11 @@ server <- function(input, output) {
     output$community_revenue_sharing <- renderText({
         crshare <- round(input$natPark_expComRevSh/input$natPark_entryFees * 100)
         crs_dollars <- format(round(crshare/100 * input$natPark_entryFees, 2), big.mark = ",") 
-        
+
         HTML(paste("This park redistributes", crshare , "% of entry fees as a Community Revenue Sharing scheme.  
                   This generates $", crs_dollars, "in funds for the surrounding communities. (Note that not all parks have this kind of explicit redistribution scheme.)"))
     })
-    
+
     
     
     ##### Compute some stuff for the tourism scenarios
@@ -1893,7 +1893,7 @@ server <- function(input, output) {
         # fees_increase <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(input$pct_increase_tourists)/100 * input$tourists_expParkEntry, big.mark =",")
         # new_total_fees <- format((input$tourists_popMultiDay + input$tourists_popSingleDay)*(100+input$pct_increase_tourists)/100 * input$tourists_expParkEntry, big.mark=",")
         paste("Changing the number of tourists by", pct_increase_tourists , "% and the average spending per tourists by", pct_increase_avg_spending, "% would result in $",  
-              spending_increase,"increase in spending.")
+               spending_increase,"increase in spending.")
     })
     
     
@@ -1925,14 +1925,14 @@ server <- function(input, output) {
     
     # Total production multiplier
     totalmult <- function() {
-        rows_to_sum = c("Ag","Nag","Fish","Tourism", "Restaurants","Lodges")
-        mults <- multout()
-        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        scales::dollar(total)
+      rows_to_sum = c("Ag","Nag","Fish","Tourism", "Restaurants","Lodges")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      scales::dollar(total)
     }
     
     output$totalmult <- renderText({
-        totalmult()
+      totalmult()
     })
     
     # Of which: Tourism-related production multiplier
@@ -1961,62 +1961,62 @@ server <- function(input, output) {
     
     # Total income (GDP) multiplier
     gdpmult <- function() {
-        rows_to_sum = c("Poor","NonPoor")
-        mults <- multout()
-        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        total
-        scales::dollar(total)
+      rows_to_sum = c("Poor","NonPoor")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      total
+      scales::dollar(total)
     }
     
     output$gdpmult <- renderText({
-        gdpmult()
+      gdpmult()
     })
     
     labmult <- function() {
-        rows_to_sum = c("LMUSK", "LFUSK", "LMSK", "LFSK")
-        mults <- multout()
-        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        round(total,3)
-        scales::dollar(total)
+      rows_to_sum = c("LMUSK", "LFUSK", "LMSK", "LFSK")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      round(total,3)
+      scales::dollar(total)
     }
     
     output$labmult <- renderText({
-        labmult()
+      labmult()
     }) 
     
     capmult <- function() {
-        rows_to_sum = c("K")
-        mults <- multout()
-        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        round(total,3)
-        scales::dollar(total)
+      rows_to_sum = c("K")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      round(total,3)
+      scales::dollar(total)
     }
     
     output$capmult <- renderText({
-        capmult()
+      capmult()
     })
     
     poormult <- function() {
-        rows_to_sum = c("Poor")
-        mults <- multout()
-        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        round(total,3)
-        scales::dollar(total)
+      rows_to_sum = c("Poor")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      round(total,3)
+      scales::dollar(total)
     }
     
     output$poormult <- renderText({
-        poormult()
+      poormult()
     }) 
     
     nonpoormult <- function() {
-        mults <- multout()
-        total <- mults["NonPoor","Tourists"]
-        round(total,3)
-        scales::dollar(total)
+      mults <- multout()
+      total <- mults["NonPoor","Tourists"]
+      round(total,3)
+      scales::dollar(total)
     }
     
     output$nonpoormult <- renderText({
-        nonpoormult()
+      nonpoormult()
     }) 
     
     
@@ -2133,9 +2133,9 @@ server <- function(input, output) {
                   axis.ticks.x = element_blank(),
                   axis.ticks.y = element_blank(),
                   legend.position = "none")
-        # Adding geom_bracket requires a non-standard package
-        # geom_bracket(aes(xmin = 1, xmax = 2, y = max(total_lab) + 2, label = "unskilled labor"),
-        #              label.y.npc = 1.2, label.size = 4)
+            # Adding geom_bracket requires a non-standard package
+            # geom_bracket(aes(xmin = 1, xmax = 2, y = max(total_lab) + 2, label = "unskilled labor"),
+            #              label.y.npc = 1.2, label.size = 4)
         bar
     }
     
@@ -2163,7 +2163,7 @@ server <- function(input, output) {
         bar
     }
     
-    
+
     # output$sim_totallab <- renderPlot({
     #     mults <- multout()
     #     labtotals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% c("LMUSK", "LMSK", "LFUSK", "LFSK"),"Tourists"]), digits=2))
@@ -2193,10 +2193,10 @@ server <- function(input, output) {
     #               legend.position = "none")
     #     bar
     # }
-    
+
     # spending_test <- reactive({input$sim_TouristSpending})
     # output$simCom_totalprod <- make_production_multipliers_plot("ComRevSh", spending_test())
-    
+
     
     # Production plots need to be split into two sub-plots: Tourism Activities vs Non-Tourism activities
     
@@ -2232,34 +2232,34 @@ server <- function(input, output) {
         make_production_multipliers_plot("LocalG", input$sim_LocalGSpending)
     })
     
-    
+  
     # Functions to pass to download to create PRODUCTION plots in PDF report
     reportplot_prod1 <- function() {
-        make_production_multipliers_plot("Tourists", input$sim_TouristSpending)
+      make_production_multipliers_plot("Tourists", input$sim_TouristSpending)
     }
     reportplot_prod2 <- function() {
-        make_production_multipliers_plot("PA", input$sim_PASpending)
+      make_production_multipliers_plot("PA", input$sim_PASpending)
     }
     reportplot_prod3 <- function() {
-        make_production_multipliers_plot("ComRevSh", input$sim_ComRevShSpending)
+      make_production_multipliers_plot("ComRevSh", input$sim_ComRevShSpending)
     }
     reportplot_prod4 <- function() {
-        make_production_multipliers_plot("Ag", input$sim_AgSpending)
+      make_production_multipliers_plot("Ag", input$sim_AgSpending)
     }
     reportplot_prod5 <- function() {
-        make_production_multipliers_plot("Nag", input$sim_NagSpending)
+      make_production_multipliers_plot("Nag", input$sim_NagSpending)
     }
     reportplot_prod6 <- function() {
-        make_production_multipliers_plot("LFUSK", input$sim_LFUSKSpending)
+      make_production_multipliers_plot("LFUSK", input$sim_LFUSKSpending)
     }
     reportplot_prod7 <- function() {
-        make_production_multipliers_plot("LMUSK", input$sim_LMUSKSpending)
+      make_production_multipliers_plot("LMUSK", input$sim_LMUSKSpending)
     }
     reportplot_prod8 <- function() {
-        make_production_multipliers_plot("LFSK", input$sim_LFSKSpending)
+      make_production_multipliers_plot("LFSK", input$sim_LFSKSpending)
     }
     reportplot_prod9 <- function() {
-        make_production_multipliers_plot("LMSK", input$sim_LMSKSpending)
+      make_production_multipliers_plot("LMSK", input$sim_LMSKSpending)
     }
     reportplot_prod10 <- function() {
         make_production_multipliers_plot("LocalG", input$sim_LocalGSpending)
@@ -2300,36 +2300,36 @@ server <- function(input, output) {
     
     # Functions to pass to download to create INCOME plots in PDF report
     reportplot_inc1 <- function() {
-        make_income_multipliers_plot("Tourists", input$sim_TouristSpending)
+      make_income_multipliers_plot("Tourists", input$sim_TouristSpending)
     }
     reportplot_inc2 <- function() {
-        make_income_multipliers_plot("PA", input$sim_PASpending)
+      make_income_multipliers_plot("PA", input$sim_PASpending)
     }
     reportplot_inc3 <- function() {
-        make_income_multipliers_plot("ComRevSh", input$sim_ComRevShSpending)
+      make_income_multipliers_plot("ComRevSh", input$sim_ComRevShSpending)
     }
     reportplot_inc4 <- function() {
-        make_income_multipliers_plot("Ag", input$sim_AgSpending)
+      make_income_multipliers_plot("Ag", input$sim_AgSpending)
     }
     reportplot_inc5 <- function() {
-        make_income_multipliers_plot("Nag", input$sim_NagSpending)
+      make_income_multipliers_plot("Nag", input$sim_NagSpending)
     }
     reportplot_inc6 <- function() {
-        make_income_multipliers_plot("LFUSK", input$sim_LFUSKSpending)
+      make_income_multipliers_plot("LFUSK", input$sim_LFUSKSpending)
     }
     reportplot_inc7 <- function() {
-        make_income_multipliers_plot("LMUSK", input$sim_LMUSKSpending)
+      make_income_multipliers_plot("LMUSK", input$sim_LMUSKSpending)
     }
     reportplot_inc8 <- function() {
-        make_income_multipliers_plot("LFSK", input$sim_LFSKSpending)
+      make_income_multipliers_plot("LFSK", input$sim_LFSKSpending)
     }
     reportplot_inc9 <- function() {
-        make_income_multipliers_plot("LMSK", input$sim_LMSKSpending)
+      make_income_multipliers_plot("LMSK", input$sim_LMSKSpending)
     }
     reportplot_inc10 <- function() {
         make_income_multipliers_plot("LocalG", input$sim_LocalGSpending)
     }
-    
+
     # Make all the simulation LABOR INCOME plots to output 
     output$simTourists_labor <- renderPlot({
         make_labor_multipliers_plot("Tourists", input$sim_TouristSpending)
@@ -2364,31 +2364,31 @@ server <- function(input, output) {
     
     # Functions to pass to download to create LABOR INCOME plots in PDF report
     reportplot_linc1 <- function() {
-        make_labor_multipliers_plot("Tourists", input$sim_TouristSpending)
+      make_labor_multipliers_plot("Tourists", input$sim_TouristSpending)
     }
     reportplot_linc2 <- function() {
-        make_labor_multipliers_plot("PA", input$sim_PASpending)
+      make_labor_multipliers_plot("PA", input$sim_PASpending)
     }
     reportplot_linc3 <- function() {
-        make_labor_multipliers_plot("ComRevSh", input$sim_ComRevShSpending)
+      make_labor_multipliers_plot("ComRevSh", input$sim_ComRevShSpending)
     }
     reportplot_linc4 <- function() {
-        make_labor_multipliers_plot("Ag", input$sim_AgSpending)
+      make_labor_multipliers_plot("Ag", input$sim_AgSpending)
     }
     reportplot_linc5 <- function() {
-        make_labor_multipliers_plot("Nag", input$sim_NagSpending)
+      make_labor_multipliers_plot("Nag", input$sim_NagSpending)
     }
     reportplot_linc6 <- function() {
-        make_labor_multipliers_plot("LFUSK", input$sim_LFUSKSpending)
+      make_labor_multipliers_plot("LFUSK", input$sim_LFUSKSpending)
     }
     reportplot_linc7 <- function() {
-        make_labor_multipliers_plot("LMUSK", input$sim_LMUSKSpending)
+      make_labor_multipliers_plot("LMUSK", input$sim_LMUSKSpending)
     }
     reportplot_linc8 <- function() {
-        make_labor_multipliers_plot("LFSK", input$sim_LFSKSpending)
+      make_labor_multipliers_plot("LFSK", input$sim_LFSKSpending)
     }
     reportplot_linc9 <- function() {
-        make_labor_multipliers_plot("LMSK", input$sim_LMSKSpending)
+      make_labor_multipliers_plot("LMSK", input$sim_LMSKSpending)
     }
     reportplot_linc10 <- function() {
         make_labor_multipliers_plot("LocalG", input$sim_LocalGSpending)
@@ -2401,112 +2401,112 @@ server <- function(input, output) {
     
     # Functions to pass to download to create last plot in PDF report
     reportplot_earn1 <- function() {
-        make_ComPA_multipliers_plot("Tourists", input$sim_TouristSpending)
+      make_ComPA_multipliers_plot("Tourists", input$sim_TouristSpending)
     }
     
     
     output$report1 <- downloadHandler(
-        filename = "report1.pdf",
-        content = function(file) {
-            # Copy the report file to a temporary directory before processing it, in
-            # case we don't have write permissions to the current working dir (which
-            # can happen when deployed).
-            tempReport <- file.path(tempdir(), "report1.Rmd")
-            file.copy("report1.Rmd", tempReport, overwrite = TRUE)
-            
-            # Set up parameters to pass to Rmd document
-            params <- list(totalmult = totalmult, gdpmult = gdpmult, labmult = labmult,
-                           capmult = capmult, poormult = poormult, nonpoormult = nonpoormult,
-                           touractmult=touractmult, nontouractmult=nontouractmult,
-                           park_name=park_name, numtour=numtour, numtourSingle=numtourSingle,
-                           numtourMulti=numtourMulti, avgTouristLength=avgTouristLength,
-                           avgTouristSpending=avgTouristSpending, entryFee=entryFee,
-                           totalEntryFees=totalEntryFees, budget=budget, parkWageBill=parkWageBill)
-            
-            # Knit the document, passing in the `params` list, and eval it in a
-            # child of the global environment (this isolates the code in the document
-            # from the code in this app).
-            rmarkdown::render(tempReport, output_file = file,
-                              params = params,
-                              envir = new.env(parent = globalenv())
-            )
-        }
+      filename = "report1.pdf",
+      content = function(file) {
+        # Copy the report file to a temporary directory before processing it, in
+        # case we don't have write permissions to the current working dir (which
+        # can happen when deployed).
+        tempReport <- file.path(tempdir(), "report1.Rmd")
+        file.copy("report1.Rmd", tempReport, overwrite = TRUE)
+        
+        # Set up parameters to pass to Rmd document
+        params <- list(totalmult = totalmult, gdpmult = gdpmult, labmult = labmult,
+                       capmult = capmult, poormult = poormult, nonpoormult = nonpoormult,
+                       touractmult=touractmult, nontouractmult=nontouractmult,
+                       park_name=park_name, numtour=numtour, numtourSingle=numtourSingle,
+                       numtourMulti=numtourMulti, avgTouristLength=avgTouristLength,
+                       avgTouristSpending=avgTouristSpending, entryFee=entryFee,
+                       totalEntryFees=totalEntryFees, budget=budget, parkWageBill=parkWageBill)
+        
+        # Knit the document, passing in the `params` list, and eval it in a
+        # child of the global environment (this isolates the code in the document
+        # from the code in this app).
+        rmarkdown::render(tempReport, output_file = file,
+                          params = params,
+                          envir = new.env(parent = globalenv())
+        )
+      }
     )
     
     output$report2 <- downloadHandler(
-        filename = "report2.pdf",
-        content = function(file) {
-            # Copy the report file to a temporary directory before processing it, in
-            # case we don't have write permissions to the current working dir (which
-            # can happen when deployed).
-            tempReport <- file.path(tempdir(), "report2.Rmd")
-            file.copy("report2.Rmd", tempReport, overwrite = TRUE)
-            
-            # Set up parameters to pass to Rmd document
-            params <- list(prod1 = reportplot_prod1, prod2 = reportplot_prod2, prod3 = reportplot_prod3,
-                           prod4 = reportplot_prod4, prod5 = reportplot_prod5, prod6 = reportplot_prod6,
-                           prod7 = reportplot_prod7, prod8 = reportplot_prod8, prod9 = reportplot_prod9,
-                           inc1 = reportplot_inc1, inc2 = reportplot_inc2, inc3 = reportplot_inc3,
-                           inc4 = reportplot_inc4, inc5 = reportplot_inc5, inc6 = reportplot_inc6,
-                           inc7 = reportplot_inc7, inc8 = reportplot_inc8, inc9 = reportplot_inc9,
-                           linc1 = reportplot_linc1, linc2 = reportplot_linc2, linc3 = reportplot_linc3,
-                           linc4 = reportplot_linc4, linc5 = reportplot_linc5, linc6 = reportplot_linc6,
-                           linc7 = reportplot_linc7, linc8 = reportplot_linc8, linc9 = reportplot_linc9,
-                           earn1 = reportplot_earn1, sim_TouristSpending = input$sim_TouristSpending,
-                           sim_PASpending = input$sim_PASpending,
-                           sim_ComRevShSpending = input$sim_ComRevShSpending,
-                           sim_AgSpending = input$sim_AgSpending,
-                           sim_NagSpending = input$sim_NagSpending,
-                           sim_LFUSKSpending = input$sim_LFUSKSpending,
-                           sim_LMUSKSpending = input$sim_LMUSKSpending,
-                           sim_LFSKSpending = input$sim_LFSKSpending,
-                           sim_LMSKSpending = input$sim_LMSKSpending)
-            
-            # Knit the document, passing in the `params` list, and eval it in a
-            # child of the global environment (this isolates the code in the document
-            # from the code in this app).
-            rmarkdown::render(tempReport, output_file = file,
-                              params = params,
-                              envir = new.env(parent = globalenv())
-            )
-        }
+      filename = "report2.pdf",
+      content = function(file) {
+        # Copy the report file to a temporary directory before processing it, in
+        # case we don't have write permissions to the current working dir (which
+        # can happen when deployed).
+        tempReport <- file.path(tempdir(), "report2.Rmd")
+        file.copy("report2.Rmd", tempReport, overwrite = TRUE)
+        
+        # Set up parameters to pass to Rmd document
+        params <- list(prod1 = reportplot_prod1, prod2 = reportplot_prod2, prod3 = reportplot_prod3,
+                       prod4 = reportplot_prod4, prod5 = reportplot_prod5, prod6 = reportplot_prod6,
+                       prod7 = reportplot_prod7, prod8 = reportplot_prod8, prod9 = reportplot_prod9,
+                       inc1 = reportplot_inc1, inc2 = reportplot_inc2, inc3 = reportplot_inc3,
+                       inc4 = reportplot_inc4, inc5 = reportplot_inc5, inc6 = reportplot_inc6,
+                       inc7 = reportplot_inc7, inc8 = reportplot_inc8, inc9 = reportplot_inc9,
+                       linc1 = reportplot_linc1, linc2 = reportplot_linc2, linc3 = reportplot_linc3,
+                       linc4 = reportplot_linc4, linc5 = reportplot_linc5, linc6 = reportplot_linc6,
+                       linc7 = reportplot_linc7, linc8 = reportplot_linc8, linc9 = reportplot_linc9,
+                       earn1 = reportplot_earn1, sim_TouristSpending = input$sim_TouristSpending,
+                       sim_PASpending = input$sim_PASpending,
+                       sim_ComRevShSpending = input$sim_ComRevShSpending,
+                       sim_AgSpending = input$sim_AgSpending,
+                       sim_NagSpending = input$sim_NagSpending,
+                       sim_LFUSKSpending = input$sim_LFUSKSpending,
+                       sim_LMUSKSpending = input$sim_LMUSKSpending,
+                       sim_LFSKSpending = input$sim_LFSKSpending,
+                       sim_LMSKSpending = input$sim_LMSKSpending)
+        
+        # Knit the document, passing in the `params` list, and eval it in a
+        # child of the global environment (this isolates the code in the document
+        # from the code in this app).
+        rmarkdown::render(tempReport, output_file = file,
+                          params = params,
+                          envir = new.env(parent = globalenv())
+        )
+      }
     )
-    
+
     output$doc_to_display <- renderUI({
-        includeHTML("instructions.html")
+      includeHTML("instructions.html")
     })
     
     observeEvent(input$toTop1, {
-        shinyjs::runjs("window.scrollTo(0, 0)")
+      shinyjs::runjs("window.scrollTo(0, 0)")
     })
     observeEvent(input$toTop2, {
-        shinyjs::runjs("window.scrollTo(0, 0)")
+      shinyjs::runjs("window.scrollTo(0, 0)")
     })
     observeEvent(input$toTop3, {
-        shinyjs::runjs("window.scrollTo(0, 0)")
+      shinyjs::runjs("window.scrollTo(0, 0)")
     })
     observeEvent(input$toTop4, {
-        shinyjs::runjs("window.scrollTo(0, 0)")
+      shinyjs::runjs("window.scrollTo(0, 0)")
     })
     observeEvent(input$toTop5, {
-        shinyjs::runjs("window.scrollTo(0, 0)")
+      shinyjs::runjs("window.scrollTo(0, 0)")
     })
     observeEvent(input$toTop6, {
-        shinyjs::runjs("window.scrollTo(0, 0)")
+      shinyjs::runjs("window.scrollTo(0, 0)")
     })
     observeEvent(input$toTop7, {
-        shinyjs::runjs("window.scrollTo(0, 0)")
+      shinyjs::runjs("window.scrollTo(0, 0)")
     })
     observeEvent(input$toTop8, {
-        shinyjs::runjs("window.scrollTo(0, 0)")
+      shinyjs::runjs("window.scrollTo(0, 0)")
     })
     observeEvent(input$toTop9, {
-        shinyjs::runjs("window.scrollTo(0, 0)")
+      shinyjs::runjs("window.scrollTo(0, 0)")
     })
     observeEvent(input$toTop10, {
         shinyjs::runjs("window.scrollTo(0, 0)")
     })
-    
+
     
     # output$download1.Excel <- downloadHandler(
     # 
@@ -2629,9 +2629,9 @@ server <- function(input, output) {
     #   } 
     # 
     # )
+
+  }
     
-}
 
-
-
+    
 shinyApp(ui, server)
