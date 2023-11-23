@@ -10,6 +10,7 @@ params:
   prod7: NULL
   prod8: NULL
   prod9: NULL
+  prod10: NULL
   inc1: NULL
   inc2: NULL
   inc3: NULL
@@ -19,6 +20,7 @@ params:
   inc7: NULL
   inc8: NULL
   inc9: NULL
+  inc10: NULL
   linc1: NULL
   linc2: NULL
   linc3: NULL
@@ -28,6 +30,7 @@ params:
   linc7: NULL
   linc8: NULL
   linc9: NULL
+  linc10: NULL
   earn1: NULL
   sim_TouristSpending: NULL
   sim_PASpending: NULL
@@ -38,6 +41,7 @@ params:
   sim_LMUSKSpending: NULL
   sim_LFSKSpending: NULL
   sim_LMSKSpending: NULL
+  sim_LocalGSpending: NULL
 ---
 
 \begin{center}
@@ -232,4 +236,25 @@ How much increase in earnings of skilled male workers ($) do you expect?
 ```
 ```{r echo=FALSE, out.width="50%", fig.align="center"}
   params$prod9()
+```
+
+\newpage
+\subsection{Local Economy Impacts of Local Government Spending (US\$)}
+
+Local government spends taxes on local activities, which also creates multipliers.
+
+How much in additional local government spending ($) do you want to simulate?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_LocalGSpending)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS INCREASE IN LOCAL GOVERNMENT SPENDING ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$inc10()
+  params$linc10()
+```
+```{r echo=FALSE, out.width="50%", fig.align="center"}
+  params$prod10()
 ```

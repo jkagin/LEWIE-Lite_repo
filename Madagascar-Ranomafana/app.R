@@ -2446,12 +2446,15 @@ server <- function(input, output) {
         params <- list(prod1 = reportplot_prod1, prod2 = reportplot_prod2, prod3 = reportplot_prod3,
                        prod4 = reportplot_prod4, prod5 = reportplot_prod5, prod6 = reportplot_prod6,
                        prod7 = reportplot_prod7, prod8 = reportplot_prod8, prod9 = reportplot_prod9,
+                       prod10 = reportplot_prod10,
                        inc1 = reportplot_inc1, inc2 = reportplot_inc2, inc3 = reportplot_inc3,
                        inc4 = reportplot_inc4, inc5 = reportplot_inc5, inc6 = reportplot_inc6,
                        inc7 = reportplot_inc7, inc8 = reportplot_inc8, inc9 = reportplot_inc9,
+                       inc10 = reportplot_inc10,
                        linc1 = reportplot_linc1, linc2 = reportplot_linc2, linc3 = reportplot_linc3,
                        linc4 = reportplot_linc4, linc5 = reportplot_linc5, linc6 = reportplot_linc6,
                        linc7 = reportplot_linc7, linc8 = reportplot_linc8, linc9 = reportplot_linc9,
+                       linc10 = reportplot_linc10,
                        earn1 = reportplot_earn1, sim_TouristSpending = input$sim_TouristSpending,
                        sim_PASpending = input$sim_PASpending,
                        sim_ComRevShSpending = input$sim_ComRevShSpending,
@@ -2460,7 +2463,8 @@ server <- function(input, output) {
                        sim_LFUSKSpending = input$sim_LFUSKSpending,
                        sim_LMUSKSpending = input$sim_LMUSKSpending,
                        sim_LFSKSpending = input$sim_LFSKSpending,
-                       sim_LMSKSpending = input$sim_LMSKSpending)
+                       sim_LMSKSpending = input$sim_LMSKSpending,
+                       sim_LocalGSpending = input$sim_LocalGSpending)
         
         # Knit the document, passing in the `params` list, and eval it in a
         # child of the global environment (this isolates the code in the document
