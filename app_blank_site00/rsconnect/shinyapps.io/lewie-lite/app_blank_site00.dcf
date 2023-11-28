@@ -1,0 +1,13 @@
+name: app_blank_site00
+title: app_blank_site00
+username: lewie-lite
+account: lewie-lite
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10657938
+bundleId: 7981767
+url: https://lewie-lite.shinyapps.io/app_blank_site00/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: LEWIE-Lite_NewInput_v18.xlsx

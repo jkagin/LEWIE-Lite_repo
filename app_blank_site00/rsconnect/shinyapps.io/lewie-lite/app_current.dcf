@@ -1,0 +1,12 @@
+name: app_current
+title: app_current
+username:
+account: lewie-lite
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9408755
+bundleId: 7956318
+url: https://lewie-lite.shinyapps.io/app_current/
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: app copy.R|LEWIE-Lite_NewInput_v13.xlsx

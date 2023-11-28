@@ -1,0 +1,242 @@
+---
+output: pdf_document
+params:
+  totalmult: NULL
+  gdpmult: NULL
+  labmult: NULL
+  capmult: NULL
+  poormult: NULL
+  nonpoormult: NULL
+  touractmult: NULL
+  nontouractmult: NULL
+  park_name: NULL
+  numtour: NULL
+  numtourSingle: NULL
+  numtourMulti: NULL
+  avgTouristLength: NULL
+  avgTouristSpending: NULL
+  entryFee: NULL
+  totalEntryFees: NULL
+  budget: NULL
+  parkWageBill: NULL
+---
+
+\begin{center}
+\section{LEWIE-lite Dashboard Report}
+\end{center}
+
+&nbsp;
+
+\subsection{Overview of tourism in the park}
+
+&nbsp;
+
+Park name:
+```{r echo=FALSE, comment=NA}
+	cat(params$park_name())
+```
+
+&nbsp;
+
+```{r echo=FALSE, comment=NA, fig.align="center", warning = FALSE, message = FALSE}
+library(ggplot2)
+library(emojifont)
+library(fontawesome)
+## Only fontawesome 4 icons supported
+
+rows <- 3
+cols <- 3
+boxes <- 9
+padding <- 1
+h <- 14
+w <- 22
+icons<-c("fa-dollar", "fa-file-text", "fa-briefcase", "fa-calendar", "fa-money", "fa-ticket", "fa-male", "fa-sun-o", "fa-bed")
+
+df <- data.frame(
+    x = rep(seq(0, (w+padding)*cols-1, w+padding), times=rows),
+    y = rep(seq(0, (h+padding)*rows-1, h+padding), each=cols),
+    h = rep(h, boxes),
+    w = rep(w, boxes),
+    value = c(params$totalEntryFees(), params$budget(), params$parkWageBill(), params$avgTouristLength(), params$avgTouristSpending(), params$entryFee(), params$numtour(), params$numtourSingle(), params$numtourMulti()),
+    info = c("Total Entry Fees",
+             "Total Park Budget",
+             "Park Spending on Local Wages",
+             "Average Length of Stay",
+             "Average Tourist Spending",
+             "Park Entry Fee (average)",
+             "Total Number of Tourists",
+             "Single-day Tourists",
+             "Multi-day Tourists"),
+    icon = fontawesome(icons),
+    font_family = c(rep("fontawesome-webfont", boxes)),
+    color = factor(1:boxes)
+)
+
+ggplot(df, aes(x, y, height = h, width = w, label = info)) +
+    ## Create the tiles using the `color` column
+    geom_tile(aes(fill = color)) +
+    ## Add the numeric values as text in `value` column
+    geom_text(color = "white", fontface = "bold", size = 8,
+              aes(label = value, x = x - w/2.2, y = y + h/4), hjust = 0) +
+    ## Add the labels for each box stored in the `info` column
+    geom_text(color = "white", fontface = "bold", size = 3,
+              aes(label = info, x = x - w/2.2, y = y-h/4), hjust = 0) +
+    coord_fixed() +
+    scale_fill_brewer(type = "qual", palette = "Dark2", direction=-1, na.value = "dodgerblue4") +
+    ## Use `geom_text()` to add the icons by specifying the unicode symbol.
+    geom_text(size = 16, aes(label = icon, family = font_family,
+                             x = x + w/4, y = y + h/8), alpha = 0.25) +
+    theme_void() +
+    guides(fill = FALSE)
+```
+
+\newpage
+\subsection{Local-economy impacts of tourist spending (US\$)}
+
+&nbsp;
+
+### For every dollar of tourist spending, the total production multiplier is:
+
+&nbsp;
+
+```{r echo=FALSE, comment=NA, fig.align="center", warning = FALSE, message = FALSE}
+rows <- 2
+cols <- 2
+boxes <- 4
+padding <- 0.25
+h <- 2
+w <- 6
+icons<-c("fa-sun-o", "fa-briefcase", "fa-gears", "")
+
+df <- data.frame(
+    x = rep(seq(0, (w+padding)*cols-1, w+padding), times=rows),
+    y = rep(seq(0, (h+padding)*rows-1, h+padding), each=cols),
+    h = rep(h, boxes),
+    w = rep(w, boxes),
+    value = c(params$touractmult(), params$nontouractmult(), params$totalmult(), ""),
+    info = c("Tourism activities",
+             "Non-Tourism activities",
+             "Total Production Multiplier", "Which can be split into:"),
+    icon = fontawesome(icons),
+    font_family = c(rep("fontawesome-webfont", boxes)),
+    color = factor(1:boxes)
+)
+
+ggplot(df, aes(x, y, height = h, width = w, label = info)) +
+    ## Create the tiles using the `color` column
+    geom_tile(aes(fill = color)) +
+    ## Add the numeric values as text in `value` column
+    geom_text(color = "white", fontface = "bold", size = 8,
+              aes(label = value, x = x - w/2.2, y = y + h/4), hjust = 0) +
+    ## Add the labels for each box stored in the `info` column
+    geom_text(color = "white", fontface = "bold", size = 3,
+              aes(label = info, x = x - w/2.2, y = y-h/4), hjust = 0) +
+    coord_fixed() +
+    scale_fill_brewer(type = "qual", palette = "Dark2") +
+    ## Use `geom_text()` to add the icons by specifying the unicode symbol.
+    geom_text(size = 16, aes(label = icon, family = font_family,
+                             x = x + w/4, y = y + h/8), alpha = 0.25) +
+    theme_void() +
+    guides(fill = FALSE)
+```
+
+&nbsp;
+
+The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, including all higher-order impacts, or ripple effects (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)
+
+\newpage
+### For every dollar of tourist spending, the total income multiplier is:
+
+&nbsp;
+
+```{r echo=FALSE, comment=NA, fig.align="center", warning = FALSE, message = FALSE}
+rows <- 2
+cols <- 2
+boxes <- 4
+padding <- 0.25
+h <- 2
+w <- 6
+icons<-c("fa-user", "fa-building", "fa-line-chart", "")
+
+df <- data.frame(
+    x = rep(seq(0, (w+padding)*cols-1, w+padding), times=rows),
+    y = rep(seq(0, (h+padding)*rows-1, h+padding), each=cols),
+    h = rep(h, boxes),
+    w = rep(w, boxes),
+    value = c(params$labmult(), params$capmult(), params$gdpmult(), ""),
+    info = c("Accruing to Labor",
+             "Accruing to Capital",
+             "Total Income Multiplier", "Which can be split into:"),
+    icon = fontawesome(icons),
+    font_family = c(rep("fontawesome-webfont", boxes)),
+    color = factor(1:boxes)
+)
+
+ggplot(df, aes(x, y, height = h, width = w, label = info)) +
+    ## Create the tiles using the `color` column
+    geom_tile(aes(fill = color)) +
+    ## Add the numeric values as text in `value` column
+    geom_text(color = "white", fontface = "bold", size = 8,
+              aes(label = value, x = x - w/2.2, y = y + h/4), hjust = 0) +
+    ## Add the labels for each box stored in the `info` column
+    geom_text(color = "white", fontface = "bold", size = 3,
+              aes(label = info, x = x - w/2.2, y = y-h/4), hjust = 0) +
+    coord_fixed() +
+    scale_fill_brewer(type = "qual", palette = "Set1", direction=-1) +
+    ## Use `geom_text()` to add the icons by specifying the unicode symbol.
+    geom_text(size = 16, aes(label = icon, family = font_family,
+                             x = x + w/4, y = y + h/8), alpha = 0.25) +
+    theme_void() +
+    guides(fill = FALSE)
+```
+
+&nbsp;
+
+### Alternatively, the income multiplier can also be split based on household income:
+
+&nbsp;
+
+```{r echo=FALSE, comment=NA, fig.align="center", warning = FALSE, message = FALSE}
+rows <- 2
+cols <- 2
+boxes <- 4
+padding <- 0.25
+h <- 2
+w <- 6
+icons<-c("fa-money", "fa-money", "fa-line-chart", "")
+
+df <- data.frame(
+    x = rep(seq(0, (w+padding)*cols-1, w+padding), times=rows),
+    y = rep(seq(0, (h+padding)*rows-1, h+padding), each=cols),
+    h = rep(h, boxes),
+    w = rep(w, boxes),
+    value = c(params$poormult(), params$nonpoormult(), params$gdpmult(), ""),
+    info = c("Accruing to Poor Households",
+             "Accruing to NonPoor Households",
+             "Total Income Multiplier", "Alternatively, can be split into:"),
+    icon = fontawesome(icons),
+    font_family = c(rep("fontawesome-webfont", boxes)),
+    color = factor(1:boxes)
+)
+
+ggplot(df, aes(x, y, height = h, width = w, label = info)) +
+    ## Create the tiles using the `color` column
+    geom_tile(aes(fill = color)) +
+    ## Add the numeric values as text in `value` column
+    geom_text(color = "white", fontface = "bold", size = 8,
+              aes(label = value, x = x - w/2.2, y = y + h/4), hjust = 0) +
+    ## Add the labels for each box stored in the `info` column
+    geom_text(color = "white", fontface = "bold", size = 3,
+              aes(label = info, x = x - w/2.2, y = y-h/4), hjust = 0) +
+    coord_fixed() +
+    scale_fill_brewer(type = "qual", palette = "Set1", direction=-1) +
+    ## Use `geom_text()` to add the icons by specifying the unicode symbol.
+    geom_text(size = 16, aes(label = icon, family = font_family,
+                             x = x + w/4, y = y + h/8), alpha = 0.25) +
+    theme_void() +
+    guides(fill = FALSE)
+```
+
+&nbsp;
+
+The income multiplier represents the total value of incomes that are generated in the economy for every dollar spent by a tourist, including all ripple effects (income of the cook, and of the shopkeeper, and of the farmer, etc). The income multiplier is always smaller than the production multiplier, because it is a subset of it (like profits are a subset of revenue).
