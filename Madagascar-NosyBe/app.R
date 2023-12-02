@@ -42,7 +42,7 @@ library(emojifont)
 # If your sheet is stored locally, put the name in the second line (usually no need for full path because shiny apps use relative path) (leave "local" as the location)
 
 # sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v19.xlsx"
+sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v18_NosyBe.xlsx"
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 
