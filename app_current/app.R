@@ -2005,7 +2005,6 @@ server <- function(input, output) {
         rows_to_sum = c("Poor","NonPoor")
         mults <- multout()
         total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        total
         scales::dollar(total)
     }
     
@@ -2060,7 +2059,119 @@ server <- function(input, output) {
         nonpoormult()
     }) 
     
+    ## NET OF PARK FEES MULTIPLIERS ############################################
     
+    # Average share of tourist spending going to park fees (used to adjust net of park fees multipliers):
+    pf <- function() {
+      pf <- input$tourists_expParkEntry / (input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+                                             input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
+                                             (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice)
+      return(pf)
+    }
+    
+    totalmult_npf <- function() {
+      rows_to_sum = c("Ag","Nag","Fish","Tourism", "Restaurants","Lodges")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$totalmult_npf <- renderText({
+      totalmult_npf()
+    })
+    
+    # Of which: Tourism-related production multiplier
+    touractmult_npf <- function() {
+      rows_to_sum = c("Tourism", "Restaurants","Lodges")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$touractmult_npf <- renderText({
+      touractmult_npf()
+    })
+    
+    # Of which: Non-tourism-related production multiplier
+    nontouractmult_npf <- function() {
+      rows_to_sum = c("Ag","Nag","Fish")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$nontouractmult_npf <- renderText({
+      nontouractmult_npf()
+    })
+    
+    # Total income (GDP) multiplier
+    gdpmult_npf <- function() {
+      rows_to_sum = c("Poor","NonPoor")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$gdpmult_npf <- renderText({
+      gdpmult_npf()
+    })
+    
+    labmult_npf <- function() {
+      rows_to_sum = c("LMUSK", "LFUSK", "LMSK", "LFSK")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      round(total,3)
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$labmult_npf <- renderText({
+      labmult_npf()
+    }) 
+    
+    capmult_npf <- function() {
+      rows_to_sum = c("K")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      round(total,3)
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$capmult_npf <- renderText({
+      capmult_npf()
+    })
+    
+    poormult_npf <- function() {
+      rows_to_sum = c("Poor")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      round(total,3)
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$poormult_npf <- renderText({
+      poormult_npf()
+    }) 
+    
+    nonpoormult_npf <- function() {
+      mults <- multout()
+      total <- mults["NonPoor","Tourists"]
+      round(total,3)
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$nonpoormult_npf <- renderText({
+      nonpoormult_npf()
+    }) 
+
+    ############################################################################
     
     # Sam multipliers
     output$mult_barplot <- renderPlot({
