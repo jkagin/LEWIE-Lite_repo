@@ -606,7 +606,7 @@ ui <- dashboardPage(
                                     column(width = 4, 
                                            p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
                                     including all higher-order impacts, or ripple effects
-                                    (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
+                                    (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)."
                                              , style = "font-size:18px"),
                                     ),
                                 ),
@@ -652,7 +652,7 @@ ui <- dashboardPage(
                                   , width = 10, style = "font-size:18px"),
                                 p("Note: Only boxes of the same color should be added together. The two teal boxes add up to the dark blue box. The two light-blue boxes also. 
                             The two orange boxes above sum up to the dark red Total Production Multiplier box.  
-                            However, total production multiplier (dark red) and the income multiplier (dark blue) and can NOT be added together, because the former already contains the latter", style = "font-size:18px"
+                            However, total production multiplier (dark red) and the income multiplier (dark blue) and can NOT be added together, because the former already contains the latter.", style = "font-size:18px"
                                 )
                                 
                                 # fluidRow(
@@ -666,6 +666,47 @@ ui <- dashboardPage(
                                 #     valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
                                 # )
                             )
+                        ),
+                        # MULTIPLIERS NET OF PARK FEES
+                        fluidRow(
+                          box(width = 12, title = span("Local-economy impacts of tourist spending net of park fees (US$):", style = 'font-size:27px;color:rgb(63, 144, 210);'),
+                              p("For every dollar of tourist spending outside of park fees, the total production multiplier is:",  style = "font-size:22px"),
+                              fluidRow( 
+                                column(width = 4,
+                                       valueBox(textOutput("totalmult_npf"), width = 12, "Total Production Multiplier (net of park fees)", icon = icon("gears"),  color = "maroon"),
+                                ),
+                                column(width = 4,
+                                       p("Which can be split into:"),
+                                       valueBox(textOutput("touractmult_npf"), width = 12, "Tourism activities", icon = icon("sun"),  color = "orange"),
+                                       valueBox(textOutput("nontouractmult_npf"), width = 12, "Non-Tourism activities", icon = icon("briefcase"),  color = "orange")
+                                ),
+                                hr(),
+                                column(width = 4, 
+                                       p("The production multiplier net of park fees represents the total value of goods and services generated in the economy for every dollar spent by a tourist, excluding park entry fees.", style = "font-size:18px"),
+                                ),
+                              ),
+                              fluidRow(
+                                hr()
+                              ),
+                              p("For every dollar of tourist spending outside of park fees, the total income multiplier is:", style = "font-size:22px; color"),
+                              
+                              column(width = 4, 
+                                     # p("total mult")
+                                     valueBox(textOutput("gdpmult_npf"), width = 12, "Total Income Multiplier (net of park fees)", icon = icon("money-bill-trend-up"),  color = "blue"),
+                              ),
+                              column(width = 4, 
+                                     p("Which can be split into:"),
+                                     valueBox(textOutput("labmult_npf"),  width = 12, "Accruing to Labor", icon = icon("user"),  color = "teal"),
+                                     valueBox(textOutput("capmult_npf"),  width = 12, "Accruing to Capital", icon = icon("building"),  color = "teal")
+                              ),
+                              column(width = 4,
+                                     p("Or, alternatively, can be split into:"),
+                                     valueBox(textOutput("poormult_npf"), width = 12, "Accruing to Poor Households", icon = icon("coins"),  color = "aqua"), 
+                                     valueBox(textOutput("nonpoormult_npf"), width = 12, "Accruing to NonPoor Households", icon = icon("money-bill"),  color = "aqua")
+                              ),
+                              hr(),
+                              p("The income multiplier net of park fees represents the total value of incomes that are generated in the economy for every dollar spent by a tourist, excluding park entry fees.", width = 10, style = "font-size:18px")
+                          )
                         ),
                         fluidRow(
                             downloadButton("report1", "Generate PDF Report", style = "margin-left: 20px"),
@@ -1964,7 +2005,6 @@ server <- function(input, output) {
         rows_to_sum = c("Poor","NonPoor")
         mults <- multout()
         total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        total
         scales::dollar(total)
     }
     
@@ -2019,7 +2059,119 @@ server <- function(input, output) {
         nonpoormult()
     }) 
     
+    ## NET OF PARK FEES MULTIPLIERS ############################################
     
+    # Average share of tourist spending going to park fees (used to adjust net of park fees multipliers):
+    pf <- function() {
+      pf <- input$tourists_expParkEntry / (input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+                                             input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
+                                             (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice)
+      return(pf)
+    }
+    
+    totalmult_npf <- function() {
+      rows_to_sum = c("Ag","Nag","Fish","Tourism", "Restaurants","Lodges")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$totalmult_npf <- renderText({
+      totalmult_npf()
+    })
+    
+    # Of which: Tourism-related production multiplier
+    touractmult_npf <- function() {
+      rows_to_sum = c("Tourism", "Restaurants","Lodges")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$touractmult_npf <- renderText({
+      touractmult_npf()
+    })
+    
+    # Of which: Non-tourism-related production multiplier
+    nontouractmult_npf <- function() {
+      rows_to_sum = c("Ag","Nag","Fish")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$nontouractmult_npf <- renderText({
+      nontouractmult_npf()
+    })
+    
+    # Total income (GDP) multiplier
+    gdpmult_npf <- function() {
+      rows_to_sum = c("Poor","NonPoor")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$gdpmult_npf <- renderText({
+      gdpmult_npf()
+    })
+    
+    labmult_npf <- function() {
+      rows_to_sum = c("LMUSK", "LFUSK", "LMSK", "LFSK")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      round(total,3)
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$labmult_npf <- renderText({
+      labmult_npf()
+    }) 
+    
+    capmult_npf <- function() {
+      rows_to_sum = c("K")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      round(total,3)
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$capmult_npf <- renderText({
+      capmult_npf()
+    })
+    
+    poormult_npf <- function() {
+      rows_to_sum = c("Poor")
+      mults <- multout()
+      total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
+      round(total,3)
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$poormult_npf <- renderText({
+      poormult_npf()
+    }) 
+    
+    nonpoormult_npf <- function() {
+      mults <- multout()
+      total <- mults["NonPoor","Tourists"]
+      round(total,3)
+      total <- total*(1/(1-pf()))
+      scales::dollar(total)
+    }
+    
+    output$nonpoormult_npf <- renderText({
+      nonpoormult_npf()
+    }) 
+
+    ############################################################################
     
     # Sam multipliers
     output$mult_barplot <- renderPlot({
