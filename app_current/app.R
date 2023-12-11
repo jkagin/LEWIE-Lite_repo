@@ -2063,9 +2063,10 @@ server <- function(input, output) {
     
     # Average share of tourist spending going to park fees (used to adjust net of park fees multipliers):
     pf <- function() {
-      pf <- input$tourists_expParkEntry / (input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
-                                             input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
-                                             (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice)
+      tot_spending_per_tourist <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+                                    input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
+                                    (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+      pf <- input$tourists_expParkEntry / tot_spending_per_tourist
       return(pf)
     }
     
