@@ -5,9 +5,9 @@ account: lewie-lite
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 10599994
-bundleId: 7956323
+bundleId: 8045608
 url: https://lewie-lite.shinyapps.io/Madagascar-Ranomafana/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: LEWIE-Lite_NewInput_v13.xlsx|LEWIE-Lite_NewInput_v14_Ranomafana_w_local_g.xlsx|LEWIE-Lite_NewInput_v14_Ranomafana.xlsx|LEWIE-Lite_NewInput_v15_Ranomafana copy.xlsx|LEWIE-Lite_NewInput_v15_Ranomafana.xlsx|LEWIE-Lite_NewInput_v16_Ranomafana.xlsx|LEWIE-Lite_NewInput_v17_Ranomafana.xlsx
+ignoredFiles: drafts.R|LEWIE-Lite_NewInput_v18_Ranomafana.xlsx|LEWIE-Lite_NewInput_v19_Ranomafana.xlsx

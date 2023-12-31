@@ -5,9 +5,9 @@ account: lewie-lite
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 10739548
-bundleId: 8017848
+bundleId: 8090607
 url: https://lewie-lite.shinyapps.io/Madagascar-NosyBe_upperbound/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: LEWIE-Lite_NewInput_v14_NosyBe.xlsx|LEWIE-Lite_NewInput_v18_NosyBe.xlsx|LEWIE-Lite_NewInput_v19_NosyBe.xlsx
+ignoredFiles: LEWIE-Lite_NewInput_v14_NosyBe.xlsx|LEWIE-Lite_NewInput_v18_NosyBe.xlsx|LEWIE-Lite_NewInput_v19_NosyBe_upperbound.xlsx|LEWIE-Lite_NewInput_v19_NosyBe.xlsx|LEWIE-Lite_NewInput_v21_NosyBe_JK.xlsx|LEWIE-Lite_NewInput_v22_NosyBe.xlsx|LEWIE-Lite_NewInput_v23_NosyBe_lowerbound.xlsx
