@@ -1816,7 +1816,7 @@ server <- function(input, output) {
     })
     
     # Average tourist spending (calculating average lodging per night including those without nights):
-    avgTouristSpending <- function() {
+    avgTouristSpending_bad <- function() {
         tourists_avgSpending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
             input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
             # note: single day tourists spend 0 on lodging, but they are still in the denominator:
@@ -1824,8 +1824,31 @@ server <- function(input, output) {
         out <-scales::dollar(round(tourists_avgSpending, digits = 2))
         return(out)
     }
+    
+    avgTouristSpendingPerPerson <- function() {
+        tourists_avgSpending <- (input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+                                     input$tourists_expSouvenirs +  input$tourists_expRestaurants)*input$tourists_nbDays + input$tourists_expParkEntry + 
+            # note: single day tourists spend 0 on lodging, but they are still in the denominator:
+            (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+        out <-scales::dollar(round(tourists_avgSpending, digits = 2))
+        return(out)
+    }
+    
+    avgTouristSpendingPerPersonPerDay <- function() {
+        tourists_dailyexpenses <- (input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours + input$tourists_expSouvenirs +  input$tourists_expRestaurants)
+        tourists_totaldays <- input$tourists_nbDays*input$tourists_popMultiDay + input$tourists_popSingleDay 
+        tourists_totalparkdays <- input$tourists_popMultiDay + input$tourists_popSingleDay
+        tourists_totallodging <- input$tourists_nbNights*input$tourists_popMultiDay * input$tourists_roomPrice 
+        tourists_totalexpenses <- tourists_dailyexpenses*tourists_totaldays + 
+            input$tourists_expParkEntry * tourists_totalparkdays + 
+            tourists_totallodging
+        tourists_averagePerPersonPerDay <- tourists_totalexpenses / (input$tourists_nbDays * input$tourists_popMultiDay + input$tourists_popSingleDay) 
+        
+        out <-scales::dollar(round(tourists_averagePerPersonPerDay, digits = 2))
+        return(out)
+    }
     output$valueBox_avgTouristSpending <- renderValueBox({
-        valueBox(value = format(avgTouristSpending(), big.mark = ",", scientific = FALSE) ,
+        valueBox(value = format(avgTouristSpendingPerPerson(), big.mark = ",", scientific = FALSE) ,
                  subtitle = "Average Tourist Spending", icon = icon("wallet"), color = "orange")
     })
     

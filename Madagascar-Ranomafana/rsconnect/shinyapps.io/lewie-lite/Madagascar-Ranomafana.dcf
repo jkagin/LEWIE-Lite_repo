@@ -5,7 +5,7 @@ account: lewie-lite
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 10599994
-bundleId: 8045608
+bundleId: 8111209
 url: https://lewie-lite.shinyapps.io/Madagascar-Ranomafana/
 version: 1
 asMultiple: FALSE

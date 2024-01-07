@@ -5,7 +5,7 @@ account: lewie-lite
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 9408755
-bundleId: 8090693
+bundleId: 8111263
 url: https://lewie-lite.shinyapps.io/app_current/
 asMultiple: FALSE
 asStatic: FALSE
