@@ -40,31 +40,29 @@
   <summary><h2>+ What can LEWIE-Lite do?</h2></summary>
   <p>LEWIE-Lite captures the economic spillovers of spending in different activities, with a primary (but not exclusive) focus on tourist spending.</p>
   <p>With LEWIE-Lite, one can simulate increases/decreases in tourist spending, and see how these would translate into increased activity, production, incomes, in the local economy.</p>
-  <p>One can simulate similar increases/decreases in local activities, or in incomes for specific groups of workers. E.g. When earnings of poor female workers increase, which local activities get stimulated by their additional spending?</p>
+  <p>One can simulate similar increases/decreases in local activities, or in incomes for specific groups of workers: for example, when earnings of poor female workers increase, which local activities get stimulated by their additional spending?</p>
 </details>
 
 <details>
   <summary><h2>+ What can LEWIE-Lite NOT do?</h2></summary>
   <p>LEWIE-Lite is a model of the local economy that captures flows of values (incomes, expenditures, profits, etc) during one year of activity at and around the park. </p>
-  <p>To avoid confusion, here is a list of things that this model does and doesn't do: </p> 
+  <p>To avoid confusion, here is a list of things that this model does NOT do: </p> 
   <ul>
     <li>The spillover impacts LEWIE-Lite captures are tangible economic impacts.  It cannot capture non-economic spillovers (biodiversity, pollution, animal welfare, etc.)</li>
     <li>LEWIE-Lite captures values in one year of activity. It does not attempt to predict long-term dynamic evolutions.</li>
     <li>Expenditure shares remain fixed in LEWIE-Lite.  This means one can simulate "What if tourists increase their overall spending?" (this increase will be distributed following the tourist spending patterns in the data). 
       However, one cannot simulate "What if tourists increase spending on restaurants only, but nothing else?" </li>
     <li>LEWIE-Lite can only model economic activity types that aleady exist in the studied area.  For example, if we know from the data that tourists eat at local restaurants, LEWIE-Lite can model increases/decreases in restaurant activity.  
-      However, if there exists no restaurant at all in the area of interest, and tourists in our data do not spend anything in restaurants, then LEWIE-Lite cannot simulate the existance of restaurants.</li>
+      However, if there no restaurants exist at all in the area of interest, and tourists in our data do not spend anything in restaurants, then LEWIE-Lite cannot simulate the existance of restaurants.</li>
   </ul>
 </details>
 
 <details>
   <summary><h2>+ What does the Dashboard display?</h2></summary>
-  <p>The dashboard is divided into two main panels:</p>
-
   <h3>The HOME tab </h3>
   <p>It shows basic information about the park, along with tourism multipliers.</p>
   <p>The top part presents some of the park information gathered in the process of constructing the LEWIE-lite model.</p>
-  <p>It also allows you to run quick calcualtions of park revenues if tourism were to increase or decrease.</p>
+  <p>It also allows you to run quick calculations of park revenues if tourism were to increase or decrease.</p>
   <p>The bottom part shows multipliers of tourism activities in the project area. These are the key outputs of the LEWIE-lite model. They represent dollar increases <strong>per dollar
       of
       tourist spending</strong>.</p>
@@ -80,7 +78,7 @@
       <ul>
         <li>Accruing to Poor households: Dollar increase in Poor household incomes for each dollar of tourist spending.
         </li>
-        <li>Accruing to NonPoor households: Dollar increase in NonPoor household incomes for each dollar of tourist
+        <li>Accruing to Non-Poor households: Dollar increase in NonPoor household incomes for each dollar of tourist
           spending.</li>
       </ul>
     </li>
@@ -95,8 +93,8 @@
   </ul>
 
   <h3>The SIMULATIONS Tab</h3>
-  <p>It containc a menu list at the top, followed by a series of panels showing plots that can be used in simulations. There are 9 panels, each showing what happens
-    if a given monetary value ($) is injected into the economy. The menu at the top of each section enable quick navigation between the 
+  <p>It contains a menu list at the top, followed by a series of panels showing plots that can be used in simulations. There are 9 panels, each showing what happens
+    if a given monetary value ($) is injected into the economy. The menu at the top of each section enables quick navigation between the 
     simulation panels.  These are based on the multipliers, but can be scaled by
     changing tourist spending.</p>
   
@@ -109,7 +107,7 @@
 
     <li>Several plots. The three plots show the returns on <strong>Production</strong> (split by activity), <strong>Household
         Incomes</strong> (split by household type) and <strong>Labor Income</strong> (split by gender and skill), which
-      would be generated by an injection of the given the monetary value in the input box.  The Tourism Spending panel has a fourth 
+      would be generated by an injection of the given monetary value in the input box.  The Tourism Spending panel has a fourth 
     panel showing how tourism affects park revenue (not relevant for simulations other than tourist spending) </li>
   </ul>
 
@@ -118,9 +116,9 @@
 
   <h3>Other Tabs</h3>
   <p>The Data and SAMs tabs are meant for advanced users.  They present, respectively, all the data inputs that went into the calculations, 
-    and the matrices used to build the SAM-multiplier model at the root of the results we display.  </p>
-  <p>The Data tab also allows some simple data manipulations, but those do not get saved to the server. 
-    They are mostly for exploratory purposese for more advanced users. </p>
+    and the matrices used to build the SAM-multiplier model at the root of the results displayed.  Those with access to the data input sheet are most likely to want to use them, but anyone with prior knowledge of SAM modeling might want to use them to gain deeper insights about the results. </p>
+  <p>The Data tab allows some simple data manipulations, but those do not get saved to the server. 
+    They are mostly for exploratory purposes for more advanced users. </p>
 
 </details>
 
@@ -195,6 +193,7 @@
 <details>
   <summary><h2>+ Why don't the numbers add up?</h2></summary>
   <!-- <span style="color:red">(will continue filling this later)</span>. -->
-  <p>All the numbers you see are rounded for a more comfortable display.  If the numbers do not seem to add up, especially at the 0.01 level, that is likely because of rounding. </p>
+  <p>All the numbers you see are rounded for a more comfortable display.  If the numbers do not seem to add up, especially at the 0.01 level, that is likely because of rounding. For example, three numbers in the background might be calculated as 0.014 + 0.014 = 0.028, but the rounded display of those three numbers would be 0.01, 0.01 and 0.03, respectively, which makes it seem like the first two numbers do not add up to the third.  </p>
+  <p>Similarly, if the input sheet has 1000 visitors paying Park Fees of $10.004 on average, for a total of $10,004 in Total Entry Fees, then dashboard will display what seems like a $4 discrepancy (1000 visitors, $10.00 fee, 10,004 total fees ). Most of these issues can be pre-empted at the model-building stage, by inputting rounded numbers into the input sheet (in this case, entering $10.00 rather than $10.004 into Excel).</p>
 </details>
 
