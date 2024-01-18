@@ -1,0 +1,13 @@
+name: Madagascar-NosyBe
+title: Madagascar-NosyBe
+username: lewie-lite
+account: lewie-lite
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10678118
+bundleId: 8156749
+url: https://lewie-lite.shinyapps.io/Madagascar-NosyBe/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: LEWIE-Lite_NewInput_v23_NosyBe_lowerbound.xlsx|LEWIE-Lite_NewInput_v23_NosyBe_upperbound.xlsx

@@ -1,0 +1,13 @@
+name: Madagascar-NosyBe_lowerbound
+title: Madagascar-NosyBe_lowerbound
+username: lewie-lite
+account: lewie-lite
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10852543
+bundleId: 8156723
+url: https://lewie-lite.shinyapps.io/Madagascar-NosyBe_lowerbound/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: Tables for the Madagascar Report v3_mf.xlsx|Tables for the Madagascar Report v3.xlsx
