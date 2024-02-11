@@ -299,6 +299,8 @@ inp_HHNPc3 <- pmap(gdata_HHNPc3, myfunc_CreateNumericInput)
 # the names should match the intended SAM columns 
 inp_sim_TouristSpending <- numericInput("sim_TouristSpending", 
     "How much Tourist spending ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
+inp_sim_TouristSpending_npf <- numericInput("sim_TouristSpending_npf", 
+                                        "How much Tourist spending ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
 inp_sim_PASpending <- numericInput("sim_PASpending", "How much Park spending ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
 inp_sim_ComRevShSpending <- numericInput("sim_ComRevShSpending", "How much Community spending ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
 inp_sim_AgSpending <- numericInput("sim_AgSpending", "How much increase in local Agricultural production ($) do you want to simulate?", min = 0, max = 10000000, value = 100, step = 0.01)
@@ -528,7 +530,25 @@ ui <- dashboardPage(
                                      style="padding:4px; font-size:80%; float:right")
                     )
                 ),
-                #simPark_totalprod
+                fluidRow(
+                  box(width = 12, title = "Local Economy-wide impact of tourist spending net of park fees",
+                      fluidRow(
+                        column(4, inp_sim_TouristSpending_npf)
+                      ),
+                      p('EFFECTS OF THIS TOURISM SPENDING NET OF PARK FEES ON...'),
+                      fluidRow(
+                        column(width=3, plotOutput("simTourists_totalprod_npf")),
+                        column(width = 3, plotOutput("simTourists_incomes_npf")),
+                        column(width=3, plotOutput("simTourists_labor_npf")),
+                        column(width=3, plotOutput("simTourists_ComPA_npf"))
+                      ),
+                      p(),
+                      useShinyjs(),
+                      actionButton("toTop1", "Jump to top",
+                                   class="btn btn-light",
+                                   style="padding:4px; font-size:80%; float:right")
+                  )
+                ),
                 fluidRow(
                     box(width = 12, title = "Local-economy impacts of Park spending (US$)",
                         p('Park spending is policy-determined, even though there are visitor fees in most places.'),
@@ -1676,8 +1696,28 @@ server <- function(input, output) {
         # return the bar plot:
         bar
     }
-    
-    
+
+    ## NET OF PARK FEES MULTIPLIERS ############################################
+    make_production_multipliers_plot_npf <- function(column, input_value){
+      rows_to_plot = c("Tourism", "Restaurants", "Lodges", "Ag","Nag", "Fish")
+      mults <- multout()
+      totals <- data.frame(round(input_value*(1/(1-pf()))*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
+      colnames(totals) <- "total_prod"
+      totals$cats = rownames(totals)
+      # This refactoring makes sure the cats are displayed in the right order (not alphabetical)
+      totals$cats <- factor(totals$cats, levels = rows_to_plot)
+      bar <- ggplot(totals, aes(x = cats, y=total_prod, fill=cats )) +
+        geom_bar(stat="sum") +
+        xlab("Tourism-related Activities  vs.  Non-Tourism-related Activities") + ylab("Additional Production Value ($)") +
+        geom_text(aes(label = total_prod), vjust = -0.2) +
+        ggtitle(" ... ON PRODUCTION") +
+        theme(plot.title = element_text(hjust = 0.5),
+              legend.position = "none")
+      # return the bar plot:
+      bar
+    }
+    ############################################################################
+
     make_income_multipliers_plot <- function(column, input_value){
         mults <- multout()
         inctotals <- data.frame(round(input_value*(mults[rownames(mults) %in% c("Poor", "NonPoor"), column]), digits=2))
@@ -1693,6 +1733,24 @@ server <- function(input, output) {
         # return the bar plot
         bar
     }
+
+    ## NET OF PARK FEES MULTIPLIERS ############################################
+    make_income_multipliers_plot_npf <- function(column, input_value){
+      mults <- multout()
+      inctotals <- data.frame(round(input_value*(1/(1-pf()))*(mults[rownames(mults) %in% c("Poor", "NonPoor"), column]), digits=2))
+      colnames(inctotals) <- "total_inc"
+      inctotals$cats = rownames(inctotals)
+      bar <- ggplot(inctotals, aes(x = cats, y=total_inc, fill=cats )) +
+        geom_bar(stat="sum") +
+        xlab("Households") + ylab("Additional Income ($)") + 
+        geom_text(aes(label = total_inc), vjust = -0.2) +
+        ggtitle("... ON INCOMES ") + 
+        theme(plot.title = element_text(hjust = 0.5), 
+              legend.position = "none")
+      # return the bar plot
+      bar
+    }
+    ############################################################################
     
     make_labor_multipliers_plot <- function(column, input_value){
         rows_to_plot = c("LFUSK", "LMUSK", "LFSK", "LMSK")
@@ -1725,6 +1783,39 @@ server <- function(input, output) {
         bar
     }
     
+    ## NET OF PARK FEES MULTIPLIERS ############################################
+    make_labor_multipliers_plot_npf <- function(column, input_value){
+      rows_to_plot = c("LFUSK", "LMUSK", "LFSK", "LMSK")
+      mults <- multout()
+      labtotals <- data.frame(round(input_value*(1/(1-pf()))*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
+      colnames(labtotals) <- "total_lab"
+      labtotals$cats = rownames(labtotals)
+      
+      # Rename the categories
+      labtotals$cats <- forcats::fct_recode(labtotals$cats,
+                                            "Female Unskilled" = "LFUSK",
+                                            "Male Unskilled" = "LMUSK",
+                                            "Female Skilled" = "LFSK",
+                                            "Male Skilled" = "LMSK")
+      
+      # Set the order of categories
+      labtotals$cats <- factor(labtotals$cats, levels = c("Female Unskilled", "Male Unskilled", "Female Skilled", "Male Skilled"))
+      
+      bar <- ggplot(labtotals, aes(x = cats, y=total_lab, fill=cats )) +
+        geom_bar(stat="sum") +
+        xlab("Labor Categories") + ylab("Additional Labor Income ($)") + 
+        geom_text(aes(label = total_lab), vjust = -0.2) +
+        ggtitle("... ON LABOR INCOME ") + 
+        theme(plot.title = element_text(hjust = 0.5), 
+              legend.position = "none") 
+      # Adding geom_bracket requires a non-standard package
+      # geom_bracket(aes(xmin = 1, xmax = 2, y = max(total_lab) + 2, label = "unskilled labor"),
+      #              label.y.npc = 1.2, label.size = 4)
+      # return the bar plot
+      bar
+    }
+    ############################################################################
+    
     # One more graph type, but only for the first row: 
     make_ComPA_multipliers_plot <- function(column, input_value){
         rows_to_plot = c("ComRevSh", "PA")
@@ -1743,7 +1834,25 @@ server <- function(input, output) {
         bar
     }
     
-
+    ## NET OF PARK FEES MULTIPLIERS ############################################
+    make_ComPA_multipliers_plot_npf <- function(column, input_value){
+      rows_to_plot = c("ComRevSh", "PA")
+      mults <- multout()
+      inctotals <- data.frame(round(input_value*(1/(1-pf()))*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
+      colnames(inctotals) <- "total_inc"
+      inctotals$cats = rownames(inctotals)
+      bar <- ggplot(inctotals, aes(x = cats, y=total_inc, fill=cats )) +
+        geom_bar(stat="sum") +
+        xlab("Households") + ylab("Additional Income ($)") +
+        geom_text(aes(label = total_inc), vjust = -0.2) +
+        ggtitle("... ON COMMUNITY AND PARK EARNINGS") +
+        theme(plot.title = element_text(hjust = 0.5),
+              legend.position = "none")
+      # return the bar plot
+      bar
+    }
+    ############################################################################
+    
     # output$sim_totallab <- renderPlot({
     #     mults <- multout()
     #     labtotals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% c("LMUSK", "LMSK", "LFUSK", "LFSK"),"Tourists"]), digits=2))
@@ -1783,6 +1892,9 @@ server <- function(input, output) {
     # Make all the simulation PRODUCTION plots to output
     output$simTourists_totalprod <- renderPlot({
         make_production_multipliers_plot("Tourists", input$sim_TouristSpending)
+    })
+    output$simTourists_totalprod_npf <- renderPlot({
+      make_production_multipliers_plot_npf("Tourists", input$sim_TouristSpending_npf)
     })
     output$simPA_totalprod <- renderPlot({
         make_production_multipliers_plot("PA", input$sim_PASpending)
@@ -1837,11 +1949,17 @@ server <- function(input, output) {
     reportplot_prod9 <- function() {
       make_production_multipliers_plot("LMSK", input$sim_LMSKSpending)
     }
+    reportplot_prod10 <- function() {
+      make_production_multipliers_plot_npf("Tourists", input$sim_TouristSpending_npf)
+    }
     
     
     # Make all the simulation INCOME plots to output 
     output$simTourists_incomes <- renderPlot({
         make_income_multipliers_plot("Tourists", input$sim_TouristSpending)
+    })
+    output$simTourists_incomes_npf <- renderPlot({
+      make_income_multipliers_plot_npf("Tourists", input$sim_TouristSpending_npf)
     })
     output$simPA_incomes <- renderPlot({
         make_income_multipliers_plot("PA", input$sim_PASpending)
@@ -1896,11 +2014,17 @@ server <- function(input, output) {
     reportplot_inc9 <- function() {
       make_income_multipliers_plot("LMSK", input$sim_LMSKSpending)
     }
+    reportplot_inc10 <- function() {
+      make_income_multipliers_plot_npf("Tourists", input$sim_TouristSpending_npf)
+    }
 
 
     # Make all the simulation LABOR INCOME plots to output 
     output$simTourists_labor <- renderPlot({
         make_labor_multipliers_plot("Tourists", input$sim_TouristSpending)
+    })
+    output$simTourists_labor_npf <- renderPlot({
+      make_labor_multipliers_plot_npf("Tourists", input$sim_TouristSpending_npf)
     })
     output$simPA_labor <- renderPlot({
         make_labor_multipliers_plot("PA", input$sim_PASpending)
@@ -1926,7 +2050,7 @@ server <- function(input, output) {
     output$simLMSK_labor <- renderPlot({
         make_labor_multipliers_plot("LMSK", input$sim_LMSKSpending)
     })
-    
+
     # Functions to pass to download to create LABOR INCOME plots in PDF report
     reportplot_linc1 <- function() {
       make_labor_multipliers_plot("Tourists", input$sim_TouristSpending)
@@ -1955,17 +2079,25 @@ server <- function(input, output) {
     reportplot_linc9 <- function() {
       make_labor_multipliers_plot("LMSK", input$sim_LMSKSpending)
     }
+    reportplot_linc10 <- function() {
+      make_labor_multipliers_plot_npf("Tourists", input$sim_TouristSpending_npf)
+    }
 
     # Make last plot, just for the first row
     output$simTourists_ComPA <- renderPlot({ 
         make_ComPA_multipliers_plot("Tourists", input$sim_TouristSpending)
+    })
+    output$simTourists_ComPA_npf <- renderPlot({ 
+      make_ComPA_multipliers_plot_npf("Tourists", input$sim_TouristSpending_npf)
     })
     
     # Functions to pass to download to create last plot in PDF report
     reportplot_earn1 <- function() {
       make_ComPA_multipliers_plot("Tourists", input$sim_TouristSpending)
     }
-    
+    reportplot_earn2 <- function() {
+      make_ComPA_multipliers_plot_npf("Tourists", input$sim_TouristSpending_npf)
+    }
     
     output$report <- downloadHandler(
       filename = "report.pdf",
@@ -1980,16 +2112,22 @@ server <- function(input, output) {
         params <- list(prod1 = reportplot_prod1, prod2 = reportplot_prod2, prod3 = reportplot_prod3,
                        prod4 = reportplot_prod4, prod5 = reportplot_prod5, prod6 = reportplot_prod6,
                        prod7 = reportplot_prod7, prod8 = reportplot_prod8, prod9 = reportplot_prod9,
+                       prod10 = reportplot_prod10,
                        inc1 = reportplot_inc1, inc2 = reportplot_inc2, inc3 = reportplot_inc3,
                        inc4 = reportplot_inc4, inc5 = reportplot_inc5, inc6 = reportplot_inc6,
                        inc7 = reportplot_inc7, inc8 = reportplot_inc8, inc9 = reportplot_inc9,
+                       inc10 = reportplot_inc10,
                        linc1 = reportplot_linc1, linc2 = reportplot_linc2, linc3 = reportplot_linc3,
                        linc4 = reportplot_linc4, linc5 = reportplot_linc5, linc6 = reportplot_linc6,
                        linc7 = reportplot_linc7, linc8 = reportplot_linc8, linc9 = reportplot_linc9,
-                       earn1 = reportplot_earn1,
+                       linc10 = reportplot_linc10,
+                       earn1 = reportplot_earn1, earn2 = reportplot_earn2,
                        totalmult = totalmult, gdpmult = gdpmult, labmult = labmult,
                        capmult = capmult, poormult = poormult, nonpoormult = nonpoormult,
+                       totalmult_npf = totalmult_npf, gdpmult_npf = gdpmult_npf, labmult_npf = labmult_npf,
+                       capmult_npf = capmult_npf, poormult_npf = poormult_npf, nonpoormult_npf = nonpoormult_npf,
                        sim_TouristSpending = input$sim_TouristSpending,
+                       sim_TouristSpending_npf = input$sim_TouristSpending_npf,
                        sim_PASpending = input$sim_PASpending,
                        sim_ComRevShSpending = input$sim_ComRevShSpending,
                        sim_AgSpending = input$sim_AgSpending,

@@ -10,6 +10,7 @@ params:
   prod7: NULL
   prod8: NULL
   prod9: NULL
+  prod10: NULL
   inc1: NULL
   inc2: NULL
   inc3: NULL
@@ -19,6 +20,7 @@ params:
   inc7: NULL
   inc8: NULL
   inc9: NULL
+  inc10: NULL
   linc1: NULL
   linc2: NULL
   linc3: NULL
@@ -28,14 +30,23 @@ params:
   linc7: NULL
   linc8: NULL
   linc9: NULL
+  linc10: NULL
   earn1: NULL
+  earn2: NULL
   totalmult: NULL
   gdpmult: NULL
   labmult: NULL
   capmult: NULL
   poormult: NULL
   nonpoormult: NULL
+  totalmult_npf: NULL
+  gdpmult_npf: NULL
+  labmult_npf: NULL
+  capmult_npf: NULL
+  poormult_npf: NULL
+  nonpoormult_npf: NULL
   sim_TouristSpending: NULL
+  sim_TouristSpending_npf: NULL
   sim_PASpending: NULL
   sim_ComRevShSpending: NULL
   sim_AgSpending: NULL
@@ -96,6 +107,51 @@ Accruing to Capital:
 ```
 
 \newpage
+## For every dollar of tourist spending outside of park fees (multipliers):
+
+&nbsp;
+
+Total Production Multiplier (net of park fees):
+```{r echo=FALSE, comment=NA}
+  cat(params$totalmult_npf())
+```
+
+&nbsp;
+
+Accruing to Poor Households:
+```{r echo=FALSE, comment=NA}
+  cat(params$poormult_npf())
+```
+
+&nbsp;
+
+Accruing to Labor:
+```{r echo=FALSE, comment=NA}
+  cat(params$labmult_npf())
+```
+
+&nbsp;
+
+Total Income Multiplier (net of park fees):
+```{r echo=FALSE, comment=NA}
+  cat(params$gdpmult_npf())
+```
+
+&nbsp;
+
+Accruing to NonPoor Households:
+```{r echo=FALSE, comment=NA}
+  cat(params$nonpoormult_npf())
+```
+
+&nbsp;
+
+Accruing to Capital:
+```{r echo=FALSE, comment=NA}
+  cat(params$capmult_npf())
+```
+
+\newpage
 ## Local-economy Impacts of Tourist Spending (US$)
 
 How much tourist spending ($) do you expect?
@@ -113,6 +169,26 @@ How much tourist spending ($) do you expect?
 ```{r echo=FALSE, out.width="50%", fig.align="default"}
   params$linc1()
   params$earn1()
+```
+
+\newpage
+## Local-economy Impacts of Tourist Spending Net of Park Fees (US$)
+
+How much tourist spending ($) do you expect?
+```{r echo=FALSE, comment=NA}
+  cat(params$sim_TouristSpending_npf)
+```
+
+&nbsp;
+
+### EFFECTS OF THIS TOURISM SPENDING NET OF PARK FEES ON...
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$prod10()
+  params$inc10()
+```
+```{r echo=FALSE, out.width="50%", fig.align="default"}
+  params$linc10()
+  params$earn2()
 ```
 
 \newpage
