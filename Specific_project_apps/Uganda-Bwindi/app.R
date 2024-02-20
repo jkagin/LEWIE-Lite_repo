@@ -537,10 +537,9 @@ ui <- dashboardPage(
                       ),
                       p('EFFECTS OF THIS TOURISM SPENDING NET OF PARK FEES ON...'),
                       fluidRow(
-                        column(width=3, plotOutput("simTourists_totalprod_npf")),
-                        column(width = 3, plotOutput("simTourists_incomes_npf")),
-                        column(width=3, plotOutput("simTourists_labor_npf")),
-                        column(width=3, plotOutput("simTourists_ComPA_npf"))
+                        column(width=4, plotOutput("simTourists_totalprod_npf")),
+                        column(width = 4, plotOutput("simTourists_incomes_npf")),
+                        column(width=4, plotOutput("simTourists_labor_npf"))
                       ),
                       p(),
                       useShinyjs(),
@@ -1834,25 +1833,6 @@ server <- function(input, output) {
         bar
     }
     
-    ## NET OF PARK FEES MULTIPLIERS ############################################
-    make_ComPA_multipliers_plot_npf <- function(column, input_value){
-      rows_to_plot = c("ComRevSh", "PA")
-      mults <- multout()
-      inctotals <- data.frame(round(input_value*(1/(1-pf()))*(mults[rownames(mults) %in% rows_to_plot, column]), digits=2))
-      colnames(inctotals) <- "total_inc"
-      inctotals$cats = rownames(inctotals)
-      bar <- ggplot(inctotals, aes(x = cats, y=total_inc, fill=cats )) +
-        geom_bar(stat="sum") +
-        xlab("Households") + ylab("Additional Income ($)") +
-        geom_text(aes(label = total_inc), vjust = -0.2) +
-        ggtitle("... ON COMMUNITY AND PARK EARNINGS") +
-        theme(plot.title = element_text(hjust = 0.5),
-              legend.position = "none")
-      # return the bar plot
-      bar
-    }
-    ############################################################################
-    
     # output$sim_totallab <- renderPlot({
     #     mults <- multout()
     #     labtotals <- data.frame(round(input$sim_TouristSpending*(mults[rownames(mults) %in% c("LMUSK", "LMSK", "LFUSK", "LFSK"),"Tourists"]), digits=2))
@@ -2087,18 +2067,12 @@ server <- function(input, output) {
     output$simTourists_ComPA <- renderPlot({ 
         make_ComPA_multipliers_plot("Tourists", input$sim_TouristSpending)
     })
-    output$simTourists_ComPA_npf <- renderPlot({ 
-      make_ComPA_multipliers_plot_npf("Tourists", input$sim_TouristSpending_npf)
-    })
     
     # Functions to pass to download to create last plot in PDF report
     reportplot_earn1 <- function() {
       make_ComPA_multipliers_plot("Tourists", input$sim_TouristSpending)
     }
-    reportplot_earn2 <- function() {
-      make_ComPA_multipliers_plot_npf("Tourists", input$sim_TouristSpending_npf)
-    }
-    
+
     output$report <- downloadHandler(
       filename = "report.pdf",
       content = function(file) {
@@ -2121,7 +2095,7 @@ server <- function(input, output) {
                        linc4 = reportplot_linc4, linc5 = reportplot_linc5, linc6 = reportplot_linc6,
                        linc7 = reportplot_linc7, linc8 = reportplot_linc8, linc9 = reportplot_linc9,
                        linc10 = reportplot_linc10,
-                       earn1 = reportplot_earn1, earn2 = reportplot_earn2,
+                       earn1 = reportplot_earn1,
                        totalmult = totalmult, gdpmult = gdpmult, labmult = labmult,
                        capmult = capmult, poormult = poormult, nonpoormult = nonpoormult,
                        totalmult_npf = totalmult_npf, gdpmult_npf = gdpmult_npf, labmult_npf = labmult_npf,

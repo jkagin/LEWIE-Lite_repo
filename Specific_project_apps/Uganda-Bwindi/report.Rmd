@@ -32,7 +32,6 @@ params:
   linc9: NULL
   linc10: NULL
   earn1: NULL
-  earn2: NULL
   totalmult: NULL
   gdpmult: NULL
   labmult: NULL
@@ -186,9 +185,8 @@ How much tourist spending ($) do you expect?
   params$prod10()
   params$inc10()
 ```
-```{r echo=FALSE, out.width="50%", fig.align="default"}
+```{r echo=FALSE, out.width="50%", fig.align="center"}
   params$linc10()
-  params$earn2()
 ```
 
 \newpage
