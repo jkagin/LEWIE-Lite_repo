@@ -5,10 +5,8 @@ account: lewie-lite
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 9487385
-bundleId: 8278254
+bundleId: 8331977
 url: https://lewie-lite.shinyapps.io/Uganda-Bwindi/
-when: 1708468945.89723
-lastSyncTime: 1708468945.89724
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: archives/LEWIE-Lite_NewInput_v07_Uganda_Bwindi.xlsx|archives/LEWIE-Lite_NewInput_v08_Uganda_Bwindi.xlsx|archives/LEWIE-Lite_NewInput_v09_Uganda_Bwindi.xlsx|archives/LEWIE-Lite_NewInput_v11_Uganda_Bwindi.xlsx|LEWIE-Lite_NewInput_v10_Uganda_Bwindi.xlsx
+ignoredFiles: LEWIE-Lite_NewInput_v10_Uganda_Bwindi.xlsx
