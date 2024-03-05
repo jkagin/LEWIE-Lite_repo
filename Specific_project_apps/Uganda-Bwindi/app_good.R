@@ -225,7 +225,8 @@ get_input_online_or_local <- function(address, sheet, range, mode = "online"){
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 # sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v10_Uganda_QE.xlsx"
+# sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v10_Uganda_Bwindi.xlsx"
+sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v11_Uganda_Bwindi.xlsx"
 
 
 # Disable authentication: 
@@ -362,20 +363,12 @@ ui <- dashboardPage(
         collapsed = T,
         sidebarMenu(
             # Note: Create a "Welcome" tab to the top once I'm done coding, or move Dashboard up. 
-            menuItem("Home",
+            menuItem("Dashboard",
                      tabName = "dashboard",
-                     icon = icon("home")
-            ),
-            menuItem("Simulations",
-                     tabName = "Simulations",
                      icon = icon("dashboard")
             ),
             menuItem("Data",
                      tabName = "data",
-                     icon = icon("table")
-            ),
-            menuItem("SAMs",
-                     tabName = "SAMs",
                      icon = icon("table")
             ),
             menuItem("Instructions",
@@ -459,9 +452,7 @@ ui <- dashboardPage(
                            column(4, inp_HHNPc3)
                        )
                     )
-                )
-            ),
-            tabItem("SAMs", 
+                ), 
                 fluidRow(
                     tabBox(width = 12,
                        title = ("SAM"),
@@ -475,10 +466,6 @@ ui <- dashboardPage(
             
             # ============================ RESULTS DASHBOARD ======================================
             tabItem("dashboard",
-                h1("Queen Elizabeth National Park"),
-                p("Welcome to the LEWIE-Lite dashboard. This tool allows you to explore the impacts of tourism in Protected Areas on the local economy surrounding them.", style = "font-size:18px"),
-                p("On this page, you can see find some local-economy multipliers calculated using the LEWIE-Lite model.", style = "font-size:18px"),
-                p("If you open the side-bar menu, you will find a number of useful tabs.  Most importantly, the Simulations tab offers a range of options to simulate the local-economy impacts of tourism spending.", style = "font-size:18px"),
                 # fluidRow(
                 #     infoBox("Some output", textOutput("Output"), icon = icon("dollar-sign"))
                 # ),
@@ -490,104 +477,35 @@ ui <- dashboardPage(
                 #     )
                 # ),
                 p("Local-economy impacts of tourist spending (US$)", style = "font-size:25px"),
-                # fluidRow(
-                #   box(width = 12, title = "For every dollar of tourist spending (multipliers):",
-                #       fluidRow(
-                #         valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
-                #         valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("coins"),  color = "red"),
-                #         valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
-                #       ),
-                #       fluidRow(
-                #         valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("money-bill-trend-up"),  color = "green"),
-                #         valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("money-bill"),  color = "red"),
-                #         valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
-                #       )
-                #   )
-                # ),
                 fluidRow(
-                    # box(width = 12, 
-                    #     p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
-                    #         including all higher-order impacts, or ripple effects 
-                    #         (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
-                    #     , width = 10, style = "font-size:18px")
-                    # ),
-                    box(width = 12, title = span("Local-economy impacts of tourist spending (US$):", style = 'font-size:27px;color:rgb(63, 144, 210);'),
-                        p("For every dollar of tourist spending, the total production multiplier is:",  style = "font-size:22px"),
-                        fluidRow( 
-                            column(width = 4,
-                                   valueBox(textOutput("totalmult"), width = 12, "Total Production Multiplier", icon = icon("gears"),  color = "maroon"),
-                            ),
-                            column(width = 4,
-                                   p("Which can be split into:"),
-                                   valueBox(textOutput("touractmult"), width = 12, "Tourism activities", icon = icon("sun"),  color = "orange"),
-                                   valueBox(textOutput("nontouractmult"), width = 12, "Non-Tourism activities", icon = icon("briefcase"),  color = "orange")
-                            ),
-                            hr(),
-                            column(width = 4, 
-                                   p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
-                                    including all higher-order impacts, or ripple effects
-                                    (e.g.: Tourist spends money at a restaurant, the cook spends some of those wages at a local shop, the shopkeeper spends some of those profits buying food from a farmer, etc.)"
-                                     , style = "font-size:18px"),
-                            ),
+                    box(width = 12, title = "For every dollar of tourist spending (multipliers):",
+                        fluidRow(
+                            valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
+                            valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("coins"),  color = "red"),
+                            valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
                         ),
                         fluidRow(
-                            hr()
-                        ),
-                        p("For every dollar of tourist spending, the total income multiplier is:", style = "font-size:22px; color"),
-                        
-                        column(width = 4, 
-                               valueBox(textOutput("gdpmult"), width = 12, "Total Income Multiplier", icon = icon("money-bill-trend-up"),  color = "blue"),
-                        ),
-                        column(width = 4, 
-                               p("Which can be split into:"),
-                               valueBox(textOutput("labmult"),  width = 12, "Accruing to Labor", icon = icon("user"),  color = "teal"),
-                               valueBox(textOutput("capmult"),  width = 12, "Accruing to Capital", icon = icon("building"),  color = "teal")
-                        ),
-                        column(width = 4,
-                               p("Or, alternatively, can be split into:"),
-                               valueBox(textOutput("poormult"), width = 12, "Accruing to Poor Households", icon = icon("coins"),  color = "aqua"), 
-                               valueBox(textOutput("nonpoormult"), width = 12, "Accruing to NonPoor Households", icon = icon("money-bill"),  color = "aqua")
-                        ),
-                        hr(),
-                        p("The income multiplier represents the total value of incomes that are generated in the economy for every dollar spent by a tourist, 
-                                    including all ripple effects (income of the cook, and of the shopkeeper, and of the farmer, etc)."
-                          , width = 10, style = "font-size:18px"), 
-                        p("The income multiplier is always smaller than the production multiplier, because it is a subset of it (like profits are a subset of revenue)."
-                          , width = 10, style = "font-size:18px"),
-                        p("Note: Only boxes of the same color should be added together. The two teal boxes add up to the dark blue box. The two light-blue boxes also. 
-                            The two orange boxes above sum up to the dark red Total Production Multiplier box.  
-                            However, total production multiplier (dark red) and the income multiplier (dark blue) and can NOT be added together, because the former already contains the latter", style = "font-size:18px"
+                            valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("money-bill-trend-up"),  color = "green"),
+                            valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("money-bill"),  color = "red"),
+                            valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
                         )
-                        
-                        # fluidRow(
-                        #     valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
-                        #     valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("wallet"),  color = "red"),
-                        #     valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
-                        # ),
-                        # fluidRow(
-                        #     valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("coins"),  color = "green"),
-                        #     valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("sack-dollar"),  color = "red"),
-                        #     valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
-                        # )
                     )
-                ), 
+                ),
                 p("Local-economy impacts of tourist spending net of park fees (US$)", style = "font-size:25px"),
                 fluidRow(
                   box(width = 12, title = "For every dollar of tourist spending outside of park fees (multipliers):",
                       fluidRow(
-                        valueBox(textOutput("totalmult_npf"), "Total Production Multiplier (net of park fees)", icon = icon("gears"),  color = "maroon"),
-                        valueBox(textOutput("labmult_npf"), "Accruing to Labor", icon = icon("user"),  color = "teal"),
-                        valueBox(textOutput("poormult_npf"), "Accruing to Poor Households", icon = icon("coins"),  color = "aqua")
+                        valueBox(textOutput("totalmult_npf"), "Total Production Multiplier (net of park fees)", icon = icon("gears"),  color = "aqua"),
+                        valueBox(textOutput("poormult_npf"), "Accruing to Poor Households", icon = icon("coins"),  color = "red"),
+                        valueBox(textOutput("labmult_npf"), "Accruing to Labor", icon = icon("user"),  color = "orange")
                       ),
                       fluidRow(
-                        valueBox(textOutput("gdpmult_npf"), "Total Income Multiplier (net of park fees)", icon = icon("money-bill-trend-up"),  color = "blue"),
-                        valueBox(textOutput("capmult_npf"), "Accruing to Capital", icon = icon("building"),  color = "teal"),
-                        valueBox(textOutput("nonpoormult_npf"), "Accruing to NonPoor Households", icon = icon("money-bill"),  color = "aqua")
+                        valueBox(textOutput("gdpmult_npf"), "Total Income Multiplier (net of park fees)", icon = icon("money-bill-trend-up"),  color = "green"),
+                        valueBox(textOutput("nonpoormult_npf"), "Accruing to NonPoor Households", icon = icon("money-bill"),  color = "red"),
+                        valueBox(textOutput("capmult_npf"), "Accruing to Capital", icon = icon("building"),  color = "orange")
                       )
                   )
-                )
-            ),
-            tabItem("Simulations",
+                ),
                 fluidRow(
                     box(width = 12, title = "Local Economy-wide impact of tourist spending",
                         p('You may wish to evaluate different values of tourist spending: total tourist spending, tourist spending attributable to the PA, change in tourist spending you expect from this project, etc.'),
@@ -1440,30 +1358,6 @@ server <- function(input, output) {
       totalmult()
     })
     
-    # Of which: Tourism-related production multiplier
-    touractmult <- function() {
-        rows_to_sum = c("Tourism", "Restaurants","Lodges")
-        mults <- multout()
-        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        scales::dollar(total)
-    }
-    
-    output$touractmult <- renderText({
-        touractmult()
-    })
-    
-    # Of which: Non-tourism-related production multiplier
-    nontouractmult <- function() {
-        rows_to_sum = c("Ag","Nag","Fish")
-        mults <- multout()
-        total <- sum(mults[rownames(mults) %in% rows_to_sum,"Tourists"])
-        scales::dollar(total)
-    }
-    
-    output$nontouractmult <- renderText({
-        nontouractmult()
-    })
-    
     # Total income (GDP) multiplier
     gdpmult <- function() {
       rows_to_sum = c("Poor","NonPoor")
@@ -1637,7 +1531,7 @@ server <- function(input, output) {
     output$nonpoormult_npf <- renderText({
       nonpoormult_npf()
     })  
-    
+
     ############################################################################
     
     # Sam multipliers

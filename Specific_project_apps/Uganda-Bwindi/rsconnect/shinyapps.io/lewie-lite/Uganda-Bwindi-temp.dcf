@@ -5,7 +5,7 @@ account: lewie-lite
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 10704486
-bundleId: 8035339
+bundleId: 8331540
 url: https://lewie-lite.shinyapps.io/Uganda-Bwindi-temp/
 version: 1
 asMultiple: FALSE

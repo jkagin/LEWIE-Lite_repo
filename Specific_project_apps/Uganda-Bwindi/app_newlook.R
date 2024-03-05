@@ -225,7 +225,8 @@ get_input_online_or_local <- function(address, sheet, range, mode = "online"){
 # -----------------------------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------------------------
 # sheet_location = "online"; sheet_path = "https://docs.google.com/spreadsheets/d/1bhuOwJv4b6DttBXEx2lI7uZk6WL0l9uio2e4dcco-F8/edit?usp=share_link"
-sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v10_Uganda_QE.xlsx"
+# sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v10_Uganda_Bwindi.xlsx"
+sheet_location = "local"; sheet_path = "LEWIE-Lite_NewInput_v11_Uganda_Bwindi.xlsx"
 
 
 # Disable authentication: 
@@ -461,7 +462,7 @@ ui <- dashboardPage(
                     )
                 )
             ),
-            tabItem("SAMs", 
+            tabItem("SAMs",
                 fluidRow(
                     tabBox(width = 12,
                        title = ("SAM"),
@@ -475,10 +476,71 @@ ui <- dashboardPage(
             
             # ============================ RESULTS DASHBOARD ======================================
             tabItem("dashboard",
-                h1("Queen Elizabeth National Park"),
+                h1("Bwindi National Park"),
                 p("Welcome to the LEWIE-Lite dashboard. This tool allows you to explore the impacts of tourism in Protected Areas on the local economy surrounding them.", style = "font-size:18px"),
                 p("On this page, you can see find some local-economy multipliers calculated using the LEWIE-Lite model.", style = "font-size:18px"),
                 p("If you open the side-bar menu, you will find a number of useful tabs.  Most importantly, the Simulations tab offers a range of options to simulate the local-economy impacts of tourism spending.", style = "font-size:18px"),
+                    # fluidRow(
+                    #     box(width = 12,
+                    #         p("Overview of tourism in the park:", style = 'font-size:27px;color:rgb(63, 144, 210);'),
+                    #     ),
+                    # ),
+                    # fluidRow(
+                    #     box(width = 12, title = span("Overview of tourism in the park:", style = 'font-size:27px;color:rgb(63, 144, 210);'),
+                    #         # p(textOutput("park_stats")),
+                    #         p("Total tourists coming to the park (annually):", style = "font-size:22px"),
+                    #         # Tourists, multi-day tourists, length of stay, avg spending
+                    #         fluidRow( 
+                    #             column(3, valueBoxOutput("valueBox_numtour", width = 12)),
+                    #             column(9)
+                    #         ),
+                    #         p("Details on visitors to the park:", style = "font-size:22px"),
+                    #         # Single-day, multi-day tourists, length of stay, avg spending
+                    #         valueBoxOutput("valueBox_numtourSingle", width = 3),
+                    #         valueBoxOutput("valueBox_numtourMulti", width = 3),
+                    #         valueBoxOutput("valueBox_avgTouristLength", width = 3),
+                    #         valueBoxOutput("valueBox_avgTouristSpending", width = 3),
+                    #         # Overview of 
+                    #         p("Park finances:", style = "font-size:22px"),
+                    #         valueBoxOutput("valueBox_entryFee", width = 3),
+                    #         valueBoxOutput("valueBox_totalEntryFees", width = 3),
+                    #         valueBoxOutput("valueBox_budget", width = 3), 
+                    #         valueBoxOutput("valueBox_parkWageBill", width = 3), 
+                    #         # valueBox(textOutput("tourist_avgDays"), width = 12, "Average Days", icon = icon("sun"),  color = "orange"),
+                    #         # valueBox(textOutput("tourists_avgSpending"), width = 12, "Average Spending", icon = icon("sun"),  color = "orange"),
+                    #         # ),
+                    #         # Only some parks have community revenue sharing, so make this small
+                    #         p("Community Revenue Sharing:", style = "font-size:22px"),
+                    #         span(textOutput("community_revenue_sharing"), style = "font-size:18px"),
+                    #         # Removing this top part: it distracts from LEWIE too much. 
+                    #         # ),
+                    #         # fluidRow(
+                    #         # box(width = 12,
+                    #         # p("Tourism scenarios:", style = "font-size:18px"), 
+                    #         # p("Tourism scenario #1: increase total number of tourists", style = "font-size:18px"), 
+                    #         # fluidRow(
+                    #         #     column(3, sliderInput("pct_increase_tourists", "Percent Increase in total tourists", min = -100, max = 100, value = 10)),
+                    #         #     column(9)
+                    #         # ),
+                    #         # p(textOutput("increased_tourist_number")),
+                    #         # hr(),
+                    #         # ),
+                    #         # box(width = 12, 
+                    #         # p("Tourism scenario #2: detailed increases in tourism stats", style = "font-size:18px"), 
+                    #         hr(),
+                    #         p("Entry fee calculator:", style = "font-size:22px"),
+                    #         p("(The two input boxes below are not for simulations. They are just useful to calculate total entry fees.)" , style = "font-size:16px"),
+                    #         span("Enter the number of additional (fee-paying) visitors you expect and the highlighted figures below will change:", style = "font-size:18px"),
+                    #         fluidRow(
+                    #             column(4, numericInput("inc_touristsTotal_count", "Increase in total tourists (count):", value = 0, step = 1, min = -1000000, max = 1000000)),
+                    #             # column(4, numericInput("inc_touristsMulti_count", "Increase in Multi-day tourists (count):", value = 0, step = 1,  min = -1000000, max = 1000000)),
+                    #             # column(3, numericInput("inc_touristsLength_days", "Increase avg length of stay (days):", value = 0.00, step = 0.01,  min = -100, max = 100)),
+                    #             column(4, numericInput("inc_fee", "Increase in park entry fee ($):", value = 0.00, step = 0.01, min = -100000, max = 100000))
+                    #         ),
+                    #         span(textOutput("detailed_tourist_increases"), style = "font-size:18px"),
+                    #         span(textOutput("detailed_tourist_increases_result"), style = "font-size:18px")
+                    #     ),
+                    # ),
                 # fluidRow(
                 #     infoBox("Some output", textOutput("Output"), icon = icon("dollar-sign"))
                 # ),
@@ -491,19 +553,34 @@ ui <- dashboardPage(
                 # ),
                 p("Local-economy impacts of tourist spending (US$)", style = "font-size:25px"),
                 # fluidRow(
-                #   box(width = 12, title = "For every dollar of tourist spending (multipliers):",
+                #     box(width = 12, title = "For every dollar of tourist spending (multipliers):",
+                #         fluidRow(
+                #             valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
+                #             valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("coins"),  color = "red"),
+                #             valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
+                #         ),
+                #         fluidRow(
+                #             valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("money-bill-trend-up"),  color = "green"),
+                #             valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("money-bill"),  color = "red"),
+                #             valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
+                #         )
+                #     )
+                # ),
+                # p("Local-economy impacts of tourist spending net of park fees (US$)", style = "font-size:25px"),
+                # fluidRow(
+                #   box(width = 12, title = "For every dollar of tourist spending outside of park fees (multipliers):",
                 #       fluidRow(
-                #         valueBox(textOutput("totalmult"), "Total Production Multiplier", icon = icon("gears"),  color = "aqua"),
-                #         valueBox(textOutput("poormult"), "Accruing to Poor Households", icon = icon("coins"),  color = "red"),
-                #         valueBox(textOutput("labmult"), "Accruing to Labor", icon = icon("user"),  color = "orange")
+                #         valueBox(textOutput("totalmult_npf"), "Total Production Multiplier (net of park fees)", icon = icon("gears"),  color = "aqua"),
+                #         valueBox(textOutput("poormult_npf"), "Accruing to Poor Households", icon = icon("coins"),  color = "red"),
+                #         valueBox(textOutput("labmult_npf"), "Accruing to Labor", icon = icon("user"),  color = "orange")
                 #       ),
                 #       fluidRow(
-                #         valueBox(textOutput("gdpmult"), "Total Income Multiplier", icon = icon("money-bill-trend-up"),  color = "green"),
-                #         valueBox(textOutput("nonpoormult"), "Accruing to NonPoor Households", icon = icon("money-bill"),  color = "red"),
-                #         valueBox(textOutput("capmult"), "Accruing to Capital", icon = icon("building"),  color = "orange")
+                #         valueBox(textOutput("gdpmult_npf"), "Total Income Multiplier (net of park fees)", icon = icon("money-bill-trend-up"),  color = "green"),
+                #         valueBox(textOutput("nonpoormult_npf"), "Accruing to NonPoor Households", icon = icon("money-bill"),  color = "red"),
+                #         valueBox(textOutput("capmult_npf"), "Accruing to Capital", icon = icon("building"),  color = "orange")
                 #       )
                 #   )
-                # ),
+                # )
                 fluidRow(
                     # box(width = 12, 
                     #     p("The production multiplier represents the total value of goods and services generated in the economy for every dollar spent by a tourist, 
@@ -587,6 +664,7 @@ ui <- dashboardPage(
                   )
                 )
             ),
+            
             tabItem("Simulations",
                 fluidRow(
                     box(width = 12, title = "Local Economy-wide impact of tourist spending",
@@ -1424,6 +1502,145 @@ server <- function(input, output) {
     output$mult <- renderTable({multout()}, rownames=TRUE, digits=2, striped = T)
     
     
+    
+    # %%%%%%%%%%%%%%%%% Compute some outputs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+    # Outputs for the top of the page:
+    park_name <- function() {
+        return(gdata_NPName$label)
+    }
+    output$park_name <- renderText(park_name())
+    
+    # Park stats: number of visitors, revenue, budget 
+    output$park_stats <- renderText(paste("The park receives", input$tourists_popMultiDay, "and has a budget of", round(input$natPark_totalBudget), "."))
+    # output$park_numtour <- renderText(input$touri)
+    
+    # Note: you can define the whole valuebox here instead of up in the UI section.  It seems to make nicer boxes. 
+    
+    #### Four boxes about tourists: Number, number multi-day, length of stay, spending
+    numtour <- function() {
+        return(input$tourists_popMultiDay + input$tourists_popSingleDay)
+    }
+    output$valueBox_numtour <- renderValueBox({
+        valueBox(value = format(numtour(), big.mark = ","),
+                 subtitle = "Total Number of Visitors", icon = icon("person"), color= "green")
+    })
+    
+    numtourSingle <- function() {
+        return(input$tourists_popSingleDay)
+    }
+    output$valueBox_numtourSingle <- renderValueBox({
+        valueBox(value = format(numtourSingle(), big.mark = ","),
+                 subtitle = "Single-day Visitors", icon = icon("sun"))
+    })
+    
+    numtourMulti <- function() {
+        return(input$tourists_popMultiDay)
+    }
+    output$valueBox_numtourMulti <- renderValueBox({
+        valueBox(value = format(numtourMulti(), big.mark = ","),
+                 subtitle = "Multi-day Visitors", icon = icon("bed"), color = "blue")
+    })
+    
+    # Average length of stay
+    avgTouristLength <- function() {
+        # Assuming single-day tourists spend 1 day (though technically it could be just a few hours)
+        tourists_avgLength <-  (input$tourists_nbNights*input$tourists_popMultiDay + input$tourists_popSingleDay) / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+        out <-round(tourists_avgLength, digits = 2)
+        return(out)
+    }
+    output$valueBox_avgTouristLength <- renderValueBox({
+        valueBox(value = format(avgTouristLength(), big.mark = ",", scientific = FALSE) ,
+                 subtitle = "Average Length of Stay", icon = icon("calendar"), color = "maroon")
+    })
+    
+    # Average tourist spending (calculating average lodging per night including those without nights):
+    avgTouristSpending_bad <- function() {
+        tourists_avgSpending <- input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+            input$tourists_expSouvenirs +  input$tourists_expRestaurants + input$tourists_expParkEntry + 
+            # note: single day tourists spend 0 on lodging, but they are still in the denominator:
+            (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+        out <-scales::dollar(round(tourists_avgSpending, digits = 2))
+        return(out)
+    }
+    
+    avgTouristSpendingPerPerson <- function() {
+        tourists_avgSpending <- (input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours +
+                                     input$tourists_expSouvenirs +  input$tourists_expRestaurants)*input$tourists_nbDays + input$tourists_expParkEntry + 
+            # note: single day tourists spend 0 on lodging, but they are still in the denominator:
+            (input$tourists_nbNights*input$tourists_popMultiDay) * input$tourists_roomPrice / (input$tourists_popMultiDay + input$tourists_popSingleDay)
+        out <-scales::dollar(round(tourists_avgSpending, digits = 2))
+        return(out)
+    }
+    
+    avgTouristSpendingPerPersonPerDay <- function() {
+        tourists_dailyexpenses <- (input$tourists_expRetShops + input$tourists_expOther + input$tourists_expGuidesTours + input$tourists_expSouvenirs +  input$tourists_expRestaurants)
+        tourists_totaldays <- input$tourists_nbDays*input$tourists_popMultiDay + input$tourists_popSingleDay 
+        tourists_totalparkdays <- input$tourists_popMultiDay + input$tourists_popSingleDay
+        tourists_totallodging <- input$tourists_nbNights*input$tourists_popMultiDay * input$tourists_roomPrice 
+        tourists_totalexpenses <- tourists_dailyexpenses*tourists_totaldays + 
+            input$tourists_expParkEntry * tourists_totalparkdays + 
+            tourists_totallodging
+        tourists_averagePerPersonPerDay <- tourists_totalexpenses / (input$tourists_nbDays * input$tourists_popMultiDay + input$tourists_popSingleDay) 
+        
+        out <-scales::dollar(round(avgTouristSpendingPerPerson, digits = 2))
+        return(out)
+    }
+    
+    output$valueBox_avgTouristSpending <- renderValueBox({
+        valueBox(value = format(avgTouristSpendingPerPerson(), big.mark = ",", scientific = FALSE) ,
+                 subtitle = "Average Tourist Spending", icon = icon("wallet"), color = "orange")
+    })
+    
+    
+    ##### Four boxes about park finances: entry fee, total entry fees, total park budget, total wage spending
+    
+    entryFee <- function() {
+        return(scales::dollar(round(input$tourists_expParkEntry,2)))
+    }
+    output$valueBox_entryFee <- renderValueBox({
+        # valueBox(value = format(round(input$tourists_expParkEntry), big.mark=","),
+        valueBox(value = format(entryFee(), big.mark=","),      
+                 subtitle = "Park Entry Fee (average)", icon = icon("ticket"), color = "olive")
+    })
+    
+    totalEntryFees <- function() {
+        return(scales::dollar(round(input$natPark_entryFees)))
+    }
+    output$valueBox_totalEntryFees <- renderValueBox({
+        valueBox(value = format(totalEntryFees(), big.mark=","),
+                 subtitle = "Total Entry Fees", icon = icon("money-bill-trend-up"), color = "yellow")
+    })
+    
+    budget <- function() {
+        return(scales::dollar(round(input$natPark_totalBudget)))
+    }
+    output$valueBox_budget <- renderValueBox({
+        valueBox(value = format(budget(), big.mark = ",", scientific = FALSE) ,
+                 subtitle = "Total Park Budget", icon = icon("file-invoice-dollar"), color = "teal")
+    })
+    
+    parkWageBill <- function() {
+        return(scales::dollar(round(input$natPark_totalBudget * 
+                                        (input$natPark_MwagesUnskilled + input$natPark_MwagesSkilled + input$natPark_FwagesUnskilled + input$natPark_FwagesSkilled)/100 * 
+                                        input$natPark_shareWorkersLocal/100)))
+    }
+    output$valueBox_parkWageBill <- renderValueBox({
+        valueBox(value = format(parkWageBill(), big.mark = ",", scientific = FALSE) ,
+                 subtitle = "Park Spending on Local Wages", icon = icon("person-digging"), color = "light-blue")
+    })
+    
+    output$community_revenue_sharing <- renderText({
+        crshare <- round(input$natPark_expComRevSh/input$natPark_entryFees * 100)
+        crs_dollars <- format(round(crshare/100 * input$natPark_entryFees, 2), big.mark = ",") 
+        
+        HTML(paste("This park redistributes", crshare , "% of entry fees as a Community Revenue Sharing scheme.  
+                  This generates $", crs_dollars, "in funds for the surrounding communities. (Note that not all parks have this kind of explicit redistribution scheme.)"))
+    })
+    
+    
+    
+    
     # %%%%%%%%%%%%%%%%% These multiplier computations can be sped up, I'm sure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     # Multiplier values to report in tiles
     # Create functions to pass to download function
@@ -1637,7 +1854,7 @@ server <- function(input, output) {
     output$nonpoormult_npf <- renderText({
       nonpoormult_npf()
     })  
-    
+
     ############################################################################
     
     # Sam multipliers

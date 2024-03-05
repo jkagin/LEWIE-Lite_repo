@@ -613,25 +613,9 @@ ui <- dashboardPage(
                                 fluidRow(
                                     hr()
                                 ),
-                                # column(width = 4, 
-                                #        p(" okay do i need to write something?  ", width = 12),
-                                #        
-                                # ),
-                                # fluidRow(
-                                
-                                # )
-                                # )
-                                
-                                # )
-                                # ),
-                                # fluidRow(
-                                # box(width = 12, 
-                                # ),
-                                # box(width = 12, title = "For every dollar of tourist spending, the total income multiplier is:",
                                 p("For every dollar of tourist spending, the total income multiplier is:", style = "font-size:22px; color"),
                                 
                                 column(width = 4, 
-                                       # p("total mult")
                                        valueBox(textOutput("gdpmult"), width = 12, "Total Income Multiplier", icon = icon("money-bill-trend-up"),  color = "blue"),
                                 ),
                                 column(width = 4, 
